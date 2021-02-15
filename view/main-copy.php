@@ -47,6 +47,8 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<link href="assets/assets/plugins/flag-icon-css/css/flag-icon.min.css" rel="stylesheet" />
 		<link href="assets/assets/plugins/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
 		<link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+		<link href="assets/assets/plugins/dropify/css/dropify.min.css" rel="stylesheet" />
+
 		<!-- end plugin css -->
 
 		<!-- common css -->
@@ -88,12 +90,16 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<script src="assets/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 		<script src="assets/assets/plugins/apexcharts/apexcharts.min.js"></script>
 		<script src="assets/assets/plugins/progressbar-js/progressbar.min.js"></script>
+		<script src="assets/assets/plugins/dropify/js/dropify.min.js"></script>
+  		<script src="assets/assets/plugins/moment/moment.min.js"></script>
 
 		<script src="assets/assets/js/dashboard.js"></script>
 		<script src="assets/assets/js/datepicker.js"></script>
+		<script src="assets/assets/js/timepicker.js"></script>
 		<!-- end plugin script -->
 
 		<!-- common js -->
+		<script src="assets/assets/js/dropify.js"></script>
 		<script src="assets/assets/js/template.js"></script>
 		<!-- end common js -->
 
