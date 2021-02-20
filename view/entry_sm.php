@@ -127,15 +127,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 							$mail->AltBody = $perihal;
 							if(!$mail->send()) {
 								//echo "Mailer Error: " . $mail->ErrorInfo;
-								echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan. Email notifikasi gagal dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
+								echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan. Email notifikasi gagal dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
 							}else{
-								echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
+								echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
 							}
 						}else{
-							echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan!');window.location.href=\"./index.php?op=add_sm\";</script>";
+							echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan!');window.location.href=\"./index.php?op=add_sm\";</script>";
 						}
 					}else{
-						echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan!');window.location.href=\"./index.php?op=add_sm\";</script>";
+						echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan!');window.location.href=\"./index.php?op=add_sm\";</script>";
 					}
 				}else{
 					die("<script>alert('Data Gagal di simpan ke Database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");

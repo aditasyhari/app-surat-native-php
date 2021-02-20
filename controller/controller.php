@@ -65,4 +65,7 @@ class controller{
 	function progressprint(){
 		require "view/progress_report_print.php";
 	}
+	function templateprint(){
+		require "view/view_template_print.php";
+	}
 }?>

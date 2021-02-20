@@ -4,7 +4,7 @@ class koneksi{
     private $dbname = "surat";
     private $user = "root";
     private $pass = "";
-	public $conn;
+	private $conn;
 	function __construct(){
 		try {
             $this->db = new PDO("mysql:host=$this->host;dbname=$this->dbname", $this->user, $this->pass);
@@ -16,6 +16,8 @@ class koneksi{
     public function closeConnection() {
         $this->db = null;
     }
+
+    
 }
 
 ?>

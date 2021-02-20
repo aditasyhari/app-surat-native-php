@@ -150,6 +150,10 @@
                     }else{
                         require_once "invalid_akses.php";
                     }
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "template"){
+                    require_once "view_template.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "add_template"){
+                    require_once "view_add_template.php";
                 }else{
                     require_once "dashboard.php";
                 } ?>

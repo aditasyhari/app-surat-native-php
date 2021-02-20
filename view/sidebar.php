@@ -25,6 +25,15 @@
   }else{
     $StatArsipMemo = '';
   }
+
+  if(isset($_GET['op']) AND ($_GET['op'] == "template" OR $_GET['op'] == "add_template")){
+    $StatArsipTemplate = 'active open';
+    if($_GET['op'] == "template"){ $StatTemplate = 'active'; }else{ $StatTemplate = ''; }
+    if($_GET['op'] == "add_template"){ $StatEntriTemplate = 'active'; }else{ $StatEntriTemplate = ''; }
+  }else{
+    $StatArsipMemo = '';
+  }
+
   if(isset($_GET['op']) AND ($_GET['op'] == "report_sm" OR $_GET['op'] == "report_sk" OR $_GET['op'] == "report_disposisi" OR $_GET['op'] == "report_arsip" OR $_GET['op'] == "report_progress")){
     $StatReport = 'active open';
     if($_GET['op'] == "report_sm"){ $StatRSM = 'active'; }else{ $StatRSM = ''; }
@@ -280,6 +289,24 @@
              </li>
             <li class="nav-item">
               <a href="{{ url('/agenda/libur-pekanan') }}" class="nav-link {{ active_class(['agenda/libur-pekanan']) }}">Libur Pekanan</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="nav-item <?php echo $StatArsipTemplate; ?>">
+        <a class="nav-link" data-toggle="collapse" href="#template" role="button" aria-expanded="{{ is_active_route(['template/*']) }}" aria-controls="template">
+          <i class="link-icon" data-feather="mail"></i>
+            <span class="link-title">Template Surat</span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse {{ show_class(['template/*']) }}" id="template">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              <a href="./index.php?op=add_template" class="nav-link <?php echo $StatEntriTemplate; ?>">Entri Baru</a>
+            </li>
+            <li class="nav-item">
+             <a href="./index.php?op=template" class="nav-link <?php echo $StatTemplate; ?>">Daftar Template</a>
             </li>
           </ul>
         </div>

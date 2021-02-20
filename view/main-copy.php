@@ -43,6 +43,7 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<!-- <link rel="icon" href="img/core-img/favicon.ico"> -->
 
 		<!-- plugin css -->
+		<link href="assets/assets/plugins/select2/select2.min.css" rel="stylesheet" />
 		<link href="assets/assets/fonts/feather-font/css/iconfont.css" rel="stylesheet" />
 		<link href="assets/assets/plugins/flag-icon-css/css/flag-icon.min.css" rel="stylesheet" />
 		<link href="assets/assets/plugins/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
@@ -55,6 +56,8 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<link href="assets/css/app.css" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" />
 		<!-- end common css -->
+
+		<link href="assets/css/add_template.css" rel="stylesheet">
 
 	</head>
 
@@ -92,7 +95,11 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<script src="assets/assets/plugins/progressbar-js/progressbar.min.js"></script>
 		<script src="assets/assets/plugins/dropify/js/dropify.min.js"></script>
   		<script src="assets/assets/plugins/moment/moment.min.js"></script>
+		<script src="assets/assets/plugins/tinymce-dist/tinymce.min.js"></script>
+  		<script src="assets/assets/plugins/select2/select2.min.js"></script>
 
+
+		<script src="assets/assets/js/select2.js"></script>
 		<script src="assets/assets/js/dashboard.js"></script>
 		<script src="assets/assets/js/datepicker.js"></script>
 		<script src="assets/assets/js/timepicker.js"></script>
@@ -101,6 +108,8 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<!-- common js -->
 		<script src="assets/assets/js/dropify.js"></script>
 		<script src="assets/assets/js/template.js"></script>
+		<script src="assets/assets/js/tinymce.js"></script>
+
 		<!-- end common js -->
 
 	</body>
