@@ -1,15 +1,30 @@
 <?php 
     require_once 'db/db2.php';
     $id_template = $_GET['tpid'];
-    // echo $id_template;
+    $read_validator = 1;
+
+    mysqli_query($conn, "UPDATE template SET read_validator='$read_validator' WHERE id_template='$id_template'");
 
     $sql = mysqli_query($conn, "SELECT * FROM template WHERE id_template='$id_template'");
+    $sql2 = mysqli_query($conn, "SELECT * FROM template WHERE id_template='$id_template'");
+    while($temp = $sql2->fetch_assoc()){
+        $id_validator = $temp['id_validator'];
+    }
+
+    $user_jabatan = mysqli_query($conn, "SELECT * FROM user_jabatan WHERE id_jab='$id_validator'");
+    while($val = $user_jabatan->fetch_assoc()) {
+        $validator_jabatan = $val['nama_jabatan'];
+    }
+
+    $user = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$_SESSION[id_user]'");
+    while($userjab = $user->fetch_assoc()) {
+        $user_idjab = $userjab['jabatan'];
+    }
 ?>
 
 <h6 class="card-title">Detail Template </h6>
 <ul class="list-group">
 <?php while($data = $sql->fetch_assoc()) {?>
-
     <li class="list-group-item">
         <h6><?php echo $data['nama_template']; ?></h6>
         <?php 
@@ -36,6 +51,12 @@
 
         <br>
         <div class="text-uppercase">
+            <p class="font-weight-bold">Validator :</p>
+            <span><?php echo $validator_jabatan; ?></span>
+        </div>
+
+        <br>
+        <div class="text-uppercase">
             <p class="font-weight-bold">Ukuran :</p>
             <span><?php echo $data['ukuran_hal']; ?></span>
         </div>
@@ -54,7 +75,7 @@
 
         <br>
         <div class="form-group">
-            <p for="" class="font-weight-bold text-uppercase">Margin</p>
+            <p for="" class="font-weight-bold text-uppercase">Margin (mm)</p>
             <div class="row">
                 <div class="col-2">
                     <div class="input-group">
@@ -115,6 +136,46 @@
             </button>
         </a>
 
+        <?php 
+            if($data['id_validator'] == $user_idjab) { ?>
+                <hr>
+                <form action="view/proses_template.php" method="POST">
+                    <input type="hidden" value=<?php echo $id_template ?> name="id_template">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="" class="text-uppercase font-weight-bold">Persetujuan</label>
+                            <select name="persetujuan" id="persetujuan" onchange="val()">
+                                <option value="">Pilih</option>
+                                <option value="revisi">Revisi</option>
+                                <option value="disetujui">Disetujui & Publish</option>
+                                <option value="tolak">Ditolak</option>
+                            </select>
+                            <div class="mt-2" id="formtext">
+                                
+                            </div>
+                        </div>
+                        
+                        <button type="submit" name="submit_status" value="submit_status" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+
+                <script>
+                    function val() {
+                        var formtext = document.getElementById('formtext');
+                        var p = document.getElementById('persetujuan');
+                        
+                        if(p.value == 'revisi') {
+                            formtext.innerHTML = `
+                                <textarea class="form-control" name="revisi" id="" cols="43" rows="5" placeholder="catatan revisi.."></textarea>
+                            `;
+                        }else {
+                            formtext.innerHTML = ``;
+                        }
+                    }
+                </script>
+        <?php     
+            }
+        ?>
     </li>
     <?php
 } ?>

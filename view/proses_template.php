@@ -49,7 +49,7 @@ if (isset($_POST['submit_template'])){
     $m_kanan = $_POST['m_kanan'];
 	$layout_konten = $_POST['layout_konten'];
 	$nama_template = $_POST['nama_template'];
-    $status = 'menunggu';
+    $status = 'pengajuan';
     $read_validator = 0;
     $tgl_diupdate = date("Y-m-d H:i:s", time());
     
@@ -88,7 +88,30 @@ if (isset($_POST['submit_template'])){
         }
     }
 
-}else {
+}elseif(isset($_POST['submit_status'])) {
+    $id_template = $_POST['id_template'];
+    $status = $_POST['persetujuan'];
+    if(isset($_POST['revisi'])) {
+        $revisi = $_POST['revisi'];
+
+        $sql = mysqli_query($conn, "UPDATE template SET status_temp='$status', revisi='$revisi' WHERE id_template='$id_template'");
+        if($sql) {
+            header("location: ../index.php?op=approval_template");
+        } else {
+            echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
+            // header("location: ../index.php?op=add_template");
+        }
+    } else {
+        $sql = mysqli_query($conn, "UPDATE template SET status_temp='$status' WHERE id_template='$id_template'");
+        if($sql) {
+            header("location: ../index.php?op=approval_template");
+        } else {
+            echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
+            // header("location: ../index.php?op=add_template");
+        }
+    }
+}
+else {
     echo "Akses gagal";
 }
 

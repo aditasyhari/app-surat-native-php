@@ -3,14 +3,20 @@ require_once "db/db2.php";
 
 if(isset($_GET['tpid'])){
 	require_once "view_template_detail.php";
-}elseif(isset($_GET['editid'])) {
-	require_once "view_edit_template.php";
 }else{ ?>
-	<h6 class="card-title">Daftar Template</h6>
+	<h6 class="card-title">Daftar Approval Template</h6>
 	<?php
-    $template = mysqli_query($conn, "select * from template where id_pembuat='$_SESSION[id_user]' ORDER BY tgl_dibuat DESC");
+    $user = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$_SESSION[id_user]'");
+    while($userjab = $user->fetch_assoc()) {
+        $user_idjab = $userjab['jabatan'];
+    }
+
+    $template = mysqli_query($conn, "SELECT * FROM template JOIN user_jabatan ON template.id_validator=user_jabatan.id_jab WHERE user_jabatan.id_jab='$user_idjab'");
+    
+    // echo $_SESSION['id_user'];
+    // echo $user_idjab;
+    // echo var_dump($template2);
     $row = mysqli_num_rows($template);
-	
 	if($row >= 1){?>
 		<ul class="list-group">
 			<?php
@@ -21,7 +27,7 @@ if(isset($_GET['tpid'])){
 						<div>
 							<span><?php echo $no;?>. </span>
 							<span title="<?php echo $data['nama_template'];?>"> 
-								<a href="./index.php?op=template&tpid=<?php echo $data['id_template'];?>"><?php echo $data['nama_template'];?></a>
+								<?php echo $data['nama_template'];?>
                             </span>
 						</div>
 						<div>
@@ -48,14 +54,9 @@ if(isset($_GET['tpid'])){
                                     <i data-feather="eye" class="mt-2 mb-2"></i>
                                 </a>
                             </span>
-                            <span class="btn btn-primary btn-xs btn-icon">
-                                <a href="./index.php?op=template&editid=<?php echo $data['id_template'];?>" class="text-white mt-2" title="Edit">
-                                    <i data-feather="edit-2" class="mt-2 mb-2"></i>
-                                </a>
-                            </span>
-                            <span class="btn btn-danger btn-xs btn-icon" onclick="confirm('Yakin dihapus?')">
-                                <a href="view/delete_template.php?id_template=<?php echo $data['id_template']; ?>" class="text-white mt-2" title="Hapus">
-                                    <i data-feather="trash" class="mt-2 mb-2"></i>
+                            <span class="btn btn-info btn-text-icon">
+                                <a href="./index.php?op=approval_template&tpid=<?php echo $data['id_template'];?>" class="text-white" title="Approval">
+                                    Approval
                                 </a>
                             </span>
                         </div>
@@ -74,7 +75,7 @@ if(isset($_GET['tpid'])){
 			</button>
 			<p>
 				<strong><i class="ace-icon fa fa-check"></i>Perhatian!</strong>
-				Belum ada data template yang dibuat. Terimakasih.
+				Belum ada data approval template untuk anda. Terimakasih.
 			</p>
 		</div><?php
 	}

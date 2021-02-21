@@ -154,6 +154,8 @@
                     require_once "view_template.php";
                 }elseif(isset($_GET['op']) AND $_GET['op'] == "add_template"){
                     require_once "view_add_template.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "approval_template"){
+                    require_once "view_approval_template.php";
                 }else{
                     require_once "dashboard.php";
                 } ?>

@@ -26,10 +26,11 @@
     $StatArsipMemo = '';
   }
 
-  if(isset($_GET['op']) AND ($_GET['op'] == "template" OR $_GET['op'] == "add_template")){
+  if(isset($_GET['op']) AND ($_GET['op'] == "template" OR $_GET['op'] == "add_template" OR $_GET['op'] == "approval_template")){
     $StatArsipTemplate = 'active open';
     if($_GET['op'] == "template"){ $StatTemplate = 'active'; }else{ $StatTemplate = ''; }
     if($_GET['op'] == "add_template"){ $StatEntriTemplate = 'active'; }else{ $StatEntriTemplate = ''; }
+    if($_GET['op'] == "approval_template"){ $StatApprovTemplate = 'active'; }else{ $StatApprovTemplate = ''; }
   }else{
     $StatArsipMemo = '';
   }
@@ -307,6 +308,9 @@
             </li>
             <li class="nav-item">
              <a href="./index.php?op=template" class="nav-link <?php echo $StatTemplate; ?>">Daftar Template</a>
+            </li>
+            <li class="nav-item">
+             <a href="./index.php?op=approval_template" class="nav-link <?php echo $StatApprovTemplate; ?>">Daftar Approval</a>
             </li>
           </ul>
         </div>
