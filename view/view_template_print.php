@@ -25,6 +25,16 @@ if($row > 0) {
         $layout_konten = $data['layout_konten'];
         $name = $data['nama_template'];
         $tgl = tgl_indo($data['tgl_dibuat']);
+        if($data['orientasi_hal'] == 'P') {
+            $orientasi = 'potrait';
+        }else {
+            $orientasi = 'landscape';
+        }
+        if($data['ukuran_hal'] == 'A4') {
+            $ukuran = 'A4';
+        }else {
+            $ukuran = 'Letter';
+        }
     }
 
     $html = "
@@ -52,12 +62,16 @@ if($row > 0) {
 
 
     $html .= '
-        <div class="kop">
-            <img src="http://localhost/app-surat/foto/kop/'.$logo_kop.'" style="width:120px;height:100px">
-            <div>
-                '.$layout_kop.'
-            </div>
-        </div>
+        <table>
+            <tr>
+                <td>
+                    <img src="http://localhost/app-surat/foto/kop/'.$logo_kop.'" style="max-width:120px; max-height:120px">
+                </td>
+                <td>
+                    '.$layout_kop.'
+                </td>
+            </tr>
+        </table>
         <hr>
         <div class="konten">
             '.$layout_konten.'
@@ -71,7 +85,7 @@ if($row > 0) {
     if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
         $dompdf->loadHtml($html);
         // Setting ukuran dan orientasi kertas
-        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->setPaper($ukuran, $orientasi);
         // Rendering dari HTML Ke PDF
         $dompdf->render();
         ob_end_clean();

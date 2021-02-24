@@ -162,36 +162,29 @@ while($row = $sql->fetch_assoc()) {
                 <div class="row">
                     <div class="col-2">
                         <div class="input-group">
+                            <label for="" class="btn btn-secondary btn-xs">Atas</label>
                             <input type="number" class="form-control" min="2" value=<? echo $m_atas; ?> name="m_atas">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary" type="button">Atas</button>
-                            </span>
+                            
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="input-group">
+                            <label for="" class="btn btn-secondary btn-xs">Bawah</label>
                             <input type="number" class="form-control" min="2" value=<? echo $m_bawah; ?> name="m_bawah">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary" type="button">Bawah</button>
-                            </span>
                         </div>
                     </div>
                 <!-- </div> -->
                 <!-- <div class="row"> -->
                     <div class="col-2">
                         <div class="input-group">
+                            <label for="" class="btn btn-secondary btn-xs">Kiri</label>
                             <input type="number" class="form-control" min="2" value=<? echo $m_kiri; ?> name="m_kiri">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary" type="button">Kiri</button>
-                            </span>
                         </div>
                     </div>
                     <div class="col-2">
                         <div class="input-group">
+                            <label for="" class="btn btn-secondary btn-xs">Kanan</label>
                             <input type="number" class="form-control" min="2" value=<? echo $m_kanan; ?> name="m_kanan">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary" type="button">Kanan</button>
-                            </span>
                         </div>
                     </div>
                 </div>
@@ -212,10 +205,11 @@ while($row = $sql->fetch_assoc()) {
                             <div class="btn btn-light m-2" id="nama" onclick="variabel('nama')">Nama</div>
                             <div class="btn btn-light m-2" id="email" onclick="variabel('email')">Email</div>
                             <div class="btn btn-light m-2" id="perihal" onclick="variabel('perihal')">Perihal</div>
-                        </div>
-                        <div class="row">
                             <div class="btn btn-light m-2" id="nosurat" onclick="variabel('nosurat')">No Surat</div>
                             <div class="btn btn-light m-2" id="tglsurat" onclick="variabel('tglsurat')">Tgl Surat</div>
+                            <div class="btn btn-light m-2" id="tujuan" onclick="variabel('tujuan')">Tujuan</div>
+                            <div class="btn btn-light m-2" id="karakteristik" onclick="variabel('karakteristik')">Karakteristik</div>
+                            <div class="btn btn-light m-2" id="derajat" onclick="variabel('derajat')">Derajat</div>
                         </div>
                     </li>
                 </div>
@@ -235,6 +229,12 @@ while($row = $sql->fetch_assoc()) {
                     case 'nosurat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=NoSurat=');
                         break;
                     case 'tglsurat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=TglSurat=');
+                        break;
+                    case 'tujuan': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Tujuan=');
+                        break;
+                    case 'karakteristik': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Karakteristik=');
+                        break;
+                    case 'derajat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Derajat=');
                         break;
                     default:
                         break;

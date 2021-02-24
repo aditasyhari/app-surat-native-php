@@ -31,7 +31,8 @@ if (isset($_POST['submit_template'])){
         move_uploaded_file($tmp_file, $path);
         header("location: ../index.php?op=template");
     } else {
-        echo "Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
+		die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
+        // echo "Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
         // header("location: ../index.php?op=add_template");
     }
 
@@ -59,7 +60,8 @@ if (isset($_POST['submit_template'])){
         if($sql) {
             header("location: ../index.php?op=template");
         } else {
-            echo "1. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
+			die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
+            // echo "1. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
             // header("location: ../index.php?op=add_template");
         }
     }else {
@@ -83,7 +85,8 @@ if (isset($_POST['submit_template'])){
             move_uploaded_file($tmp_file, $path);
             header("location: ../index.php?op=template");
         } else {
-            echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
+			die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
+            // echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
             // header("location: ../index.php?op=add_template");
         }
     }
@@ -98,7 +101,8 @@ if (isset($_POST['submit_template'])){
         if($sql) {
             header("location: ../index.php?op=approval_template");
         } else {
-            echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
+			die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
+            // echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
             // header("location: ../index.php?op=add_template");
         }
     } else {
@@ -106,7 +110,8 @@ if (isset($_POST['submit_template'])){
         if($sql) {
             header("location: ../index.php?op=approval_template");
         } else {
-            echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
+			die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
+            // echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
             // header("location: ../index.php?op=add_template");
         }
     }

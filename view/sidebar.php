@@ -64,10 +64,16 @@
     $StatArsipFile = $StatArsipFileEntri = $StatArsipFileView = $StatCariFile = '';
   }
   
-  if(isset($_GET['op']) AND ($_GET['op'] == "klasifikasi" OR $_GET['op'] == "klasifikasi_sk" OR $_GET['op'] == "user" OR $_GET['op'] == "setting" OR $_GET['op'] == "klasifikasi_file")){
+  if(isset($_GET['op']) AND ($_GET['op'] == "klasifikasi" OR $_GET['op'] == "klasifikasi_sk" OR $_GET['op'] == "user" OR $_GET['op'] == "setting" OR $_GET['op'] == "klasifikasi_file" OR $_GET['op'] == "karakteristik" OR $_GET['op'] == "derajat")){
     $StatAtur = 'active open';
   }else{
     $StatAtur = '';
+  }
+
+  if(isset($_GET['op']) AND ($_GET['op'] == "entri_surat" OR $_GET['op'] == "memo" OR $_GET['op'] == "surat_keluar")) {
+    $surat = 'active open';
+  }else {
+    $surat = '';
   }
   
   if(isset($_GET['op']) AND $_GET['op'] == "arsip_sk"){ $StatArsipSK = 'active open'; }else{ $StatArsipSK = ''; }
@@ -77,7 +83,11 @@
   if(isset($_GET['op']) AND $_GET['op'] == "klasifikasi_file"){ $StatKlasFile = 'active open'; }else{ $StatKlasFile = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "klasifikasi"){ $StatKlasSM = 'active open'; }else{ $StatKlasSM = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "klasifikasi_sk"){ $StatKlasSK = 'active open'; }else{ $StatKlasSK = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "derajat"){ $StatDerajat = 'active open'; }else{ $StatDerajat = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "karakteristik"){ $StatKarakteristik = 'active open'; }else{ $StatKarakteristik = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "entri_surat"){ $StatEntriSurat = 'active'; }else{ $StatEntriSurat = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "memo"){ $StatMemo = 'active open'; }else{ $StatMemo = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "surat_keluar"){ $StatSuratKeluar = 'active'; }else{ $StatSuratKeluar = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "disposisi"){ $StatDisposisi = 'active open'; }else{ $StatDisposisi = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "tembusan"){ $StatTembusan = 'active open'; }else{ $StatTembusan = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "info"){ $StatInfo = 'active open'; }else{ $StatInfo = ''; }
@@ -115,7 +125,7 @@
         </a>
       </li>
       <li class="nav-item nav-category">web apps</li>
-      <li class="nav-item {{active class}}">
+      <li class="nav-item <?php echo $surat; ?>">
         <a class="nav-link" data-toggle="collapse" href="#surat" role="button" aria-controls="surat">
           <i class="link-icon" data-feather="mail"></i>
           <span class="link-title">Surat</span>
@@ -124,13 +134,13 @@
         <div class="collapse" id="surat">
           <ul class="nav sub-menu">
             <li class="nav-item">
-             <a href="{{ url('/surat/surat-masuk') }}" class="nav-link ">Surat Baru</a>
+             <a href="index.php?op=entri_surat" class="nav-link <?php echo $StatEntriSurat;?>">Surat Baru</a>
             </li>
             <li class="nav-item">
              <a href="index.php?op=memo" class="nav-link <?php echo $StatMemo;?>">Surat Masuk</a>
             </li>
             <li class="nav-item">
-              <a href="{{ url('/surat/surat-keluar') }}" class="nav-link {{ active_class(['surat/surat-keluar']) }}">Surat Keluar</a>
+              <a href="index.php?op=surat_keluar" class="nav-link <?php echo $StatSuratKeluar;?>">Surat Keluar</a>
             </li>
           </ul>
         </div>
@@ -373,6 +383,18 @@
               if($HakAkses->atur_klasifikasi_arsip == "Y"){?>
                 <li class="nav-item">
                   <a href="./index.php?op=klasifikasi_file" class="nav-link <?php echo $StatKlasFile;?>">Klasifikasi File Arsip</a>
+                </li>
+							<?php
+              }
+              if($HakAkses->atur_layout == "Y"){?>
+                <li class="nav-item">
+                  <a href="./index.php?op=karakteristik" class="nav-link <?php echo $StatKarakteristik;?>">Karakteristik Surat</a>
+                </li>
+							<?php
+              }
+              if($HakAkses->atur_layout == "Y"){?>
+                <li class="nav-item">
+                  <a href="./index.php?op=derajat" class="nav-link <?php echo $StatDerajat;?>">Derajat Surat</a>
                 </li>
 							<?php
 							}
