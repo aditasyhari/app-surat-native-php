@@ -96,7 +96,7 @@ require_once "db/db2.php";
         <div class="col-12">
             <div class="form-group text-sm">
                 <label for="">Margin (satuan mm)</label>
-                <div class="row">
+                <div class="row text-uppercase">
                     <div class="col-2">
                         <div class="input-group">
                             <label for="" class="btn btn-secondary btn-xs">Atas</label>

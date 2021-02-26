@@ -65,7 +65,7 @@ if($row > 0) {
         <table>
             <tr>
                 <td>
-                    <img src="http://localhost/app-surat/foto/kop/'.$logo_kop.'" style="max-width:120px; max-height:120px">
+                    <img src="http://localhost/app-surat/foto/kop/'.$logo_kop.'" style="max-width:100px; max-height:100px">
                 </td>
                 <td>
                     '.$layout_kop.'
@@ -73,9 +73,9 @@ if($row > 0) {
             </tr>
         </table>
         <hr>
-        <div class="konten">
-            '.$layout_konten.'
-        </div>
+
+        '.$layout_konten.'
+
 
     ';
 

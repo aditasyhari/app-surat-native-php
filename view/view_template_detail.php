@@ -76,37 +76,33 @@
         <br>
         <div class="form-group">
             <p for="" class="font-weight-bold text-uppercase">Margin (mm)</p>
-            <div class="row">
+            <div class="row text-uppercase">
                 <div class="col-2">
                     <div class="input-group">
+                        <label for="" class="btn btn-secondary btn-xs">Atas</label>
                         <input type="number" class="form-control" min="2" value=<?php echo $data['m_atas']; ?> name="m_atas" disabled>
-                        <span class="input-group-append">
-                            <button class="btn btn-secondary" type="button">Atas</button>
-                        </span>
+                        
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="input-group">
+                        <label for="" class="btn btn-secondary btn-xs">Bawah</label>
                         <input type="number" class="form-control" min="2" value=<?php echo $data['m_bawah']; ?> name="m_bawah" disabled>
-                        <span class="input-group-append">
-                            <button class="btn btn-secondary" type="button">Bawah</button>
-                        </span>
+                        
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="input-group">
+                        <label for="" class="btn btn-secondary btn-xs">Kiri</label>
                         <input type="number" class="form-control" min="2" value=<?php echo $data['m_kiri']; ?> name="m_kiri" disabled>
-                        <span class="input-group-append">
-                            <button class="btn btn-secondary" type="button">Kiri</button>
-                        </span>
+                        
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="input-group">
+                        <label for="" class="btn btn-secondary btn-xs">Kanan</label>
                         <input type="number" class="form-control" min="2" value=<?php echo $data['m_kanan']; ?> name="m_kanan" disabled>
-                        <span class="input-group-append">
-                            <button class="btn btn-secondary" type="button">Kanan</button>
-                        </span>
+
                     </div>
                 </div>
             </div>

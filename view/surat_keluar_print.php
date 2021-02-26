@@ -15,8 +15,36 @@ $row = mysqli_num_rows($query);
 while($data = mysqli_fetch_array($query))
 {
     $layout_konten = $data['layout_konten'];
+    $layout_kop = $data['layout_kop'];
+    $logo_kop = $data['logo_kop'];
     $tujuan = $data['tujuan'];
+    $id_template = $data['id_template'];
     $tgl = tgl_indo($data['tgl_surat_fisik']);
+
+    if($id_template == '') {
+        $m_atas = 10;
+        $m_bawah = 10;
+        $m_kiri = 15;
+        $m_kanan = 10;
+    }else {
+        $querytp = mysqli_query($conn, "SELECT * FROM template WHERE id_template='$id_template'");
+        while($datatp = $querytp->fetch_assoc()) {
+            $m_atas = $datatp['m_atas'];
+            $m_bawah = $datatp['m_bawah'];
+            $m_kiri = $datatp['m_kiri'];
+            $m_kanan = $datatp['m_kanan'];
+            if($datatp['orientasi_hal'] == 'P') {
+                $orientasi = 'potrait';
+            }else {
+                $orientasi = 'landscape';
+            }
+            if($datatp['ukuran_hal'] == 'A4') {
+                $ukuran = 'A4';
+            }else {
+                $ukuran = 'Letter';
+            }
+        }
+    }
 }
 
 if($row > 0) {
@@ -25,10 +53,10 @@ if($row > 0) {
     <html>
         <style>
             @page{
-                margin-top: 10 mm;
-                margin-bottom: 10 mm;
-                margin-left: 15 mm;
-                margin-right: 10 mm;
+                margin-top: $m_atas mm;
+                margin-bottom: $m_bawah mm;
+                margin-left: $m_kiri mm;
+                margin-right: $m_kanan mm;
             }
             .konten{
                 width: 100%;
@@ -36,18 +64,35 @@ if($row > 0) {
         </style>
     ";
 
-    $html .= '
-        <div class="konten">
-            '.$layout_konten.'
-        </div>
-    ';
+    if($id_template == '') {
+        $html .= '
+            <div class="konten">
+                '.$layout_konten.'
+            </div>
+        ';
+    }else {
+        $html .= '
+        <table>
+            <tr>
+                <td>
+                    <img src="http://localhost/app-surat/foto/kop/'.$logo_kop.'" style="max-width:100px; max-height:100px">
+                </td>
+                <td>
+                    '.$layout_kop.'
+                </td>
+            </tr>
+        </table>
+        <hr>
+        '.$layout_konten.'
+        ';
+    }
 
     $html .= "</html>";
 
     if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
         $dompdf->loadHtml($html);
         // Setting ukuran dan orientasi kertas
-        $dompdf->setPaper('A4', 'potrait');
+        $dompdf->setPaper($orientasi, $ukuran);
         // Rendering dari HTML Ke PDF
         $dompdf->render();
         ob_end_clean();

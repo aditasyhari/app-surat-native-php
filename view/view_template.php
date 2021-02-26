@@ -24,7 +24,11 @@ if(isset($_GET['tpid'])){
 			while($data = $template->fetch_assoc()){ ?>
             <tr>
                 <td width="10"><?php echo $no;?></td>
-                <td><?php echo $data['nama_template'];?></td>
+                <td>
+					<a href="./index.php?op=template&tpid=<?php echo $data['id_template'];?>">
+						<?php echo $data['nama_template'];?>
+					</a>
+				</td>
                 <td>
                     <?php  
                         if($data['status_temp'] == 'pengajuan'){ ?>

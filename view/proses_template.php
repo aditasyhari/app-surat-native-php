@@ -29,7 +29,8 @@ if (isset($_POST['submit_template'])){
     
     if($sql) {
         move_uploaded_file($tmp_file, $path);
-        header("location: ../index.php?op=template");
+            echo "<script type=\"text/javascript\">alert('Data berhasil Tersimpan...!!');window.location.href=\"../index.php?op=template\";</script>";
+            // header("location: ../index.php?op=template");
     } else {
 		die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
         // echo "Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
@@ -58,7 +59,8 @@ if (isset($_POST['submit_template'])){
         $sql = mysqli_query($conn, "UPDATE template SET id_pembuat='$id_pembuat', layout_kop='$layout_kop', id_klasifikasi='$id_klasifikasi', id_validator='$id_validator', ukuran_hal='$ukuran_hal', orientasi_hal='$orientasi_hal', m_atas='$m_atas', m_bawah='$m_bawah', m_kiri='$m_kiri', m_kanan='$m_kanan', layout_konten='$layout_konten', nama_template='$nama_template', read_validator='$read_validator', tgl_diupdate='$tgl_diupdate' WHERE id_template='$id_template'");
     
         if($sql) {
-            header("location: ../index.php?op=template");
+            echo "<script type=\"text/javascript\">alert('Data berhasil Tersimpan...!!');window.location.href=\"../index.php?op=template\";</script>";
+            // header("location: ../index.php?op=template");
         } else {
 			die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
             // echo "1. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
@@ -83,7 +85,8 @@ if (isset($_POST['submit_template'])){
         
         if($sql) {
             move_uploaded_file($tmp_file, $path);
-            header("location: ../index.php?op=template");
+            echo "<script type=\"text/javascript\">alert('Data berhasil Tersimpan...!!');window.location.href=\"../index.php?op=template\";</script>";
+            // header("location: ../index.php?op=template");
         } else {
 			die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
             // echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
@@ -99,7 +102,8 @@ if (isset($_POST['submit_template'])){
 
         $sql = mysqli_query($conn, "UPDATE template SET status_temp='$status', revisi='$revisi' WHERE id_template='$id_template'");
         if($sql) {
-            header("location: ../index.php?op=approval_template");
+            // header("location: ../index.php?op=approval_template");
+            echo "<script type=\"text/javascript\">alert('Data berhasil Tersimpan...!!');window.location.href=\"../index.php?op=approval_template\";</script>";
         } else {
 			die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
             // echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";
@@ -108,7 +112,8 @@ if (isset($_POST['submit_template'])){
     } else {
         $sql = mysqli_query($conn, "UPDATE template SET status_temp='$status' WHERE id_template='$id_template'");
         if($sql) {
-            header("location: ../index.php?op=approval_template");
+            echo "<script type=\"text/javascript\">alert('Data berhasil Tersimpan...!!');window.location.href=\"../index.php?op=approval_template\";</script>";
+            // header("location: ../index.php?op=approval_template");
         } else {
 			die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
             // echo "2. Maaf, Terjadi kesalahan saat mencoba untuk menyimpan data ke database.";

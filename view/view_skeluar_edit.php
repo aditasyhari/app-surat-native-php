@@ -8,7 +8,7 @@ while($data =  $query->fetch_assoc()) {
         if($data['id_template'] == '') {
             require_once 'view/edit_surat_nontemplate.php';
         }else {
-
+            require_once 'view/edit_surat_template.php';
         }
     }else{
         require_once 'view/invalid_akses.php';

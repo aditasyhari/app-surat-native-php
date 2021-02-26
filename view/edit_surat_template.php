@@ -2,20 +2,27 @@
 require_once "db/db2.php"; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    $querysql = mysqli_query($conn, "SELECT * FROM surat_keluar WHERE id_skeluar='$_GET[idsk]'");
+    while($sk = $querysql->fetch_assoc()) {
+        $idTemplate = $sk['id_template'];
+        $nomor_surat = $sk['nomor_surat'];
+    }
+    
     $pembuat = $_SESSION['id_user'];
 	$tujuan = htmlspecialchars($purifier->purify(trim($_POST['tujuan_surat'])), ENT_QUOTES);
     $perihal = htmlspecialchars($purifier->purify(trim($_POST['perihal_surat'])), ENT_QUOTES);
-    $jenis_surat = $_POST['jenis_surat'];
+    // $jenis_surat = $_POST['jenis_surat'];
     $karakteristik = $_POST['karakteristik_surat'];
     $derajat = $_POST['derajat_surat'];
     $tgl_fisik = $_POST['tgl_surat_fisik'];
     $layout_konten = $_POST['layout_konten'];
-    $created = date("Y-m-d H:i:s", time());
     $updated = date("Y-m-d H:i:s", time());
 
-    $query = mysqli_query($conn, "SELECT * FROM surat_keluar WHERE id_skeluar='$idsk'"); 
-    while($datatp = $query->fetch_assoc()) {
-        $nomor_surat = $datatp['nomor_surat'];
+    $dataTP = mysqli_query($conn, "SELECT * FROM template WHERE id_template='$idTemplate'"); 
+    while($rowTemplate = $dataTP->fetch_assoc()) {
+        $logo_kop = $rowTemplate['logo_kop'];
+        $layout_kop = $rowTemplate['layout_kop'];
+        $jenis_surat = $rowTemplate['id_klasifikasi'];
     }
 
     $users = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$pembuat'");
@@ -38,6 +45,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     while($rowDer = $der->fetch_assoc()) {
         $nama_der = $rowDer['nama'];
     }
+
+    // $max_kode = mysqli_query($conn, "SELECT * FROM surat_keluar WHERE jenis_surat='$jenis_surat'");
+    $max_kode = mysqli_query($conn, "SELECT max(nomor_surat) as maxKode FROM surat_keluar WHERE jenis_surat='$jenis_surat'");
+    $data_max  = mysqli_fetch_array($max_kode);
+    // $data_max  = mysqli_num_rows($max_kode);
+    $max = $data_max['maxKode'];
+    $noUrut = (int) substr($max, 0, 3);
+    $noUrut++;
+    // $max++;
 
     function getRomawi($bln){
         switch ($bln){
@@ -83,27 +99,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $bulan = date('n');
     $bulanRomawi = getRomawi($bulan);
     // echo $bulanRomawi;
+    
+    // $nomor_surat = sprintf("%03s", $noUrut).'/'.$kode.'/'.$bulanRomawi.'/'.date('Y');
+    // // echo $nomor_surat;
 
     $variabel = array('=NoSurat=', '=Nama=', '=Email=', '=Perihal=', '=TglSurat=', '=Tujuan=', '=Karakteristik=', '=Derajat=');
     $replace = array($nomor_surat, $nama_pembuat, $email_pembuat, $perihal, tgl_indo($tgl_fisik), $tujuan, $nama_kar, $nama_der);
 
     $konten_surat = str_replace($variabel, $replace, $layout_konten);
-    
-    $field = array('tujuan'=>$tujuan, 'tgl_surat_fisik'=>$tgl_fisik, 'perihal'=>$perihal, 'karakteristik'=>$karakteristik, 'derajat'=>$derajat, 'layout_konten'=>$konten_surat, 'updated'=>$created);
-    $params = array(':id_skeluar'=>$idsk);
+
+    // echo $logo_kop;
+    // echo $layout_kop;
+    // echo $konten_surat;
+    // echo $karakteristik;
+    // echo $derajat;
+    // echo $jenis_surat;
+    $field = array('nomor_surat'=>$nomor_surat, 'jenis_surat'=>$jenis_surat, 'pembuat'=>$pembuat, 'tujuan'=>$tujuan, 'tgl_surat_fisik'=>$tgl_fisik, 'perihal'=>$perihal, 'karakteristik'=>$karakteristik, 'derajat'=>$derajat, 'layout_konten'=>$konten_surat, 'id_template'=>$idTemplate, 'updated'=>$updated);
+    $params = array(':id_skeluar'=>$_GET['idsk']);
     $insert = $this->model->updateprepare("surat_keluar", $field, $params, "id_skeluar=:id_skeluar");
     if($insert->rowCount() >= 1){
-        echo "<script type=\"text/javascript\">alert('Surat keluar Berhasil Diupdate...!!');window.location.href=\"./index.php?op=surat_keluar\";</script>";
+        echo "<script type=\"text/javascript\">alert('Surat keluar berhasil Diupdate...!!');window.location.href=\"./index.php?op=surat_keluar\";</script>";
     }else{
-        die("<script>alert('Data Gagal di simpan ke Database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
+        die("<script>alert('Data Gagal di supdate, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
     }
 }else { ?>
-<?php
-$querySK = mysqli_query($conn, "SELECT * FROM surat_keluar WHERE id_skeluar='$idsk'"); 
-while($sk = $querySK->fetch_assoc()) { ?>
+    <?php 
+        $querysql = mysqli_query($conn, "SELECT * FROM surat_keluar WHERE id_skeluar='$_GET[idsk]'");
+        while($sk = $querysql->fetch_assoc()) {
+            $idTemplate = $sk['id_template'];
+            $nomor_surat = $sk['nomor_surat'];
+            $tgl_surat_fisik = $sk['tgl_surat_fisik'];
+            $tujuan = $sk['tujuan'];
+            $perihal = $sk['perihal'];
+            $layout_konten = $sk['layout_konten'];
+            $derajat_surat = $sk['derajat'];
+            $karakteristik = $sk['karakteristik'];
+        }
 
-    <div class="card-title">Edit Surat Keluar</div>
-    <div class="card-description">Edit data-data surat keluar berikut.</div>
+        $getTemplate = $dbpdo->prepare("SELECT * FROM template WHERE id_template='$idTemplate'"); 
+        $getTemplate->execute();
+        while($rowTP = $getTemplate->fetch()) {
+            $tp_jenis = $rowTP['id_klasifikasi'];
+            $tp_konten = $rowTP['layout_konten'];
+            if($rowTP['orientasi_hal'] == 'P') {
+                $tp_orientasi = 'Potrait';
+            }else {
+                $tp_orientasi = 'Landscape';
+            }
+            $tp_ukuran = $rowTP['ukuran_hal'];
+            $tp_atas = $rowTP['m_atas'];
+            $tp_bawah = $rowTP['m_bawah'];
+            $tp_kiri = $rowTP['m_kiri'];
+            $tp_kanan = $rowTP['m_kanan'];
+        }
+    ?>
+
+    <div class="card-title">Entri Surat Keluar</div>
+    <div class="card-description">Lengkapi data-data surat keluar berikut.</div>
     <hr>
     <form action="<?php echo $_SESSION['url'];?>" method="post" id="form-surat" class="mt-4" enctype="multipart/form-data">
         <div class="form-group row">
@@ -111,7 +163,7 @@ while($sk = $querySK->fetch_assoc()) { ?>
                 <label class="col-form-label">Nomor Surat</label>
             </div>
             <div class="col-lg-6">
-                <input type="text" class="form-control" value="<?php echo $sk['nomor_surat'] ?>" disabled>
+                <label class="col-form-label">: <span class="font-weight-bold text-success"><?php echo $nomor_surat; ?></span></label>
             </div>
         </div>
         <div class="form-group row">
@@ -120,28 +172,15 @@ while($sk = $querySK->fetch_assoc()) { ?>
             </div>
             <div class="col-lg-6">
                 <?php 
-                    $jenis = $dbpdo->prepare("select * from klasifikasi_sk"); 
+
+                    $jenis = $dbpdo->prepare("SELECT * FROM klasifikasi_sk WHERE id_klas='$tp_jenis'"); 
                     $jenis->execute();
 
-                    $selected_jenis = $dbpdo->prepare("select * from klasifikasi_sk where id_klas='$sk[jenis_surat]'"); 
-                    $selected_jenis->execute();
-                    while($selected = $selected_jenis->fetch()) {
-                        $id_jenis = $selected['id_klas'];
-                    }
                 ?>
-                <select class="js-example-basic-single w-100" placeholder="Forward" name="jenis_surat" required disabled>
-                    <?php 
-                    while($jeniss = $jenis->fetch()) { 
-                        if($jeniss['id_klas'] == $id_jenis) { ?>
-                            <option value=<?php echo $jeniss['id_klas']; ?> selected><?php echo $jeniss['nama']; ?></option>
-                        <?php
-                        }else { ?>
-                            <option value=<?php echo $jeniss['id_klas']; ?>><?php echo $jeniss['nama']; ?></option>
-                        <?php
-                        }
-                    ?>
-                    <?php 
-                    } ?>
+                <select class="js-example-basic-single w-100" placeholder="Forward" name="jenis_surat" disabled required >
+                    <?php while($data = $jenis->fetch()) { ?>
+                        <option value=<?php echo $data['id_klas']; ?> selected><?php echo $data['nama']; ?></option>
+                    <?php } ?>
                 </select>
             </div>
         </div>
@@ -151,7 +190,7 @@ while($sk = $querySK->fetch_assoc()) { ?>
                 <label class="col-form-label">Tanggal Surat Fisik</label>
             </div>
             <div class="col-lg-6">
-                <input class="form-control" type="date" value="<?php echo $sk['tgl_surat_fisik'] ?>" name="tgl_surat_fisik" required>
+                <input class="form-control" type="date" name="tgl_surat_fisik" value=<?php echo $tgl_surat_fisik; ?> required>
             </div>
         </div>
         <div class="form-group row">
@@ -159,7 +198,7 @@ while($sk = $querySK->fetch_assoc()) { ?>
                 <label class="col-form-label">Tujuan Surat</label>
             </div>
             <div class="col-lg-6">
-                <input class="form-control" name="tujuan_surat" type="text" placeholder="Tujuan surat" value="<?php echo $sk['tujuan']; ?>" required>
+                <input class="form-control" name="tujuan_surat" type="text" placeholder="Tujuan surat" value="<?php echo $tujuan; ?>" required>
             </div>
         </div>
         <div class="form-group row">
@@ -180,7 +219,7 @@ while($sk = $querySK->fetch_assoc()) { ?>
                     $kar = $dbpdo->prepare("select * from karakteristik"); 
                     $kar->execute();
 
-                    $selected_kar = $dbpdo->prepare("select * from karakteristik where id_karakteristik='$sk[karakteristik]'"); 
+                    $selected_kar = $dbpdo->prepare("select * from karakteristik where id_karakteristik='$karakteristik'"); 
                     $selected_kar->execute();
                     while($kar_sel = $selected_kar->fetch()) {
                         $id_kar = $kar_sel['id_karakteristik'];
@@ -212,11 +251,11 @@ while($sk = $querySK->fetch_assoc()) { ?>
                 <label class="col-form-label">Derajat Surat</label>
             </div>
             <div class="col-lg-6">
-                <?php 
+            <?php 
                     $derajat = $dbpdo->prepare("select * from derajat"); 
                     $derajat->execute();
 
-                    $selected_der = $dbpdo->prepare("select * from derajat where id_derajat='$sk[derajat]'"); 
+                    $selected_der = $dbpdo->prepare("select * from derajat where id_derajat='$derajat_surat'"); 
                     $selected_der->execute();
                     while($der_sel = $selected_der->fetch()) {
                         $id_der = $der_sel['id_derajat'];
@@ -248,75 +287,69 @@ while($sk = $querySK->fetch_assoc()) { ?>
                 <label class="col-form-label">Perihal</label>
             </div>
             <div class="col-lg-6">
-                <input class="form-control" name="perihal_surat" type="text" placeholder="Perihal surat" value="<?php  echo $sk['perihal']; ?>" required>
+                <input class="form-control" name="perihal_surat" type="text" placeholder="Perihal surat" value="<?php echo $perihal; ?>" required>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-form-label">
-                Isi Surat
-            </label>
             <div class="row">
-                <div class="col-8">
-                    <textarea class="form-control" name="layout_konten" id="kontenTemplate" rows="15"><?php echo $sk['layout_konten']; ?></textarea>
-                </div>
-                <div class="col-4">
+                <div class="col-12">
                     <li class="list-group-item">
-                        <p class="card-description">Klik tombol dibawah ini untuk menyisipkan variabel kedalam surat.</p>
-                        <div class="row mt-4">
-                            <div class="btn btn-light m-2" id="nama" onclick="variabel('nama')">Nama</div>
-                            <div class="btn btn-light m-2" id="email" onclick="variabel('email')">Email</div>
-                            <div class="btn btn-light m-2" id="perihal" onclick="variabel('perihal')">Perihal</div>
-                            <div class="btn btn-light m-2" id="nosurat" onclick="variabel('nosurat')">No Surat</div>
-                            <div class="btn btn-light m-2" id="tglsurat" onclick="variabel('tglsurat')">Tgl Surat</div>
-                            <div class="btn btn-light m-2" id="tujuan" onclick="variabel('tujuan')">Tujuan</div>
-                            <div class="btn btn-light m-2" id="karakteristik" onclick="variabel('karakteristik')">Karakteristik</div>
-                            <div class="btn btn-light m-2" id="derajat" onclick="variabel('derajat')">Derajat</div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <p class="card-description mt-3">Untuk settingan surat default.</p>
+                        <p class="card-description mt-2">Untuk settingan surat template.</p>
                         <table class="card-description w-100 table">
                             <tr>
-                                <td>1.</td>
+                                <td width="10">1.</td>
                                 <td>Orientasi Ukuran</td>
-                                <td>: Potrait A4</td>
+                                <td>: <?php echo $tp_orientasi.' '.$tp_ukuran; ?></td>
                             </tr>
                             <tr>
                                 <td>2.</td>
-                                <td>Margin</td>
-                                <td>: 10 mm</td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>Margin Kiri</td>
-                                <td>: 15 mm</td>
+                                <td>Margin (Atas, Bawah, Kiri, Kanan)</td>
+                                <td>: (<?php echo $tp_atas.', '.$tp_bawah.', '.$tp_kiri.', '.$tp_kanan; ?>) mm</td>
                             </tr>
                         </table>
-                        
                     </li>
+                </div>
+            </div>
+            <label class="col-form-label">
+                <a href="./view/view_template_print.php?tpid=<?php echo $_GET['tpid'];?>&act=pdf" target="_blank" class="btn btn-sm btn-warning text-white">Lihat Template</a>
+                <div class="form-check form-check-flat form-check-primary mt-3">    
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="edit" onclick="editKonten(this.checked); return true;">
+                            Centang untuk mengedit isi surat
+                    </label>
+                </div>
+            </label>
+            <div class="row" id="variabel_input">
+                
+            </div>
+            <div class="row d-none" id="layout_konten">
+                <div class="col-12">
+                    <textarea class="form-control" name="layout_konten" id="entriKonten" rows="15"><?php echo $layout_konten; ?></textarea>
                 </div>
             </div>
         </div>
 
         <script>
+            
+
             function variabel(a){
                 
                 switch(a) {
-                    case 'nama': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Nama=');
+                    case 'nama': tinymce.get("entriKonten").execCommand('mceInsertContent', false, '=Nama=');
                         break;
-                    case 'email': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Email=');
+                    case 'email': tinymce.get("entriKonten").execCommand('mceInsertContent', false, '=Email=');
                         break;
-                    case 'perihal': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Perihal=');
+                    case 'perihal': tinymce.get("entriKonten").execCommand('mceInsertContent', false, '=Perihal=');
                         break;
-                    case 'nosurat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=NoSurat=');
+                    case 'nosurat': tinymce.get("entriKonten").execCommand('mceInsertContent', false, '=NoSurat=');
                         break;
-                    case 'tglsurat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=TglSurat=');
+                    case 'tglsurat': tinymce.get("entriKonten").execCommand('mceInsertContent', false, '=TglSurat=');
                         break;
-                    case 'tujuan': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Tujuan=');
+                    case 'tujuan': tinymce.get("entriKonten").execCommand('mceInsertContent', false, '=Tujuan=');
                         break;
-                    case 'karakteristik': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Karakteristik=');
+                    case 'karakteristik': tinymce.get("entriKonten").execCommand('mceInsertContent', false, '=Karakteristik=');
                         break;
-                    case 'derajat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Derajat=');
+                    case 'derajat': tinymce.get("entriKonten").execCommand('mceInsertContent', false, '=Derajat=');
                         break;
                     default:
                         break;
@@ -324,6 +357,7 @@ while($sk = $querySK->fetch_assoc()) { ?>
             }
         </script>
 
+        <hr>
         <div class="form-check form-check-flat form-check-primary mt-3">    
             <label class="form-check-label mt-4">
                 <input type="checkbox" class="form-check-input" id="centang" onclick="cek()">
@@ -357,10 +391,6 @@ while($sk = $querySK->fetch_assoc()) { ?>
         </script>
 
     </form>
-
-<?php
-}
-?>
 
 <?php
 }

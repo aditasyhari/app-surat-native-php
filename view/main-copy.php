@@ -59,6 +59,7 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 
 		<link href="assets/css/add_template.css" rel="stylesheet">
 
+
 	</head>
 
 	<body>
@@ -94,8 +95,8 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<script src="assets/assets/plugins/apexcharts/apexcharts.min.js"></script>
 		<script src="assets/assets/plugins/progressbar-js/progressbar.min.js"></script>
 		<script src="assets/assets/plugins/dropify/js/dropify.min.js"></script>
-  		<script src="assets/assets/plugins/moment/moment.min.js"></script>
 		<script src="assets/assets/plugins/tinymce-dist/tinymce.min.js"></script>
+  		<script src="assets/assets/plugins/moment/moment.min.js"></script>
   		<script src="assets/assets/plugins/select2/select2.min.js"></script>
 
 

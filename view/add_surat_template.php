@@ -1,7 +1,8 @@
 <?php
 require_once 'db/db2.php';
 if(isset($_GET['tpid'])) {
-    require_once 'view/view_skeluar_edit.php';
+    require_once 'view/entri_surat_template.php';
+    // echo "success";
 }else { ?>
 
 <h5 class="card-title">Pilih Template Surat</h5>
@@ -48,7 +49,7 @@ if(isset($_GET['tpid'])) {
                                         <i class="fa fa-eye"></i>
                                     </button>
                                 </a>
-                                <a href="./index.php?op=surat_keluar&idsk=<?php echo $object->id_skeluar;?>&act=edit" title="Buat Surat">								
+                                <a href="./index.php?op=entri_surat&surat-template&tpid=<?php echo $object->id_template;?>" title="Buat Surat">								
                                     <button class="btn btn-info btn-sm text-white">
                                         Buat Surat
                                     </button>
