@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 }
 
 $id =$_SESSION['id_user'];
-echo $id;
+// echo $id;
 
 $sql = "SELECT created,COUNT(*) as jumlah FROM arsip_sm WHERE id_user = '$id' GROUP BY MONTH(created)";
 $result = $conn->query($sql);
