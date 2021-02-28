@@ -13,44 +13,45 @@
         }
 
         // $id =$_SESSION['id_user'];
-        // if($_POST['pilih']){
-        //     $id = $_POST['tujuan'];
-        // }
+       
+            $id = $_POST['tujuan'];
+            $bulan = $_POST['bulan'];
+            $tahun = $_POST['tahun'];
+        
 
         // echo $id;
 
-        $sql = "SELECT * FROM arsip_sm INNER JOIN user ON arsip_sm.id_user = user.id_user INNER JOIN user_jabatan ON user.jabatan = user_jabatan.id_jab WHERE user_jabatan.nama_jabatan = 'ICT' GROUP BY MONTH(arsip_sm.created)";
-        // $sql = "SELECT arsip_sm.created,COUNT(*) as jumlah FROM arsip_sm INNER JOIN user ON arsip_sm.id_user = user.id_user INNER JOIN user_jabatan ON user.jabatan = user_jabatan.id_jab WHERE user_jabatan.nama_jabatan = \'KAPOLDA\' GROUP BY MONTH(arsip_sm.created)";
+        $sql = "SELECT COUNT(*) as jumlah FROM arsip_sm INNER JOIN user ON arsip_sm.id_user = user.id_user INNER JOIN user_jabatan ON user.jabatan = user_jabatan.id_jab WHERE arsip_sm.id_user = '$id' AND MONTH(arsip_sm.created) = '$bulan' AND YEAR(arsip_sm.created) = '$tahun' GROUP BY MONTH(arsip_sm.created)";
+        $sql2 = "SELECT COUNT(*) as jumlah FROM arsip_sk INNER JOIN user ON arsip_sk.id_user = user.id_user INNER JOIN user_jabatan ON user.jabatan = user_jabatan.id_jab WHERE arsip_sk.id_user = '$id' AND MONTH(arsip_sk.created) = '$bulan' AND YEAR(arsip_sk.created) = '$tahun' GROUP BY MONTH(arsip_sk.created)";
         $result = mysqli_query($conn, $sql);
+        $result2 = mysqli_query($conn, $sql2);
         $numRow = mysqli_num_rows($result);
+        $numRow2 = mysqli_num_rows($result2);
 
         if ($numRow > 0) {
         // output data of each row
             while($row = $result->fetch_assoc()) {
-
-                // echo "<pre>";print_r($row);echo "</pre>";
-                $date = $row['created'];
-                $bulan = date("F-Y",strtotime($date));
-                $arr = array(
-                    'name' => $bulan,
-                    'data' => array_map('intval',explode(',',$row['jumlah']))
-                );
-                echo $date.' '.$bulan;
-
-                // $series_arr[] = $arr;
-                // echo $arr;
+                $data = $row['jumlah'];
             }
-            // return json_encode($series_arr);
-        // echo $series_arr;
-        echo $numRow;
+            // echo $data;
         } else {
-            echo "0 results";
+            // echo "0 results";
         }
+
+        if ($numRow2 > 0) {
+            // output data of each row
+                while($row2 = $result2->fetch_assoc()) {
+                    $data2 = $row2['jumlah'];
+                }
+                // echo $data2;
+            } else {
+                // echo "0 results";
+            }
+
         $conn->close();
     ?>
             <div class="row">
-
-                <form class="" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
+                <form class="form-sample" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
                     <div class="form-group">
                         <select class="js-example-basic-multiple w-100 form-control" name="tujuan"  data-placeholder="Pilih user..." required><?php
 									$Diteruskan = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
@@ -70,7 +71,7 @@
 					    </select><br>
                     </div>
                             <div class="form-group">
-                                <select class="js-example-basic-multiple w-100 form-control" name="tgl"  data-placeholder="Pilih Tanggal...">
+                                <select class="js-example-basic-multiple w-100 form-control" name="bulan"  data-placeholder="Pilih Tanggal...">
                                     <option value="01">Januari</option>
                                     <option value="02">Februari</option>
                                     <option value="03">Maret</option>
@@ -90,9 +91,9 @@
                                 <select id='year' class="js-example-basic-multiple w-100 form-control" name="tahun"  data-placeholder="Pilih Tanggal...">
 								</select>
                             </div>
-                                <hr>
                                 <button name = 'pilih' type ='submit' class = 'btn btn-primary pull-right'> PILIH </button>
                 </form>
+                <hr>
             </div>
 
 
@@ -126,7 +127,7 @@
           text: ''
       },
       xAxis: {
-        categories: [],
+        categories: [' '],
       },
       yAxis: {
           title: {
@@ -143,9 +144,24 @@
               allowPointSelect: true
           }
       },
-      series: [{
-                data: [2, 5],
-                lineWidth: 5}],
+      series: [
+          {
+                name:['surat masuk'],
+                data: [<?= $data?>],
+                color: "#6163fc"
+          },
+
+          {
+                name:['surat keluar'],
+                data: [<?= $data2?>],
+                color: "#c70039"
+          },
+        //   {
+        //         name:['surat keluar'],
+        //         data: [<?= $suratKeluar?>],
+        //   },
+      ],
+      
       responsive: {
           rules: [{
               condition: {
