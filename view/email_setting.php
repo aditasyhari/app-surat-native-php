@@ -84,8 +84,27 @@
 					<input type="hidden" name="op" value="setting"/>
 					<input type="hidden" name="act" value="email_notif"/>
 					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1">Pilih jenis kop email</label>
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1" for="form-field-mask-1">Pilih jenis kop email</label>
+						<div class="col-sm-6">
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left"  data-content="Pilih kop email yang tersedia" title="Jenis kop email">?</span>
+						<select class="js-example-basic-single w-100" name="GetId"  data-placeholder="Pilih Kop..." onchange='this.form.submit()'>
+						<option value="">Pilih Kop</option><?php
+								$KopEmail = $this->model->selectprepare("email_setting", $field=null, $params=null, $where=null);
+								if($KopEmail->rowCount() >= 1){
+									while($dataKopEmail = $KopEmail->fetch(PDO::FETCH_OBJ)){
+										if(isset($_GET['GetId']) && $_GET['GetId'] == $dataKopEmail->id){?>
+											<option value="<?php echo $dataKopEmail->id;?>" selected><?php echo $dataKopEmail->ket;?></option><?php
+										}else{?>
+											<option value="<?php echo $dataKopEmail->id;?>"><?php echo $dataKopEmail->ket;?></option><?php
+										}
+									}
+								}?>
+						</select>
+
+
+
+
+						<!-- <span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left"  data-content="Pilih kop email yang tersedia" title="Jenis kop email">?</span>
 						<div class="col-sm-5">
 							<select class="form-control" id="form-field-select-3" name="GetId" data-placeholder="Pilih Kop..." onchange='this.form.submit()'>
 								<option value="">Pilih Kop</option><?php
@@ -99,7 +118,9 @@
 										}
 									}
 								}?>
-							</select>
+							</select> -->
+
+
 						</div>
 					</div>
 				</form><?php
@@ -110,38 +131,39 @@
 						$dataKopEmail = $KopEmail->fetch(PDO::FETCH_OBJ);?>
 						<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" name="formku" action="<?php echo $_SESSION['url'];?>">
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Aktifkan notif email*</label>
-								<div class="radio"><?php
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Aktifkan notif email*</label><br>
+
+								<div class="form-check form-check-inline"><?php
 									if($dataKopEmail->status == "Y"){?>
-										<label>
-											<input name="status" type="radio" value="Y" class="ace" required="required" checked />
-											<span class="lbl"> Ya</span>
+										<label class="form-check-label">
+											<input name="status" type="radio" value="Y"  class="form-check-input" required="required" id="optionsRadios" checked />
+											 Ya<!-- <span class="lbl"> Ya</span> -->
 										</label>
-										<label>
-											<input name="status" type="radio" value="N" class="ace" required="required" />
+										<label class="form-check-label">
+											<input name="status" type="radio" value="N" class="form-check-input" required="required" id="optionsRadios" />
 											<span class="lbl"> Tidak</span>
 										</label><?php
 									}else{?>
-										<label>
-											<input name="status" type="radio" value="Y" class="ace" required="required" />
-											<span class="lbl"> Ya</span>
+										<label class="form-check-label">
+											<input name="status" type="radio" value="Y" class="form-check-input" required="required" id="optionsRadios" />
+											Ya <!-- <span class="lbl"> Ya</span> -->
 										</label>
-										<label>
-											<input name="status" type="radio" value="N" class="ace" required="required" checked />
-											<span class="lbl"> Tidak</span>
+										<label class="form-check-label">
+											<input name="status" type="radio" value="N" class="form-check-input" required="required" id="optionsRadios" checked />
+											Tidak <!-- <span class="lbl"> Tidak</span> -->
 										</label><?php
 									}?>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Format notif eMail*</label>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Format notif eMail*</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan deskripsi aplikasi/perusahaan" title="Deskripsi">?</span>
 								<div class="col-sm-8">
 									<textarea class="form-control limited" name="layout"/><?php echo $dataKopEmail->layout;?></textarea>
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Variabel dinamis yang tersedia*</label>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Variabel dinamis yang tersedia*</label>
 								<div class="col-sm-6">
 									<?php echo $VarDinamis;?>
 								</div>
@@ -149,14 +171,14 @@
 							<div class="clearfix form-actions">
 								<div class="col-md-offset-3 col-md-9">
 									<div class="col-sm-2">
-										<button type="submit" class="btn btn-info" type="button">
+										<button type="submit" class="btn btn-primary" type="button">
 											<i class="ace-icon fa fa-check bigger-110"></i>
 											Submit
 										</button>
 									</div>
 									&nbsp; &nbsp; &nbsp;
 									<div class="col-sm-2">
-									<button class="btn" type="reset">
+									<button class="btn btn-behance" type="reset">
 										<i class="ace-icon fa fa-undo bigger-110"></i>
 										Reset
 									</button>

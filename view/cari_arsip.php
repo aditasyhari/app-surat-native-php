@@ -5,52 +5,91 @@
 			<div class="widget-box">
 				<div class="widget-header">
 					<h4 class="widget-title">Report Arsip Digital</h4>
-					<span class="widget-toolbar">
-						<a href="#" data-action="collapse">
-							<i class="ace-icon fa fa-chevron-up"></i>
-						</a>
-						<a href="#" data-action="close">
-							<i class="ace-icon fa fa-times"></i>
-						</a>
-					</span>
 				</div>
-				<div class="widget-body">
-					<div class="widget-main">
+				<div class="card">
+					<div class="card-body">
 						<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
-							<label for="id-date-range-picker-1">Filter Nomor Arsip</label><span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Tentukan nomor arsip." title="Filter Tanggal">?</span>
+							<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="id-date-range-picker-1">Filter Nomor Arsip</label>
+							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Tentukan nomor arsip." title="Filter Tanggal">?</span>
 							<div class="row">
-								<div class="col-xs-8 col-sm-2">
-									<div class="input-group">
+								<div class="col-sm-6">
+									<div class="form-group">
 										<input class="form-control" placeholder="Nomor arsip" type="text" name="noarsip" id="form-field-1" data-placement="bottom" />
 									</div>
 								</div>
+
+								<!-- <div class="form-check form-check-flat form-check-primary mt-0">
+									<label class="form-check-label">
+									<input name="filterNoArsip" type="checkbox" class="form-check-input">
+									</label>
+								</div> -->
+
+
 								<div class="col-xs-1 col-sm-1">
 									<label>
 										<input name="filterNoArsip" type="checkbox" class="ace" value="1"/>
 										<span class="lbl"> </span>
 									</label>
 								</div>
+
+
 							</div>
-							<div class="space-6"></div>
-							<label for="id-date-range-picker-1">Filter Tanggal</label><span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Tentukan range Tanggal yang akan di filter." title="Filter Tanggal">?</span>
+						
+
+
+							
+							<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="id-date-range-picker-1">Filter Tanggal</label>
 							<div class="row">
-								<div class="col-xs-8 col-sm-7">
-									<div class="input-group">
+								<div class="col-sm-6">
+									<div class="form-group">
+									<div class="input-group date datepicker" id="datePickerExample">
+										<input type="text" class="form-control" name="rangetgl"><span class="input-group-addon"><i data-feather="calendar"></i></span>
+									</div>
+														
+								
+									</div>
+<!-- 								
+									<div class="form-group">
 										<span class="input-group-addon">
 											<i class="fa fa-calendar bigger-110"></i>
 										</span>
 										<input class="form-control" type="text" name="rangetgl" id="id-date-range-picker-1" />
-									</div>
+									</div> -->
 								</div>
-								<div class="col-xs-1 col-sm-1">
-									<label>
-										<input name="filterTgl" type="checkbox" class="ace" value="1"/>
-										<span class="lbl"> </span>
+<!-- 
+								<div class="form-check form-check-flat form-check-primary mt-0">
+									<label class="form-check-label">
+									<input name="filterTgl" type="checkbox" class="form-check-input">
 									</label>
-								</div>
+								</div> -->
+										<div class="col-xs-1 col-sm-1">
+											<label>
+												<input name="filterTgl" type="checkbox" class="ace" value="1"/>
+												<span class="lbl"> </span>
+											</label>
+										</div>	
 							</div>
-							<div class="space-6"></div>
-							<label>Filter Klasifikasi</label><span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Pilih klasifikasi arsip." title="Filter Klasifikasi">?</span>
+
+							<div class="row">
+							<div class="col-sm-6">
+							<div class="form-group">
+							<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Filter Klasifikasi</label>
+								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Pilih klasifikasi arsip." title="Filter Klasifikasi">?</span>
+							<select class="js-example-basic-single w-100" name="klasifikasi" require data-placeholder="Pilih Klasifikasi...">
+							<option value="">Pilih klasifikasi...</option>
+									<?php 
+										$klasArsip = $this->model->selectprepare("klasifikasi_arsip", $field=null, $params=null, $where=null, "ORDER BY nama_klasifikasi ASC");
+										while($dataKlasArsip= $klasArsip->fetch(PDO::FETCH_OBJ)){?>
+											<option value="<?php echo $dataKlasArsip->id_klasifikasi;?>"><?php echo $dataKlasArsip->nama_klasifikasi;?></option><?php
+										}?>
+									</select>
+							</select>
+							</div>
+							</div>
+
+
+
+							<!-- <label>Filter Klasifikasi</label><span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Pilih klasifikasi arsip." title="Filter Klasifikasi">?</span>
 							<div class="row">
 								<div class="col-xs-2 col-sm-2">
 									<select class="form-control" id="form-field-select-1" name="klasifikasi" data-placeholder="Pilih Klasifikasi...">
@@ -67,12 +106,15 @@
 										<span class="lbl"> </span>
 									</label>
 								</div>
+							</div> -->
 							</div>
+
+
 							<div class="space-6"></div>
 							<div class="row">
 								<div class="col-xs-8 col-sm-2">
 									<div class="input-group">
-										<button type="submit" class="btn btn-info" type="button">
+										<button type="submit" class="btn btn-primary" type="button">
 											<i class="ace-icon fa fa-check bigger-110"></i>
 											Submit
 										</button>
@@ -88,7 +130,7 @@
 <?php
 if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-6">
 			<div class="widget-box">
 				<div class="widget-body">
 					<div class="widget-main"><?php

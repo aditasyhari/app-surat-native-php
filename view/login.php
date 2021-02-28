@@ -27,207 +27,153 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 }
 //session_destroy();?>
+
 <!DOCTYPE html>
-<html lang="en">
+	<html lang="en">
+
 	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<meta charset="utf-8" />
-		<title>E-Office | Login</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<meta name="description" content="User login page" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<title>E - Office | Aplikasi Surat</title>
 
-		<!-- bootstrap & fontawesome -->
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+		<!-- Favicon  -->
+		<!-- <link rel="icon" href="img/core-img/favicon.ico"> -->
+
+		<!-- plugin css -->
+		<link href="assets/assets/fonts/feather-font/css/iconfont.css" rel="stylesheet" />
+		<link href="assets/assets/plugins/flag-icon-css/css/flag-icon.min.css" rel="stylesheet" />
+		<link href="assets/assets/plugins/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
 		<link rel="stylesheet" href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+		<link href="assets/assets/plugins/dropify/css/dropify.min.css" rel="stylesheet" />
+		<link href="assets/assets/plugins/select2/select2.min.css" rel="stylesheet" />
+		<link href="assets/assets/plugins/datatables-net/dataTables.bootstrap4.css" rel="stylesheet" />
+		<link rel="stylesheet" href="assets/assets/fullcalendar/fullcalendar.min.css" />
+		<!-- end plugin css -->
 
-		<!-- text fonts -->
-		<link rel="stylesheet" href="assets/css/fonts.googleapis.com.css" />
-
-		<!-- ace styles -->
-		<link rel="stylesheet" href="assets/css/ace.min.css" />
-
-		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+		<!-- common css -->
+		<link href="assets/css/app.css" rel="stylesheet" />
+		<!-- end common css -->
 
 	</head>
 
-	<body class="login-layout light-login">
-		<div class="main-container">
-			<div class="main-content">
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-						<div class="login-container">
-							<div class="center">
-								<h1>
-									<!-- <i class="ace-icon fa fa-linux black"></i> -->
-									<span class="red">E - </span>
-									<span class="brown" id="id-text2">Office</span>
-								</h1>
-								<h4 class="blue" id="id-company-text">Aplikasi Surat &copy; <?php echo date('Y'); ?></h4>
-							</div>
+	
 
-							<div class="space-6"></div>
+	<body>
 
-							<div class="position-relative">
-								<div id="login-box" class="login-box visible widget-box no-border">
-									<div class="widget-body">
-									
-										<div class="widget-main">
-											<h4 class="header blue lighter bigger">
-												<i class="ace-icon fa fa-coffee green"></i>
-												Masukkan account login Anda
-											</h4>
+		<script src="assets/assets/js/spinner.js"></script>
 
-											<div class="space-6"></div>
-											<form class="form-login" method="POST" autocomplete="off" action="<?php echo $_SESSION['url'];?>">
-												<fieldset>
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="text" name="username" class="form-control" placeholder="Username" />
-															<i class="ace-icon fa fa-user"></i>
-														</span>
-													</label>
-
-													<label class="block clearfix">
-														<span class="block input-icon input-icon-right">
-															<input type="password" name="password" class="form-control" placeholder="Password" />
-															<i class="ace-icon fa fa-lock"></i>
-														</span>
-													</label>
-
-													<div class="space"></div>
-
-													<div class="clearfix">
-														
-														<!-- <label class="inline">
-															<input type="checkbox" class="ace" />
-															<span class="lbl"> Remember Me</span>
-														</label> -->
-
-														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
-															<i class="ace-icon fa fa-key"></i>
-															<span class="bigger-110">Login</span>
-														</button>
-														
-													</div>
-
-													<div class="space-4"></div>
-												</fieldset>
-											</form>
-											<!--
-											<div class="social-or-login center">
-												<span class="bigger-110">Or Login Using</span>
-											</div>
-
-											<div class="space-6"></div>
-
-											<div class="social-login center">
-												<a class="btn btn-primary">
-													<i class="ace-icon fa fa-facebook"></i>
-												</a>
-
-												<a class="btn btn-info">
-													<i class="ace-icon fa fa-twitter"></i>
-												</a>
-
-												<a class="btn btn-danger">
-													<i class="ace-icon fa fa-google-plus"></i>
-												</a>
-											</div>-->
-										</div><!-- /.widget-main -->
-										
-										<div class="toolbar clearfix">
-											<div>
-												<a href="#" data-target="#forgot-box" class="forgot-password-link">
-													<!--<i class="ace-icon fa fa-arrow-left"></i>
-													I forgot my password-->
-												</a>
-											</div>
-											<div>
-												<a href="./tracking" class="user-signup-link">
-													Tracking Surat
-													<i class="ace-icon fa fa-arrow-right"></i>
-												</a>
-											</div>
-										</div>
-									</div><!-- /.widget-body -->
-								</div><!-- /.login-box -->
-								<p><center>
-									&nbsp;
-									<a id="btn-login-dark" href="#">Dark</a>
-									&nbsp;
-									<span class="blue">/</span>
-									&nbsp;
-									<a id="btn-login-blur" href="#">Blur</a>
-									&nbsp;
-									<span class="blue">/</span>
-									&nbsp;
-									<a id="btn-login-light" href="#">Light</a>
-									&nbsp; &nbsp; &nbsp;
-									</center>
-								</p>
-							</div><!-- /.position-relative -->
-
-							
+		<div class="main-wrapper" id="app">
+		<div class="page-wrapper full-page">
+			<div class="page-content d-flex align-items-center justify-content-center">
+				<div class="row w-100 mx-0 auth-page">
+				<div class="col-md-8 col-xl-6 mx-auto">
+					<div class="card">
+					<div class="row">
+						<div class="col-md-4 pr-md-0">
+						<div class="auth-left-wrapper" style="background-image: url('https://via.placeholder.com/219x452')">
 						</div>
-					</div><!-- /.col -->
-				</div><!-- /.row -->
-			</div><!-- /.main-content -->
-		</div><!-- /.main-container -->
+						</div>
+						<div class="col-md-8 pl-md-0">
+						<div class="auth-form-wrapper px-4 py-5">
+							<a href="#" class="noble-ui-logo d-block mb-2"><span>E</span>-OFFICE <?php echo date('Y'); ?></a>
+							<h5 class="text-muted font-weight-normal mb-4">Selamat Datang!.. Silahkan Log in untuk Akun Anda.</h5>
+							<form class="forms-sample" method="POST" autocomplete="off" action ="<?php echo $_SESSION['url'];?>">
+							<div class="form-group">
+								<label for="Username">Username</label>
+								<input type="text" name="username" class="form-control" placeholder="Username">
+							</div>
+							<div class="form-group">
+								<label for="exampleInputPassword1">Password</label>
+								<input type="password" name="password" class="form-control" placeholder="Password"">
+							</div>
+							<div class="mt-3">
+								<button type="submit" class="btn btn-primary mr-2 mb-2 mb-md-0">Login</button>
+								<a href="./tracking" class="btn btn-outline-primary btn-icon-text mb-2 mb-md-0">
+								<i class="btn-icon-prepend" data-feather="truck"></i>
+								Tracking
+								</a>
+							</div>
+							</form>
+						</div>
+						</div>
+					</div>
+					</div>
+				</div>
+				</div>
 
-		<!-- basic scripts -->
+				</div>
+				</div>
+		</div>
 
-		<!--[if !IE]> -->
-		<script src="assets/js/jquery-2.1.4.min.js"></script>
 
-		<!-- <![endif]-->
 
-		<!--[if IE]>
-<script src="assets/js/jquery-1.11.3.min.js"></script>
-<![endif]-->
-		<script type="text/javascript">
-			if('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
-		</script>
+		<!-- base js -->
+		<script src="assets/js/app.js"></script>
+		<script src="assets/assets/plugins/feather-icons/feather.min.js"></script>
+		<script src="assets/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+		
 
-		<!-- inline scripts related to this page -->
-		<script type="text/javascript">
-			jQuery(function($) {
-			 $(document).on('click', '.toolbar a[data-target]', function(e) {
-				e.preventDefault();
-				var target = $(this).data('target');
-				$('.widget-box.visible').removeClass('visible');//hide others
-				$(target).addClass('visible');//show target
-			 });
-			});
-			
-			
-			
-			//you don't need this, just used for changing background
-			jQuery(function($) {
-			 $('#btn-login-dark').on('click', function(e) {
-				$('body').attr('class', 'login-layout');
-				$('#id-text2').attr('class', 'white');
-				$('#id-company-text').attr('class', 'blue');
-				
-				e.preventDefault();
-			 });
-			 $('#btn-login-light').on('click', function(e) {
-				$('body').attr('class', 'login-layout light-login');
-				$('#id-text2').attr('class', 'grey');
-				$('#id-company-text').attr('class', 'blue');
-				
-				e.preventDefault();
-			 });
-			 $('#btn-login-blur').on('click', function(e) {
-				$('body').attr('class', 'login-layout blur-login');
-				$('#id-text2').attr('class', 'white');
-				$('#id-company-text').attr('class', 'light-blue');
-				
-				e.preventDefault();
-			 });
-			 
-			});
-		</script>
+
+		<!-- plugin script -->
+		<script src="assets/assets/plugins/chartjs/Chart.min.js"></script>
+		<script src="assets/assets/plugins/jquery.flot/jquery.flot.js"></script>
+		<script src="assets/assets/plugins/jquery.flot/jquery.flot.resize.js"></script>
+		<script src="assets/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+		<script src="assets/assets/plugins/apexcharts/apexcharts.min.js"></script>
+		<script src="assets/assets/plugins/progressbar-js/progressbar.min.js"></script>
+		<script src="assets/assets/plugins/dropify/js/dropify.min.js"></script>
+		<script src="assets/assets/js/dropify.js"></script>
+		<script src="assets/assets/js/dashboard.js"></script>
+		<script src="assets/assets/js/datepicker.js"></script>
+		<script src="assets/assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+		<script src="assets/assets/js/datepicker.js"></script>
+ 		<script src="assets/assets/js/timepicker.js"></script>
+		<script src="assets/assets/plugins/select2/select2.min.js"></script>
+		<script src="assets/assets/js/select2.js"></script>
+		<script src="assets/assets/plugins/datatables-net/jquery.dataTables.js"></script>
+  		<script src="assets/assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js"></script>
+		<script src="assets/assets/js/data-table.js"></script>
+		<script src="assets/assets/fullcalendar/lib/jquery.min.js"></script>
+		<script	src="assets/assets/fullcalendar/lib/moment.min.js"></script>
+		<script src="assets/assets/fullcalendar/fullcalendar.min.js"></script>
+
+
+		
+		<!-- end plugin script -->
+
+		<!-- common js -->
+		<script src="assets/assets/js/template.js"></script>
+		<!-- end common js -->
+
 	</body>
-</html><?php
-//}?>
+
+	</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

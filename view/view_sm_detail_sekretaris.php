@@ -26,35 +26,37 @@ if($sm->rowCount() >= 1){
 	}
 	$params = array(':id_sm' => $data_sm->id_sm);
 	$cekDisposisi = $this->model->selectprepare("memo a join user b on a.id_user=b.id_user", $field=null, $params, "a.id_sm=:id_sm", "ORDER BY a.tgl ASC");?>
-	<div class="widget-box">
-		<div class="message-header clearfix">
+	<div class="card">
+		<div class="card-body">
 			<div class="pull-left" style="padding:0 9px;">
-				<span class="blue bigger-125">
-					<?php echo $data_sm->perihal;?>
-				</span>
 				<div class="space-4"></div>
-				<img class="middle" alt="John's Avatar" src="assets/images/avatars/<?php echo $data_sm->picture;?>" width="32" />
-				<a href="#" class="sender"><?php echo $data_sm->nama;?></a>
-				<i class="ace-icon fa fa-clock-o bigger-110 orange middle"></i>
-				<span class="time grey"><?php echo tgl_indo($data_sm->tgl_terima);?></span>
+				<div class="card">
+					<div class="card-body">
+					<img class="profile-pic rounded" alt="John's Avatar" src="assets/images/avatars/<?php echo $data_sm->picture;?>" width="32" />
+						<a href="#" class="sender"><?php echo $data_sm->nama;?></a>
+						<i class="ace-icon fa fa-clock-o bigger-110 orange middle"></i>
+						<span class="time grey"><?php echo tgl_indo($data_sm->tgl_terima);?></span>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="hr hr-double"></div>
-		<div class="message-body">
-				Tgl terima/No agenda: <br/><b><?php echo tgl_indo($data_sm->tgl_terima);?> | <?php echo $data_sm->custom_noagenda;?></b>
+		<div class="card-body">		
+			Perihal &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp 	: <b><span class="blue bigger-125"><?php echo $data_sm->perihal;?></span></b><br>
+
+				Tgl terima/No agenda &nbsp &nbsp &nbsp &nbsp &nbsp : <b> <?php echo tgl_indo($data_sm->tgl_terima);?> | <?php echo $data_sm->custom_noagenda;?></b>
 			<p>
 			</p>
 			<p>
-				Dari: <br/><b><?php echo $data_sm->pengirim;?></b>
+				Dari &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp : <b><?php echo $data_sm->pengirim;?></b>
 			</p>
 			<p>
-				Tgl/No surat: <br/><b><?php echo tgl_indo($data_sm->tgl_surat);?> | <?php echo $data_sm->no_sm;?></b>
+				Tgl/No surat &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp : <b><?php echo tgl_indo($data_sm->tgl_surat);?> | <?php echo $data_sm->no_sm;?></b>
 			</p>
 			<p>
-				Perihal: <br/><b><?php echo $data_sm->perihal;?></b>
+				Perihal &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp: <b><?php echo $data_sm->perihal;?></b>
 			</p>
 			<p>
-				Keterangan: <br/><b><?php echo $data_sm->ket;?></b>
+				Keterangan&nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp : <b><?php echo $data_sm->ket;?></b>
 			</p><?php
 			$params = array(':id_sm' => $data_sm->id_sm);
 			$cek_memo = $this->model->selectprepare("memo a inner join bagian b on a.disposisi=b.id_bag", $field=null, $params, "a.id_sm=:id_sm");
@@ -67,23 +69,23 @@ if($sm->rowCount() >= 1){
 			
 			<hr/>
 			<p>
-				Bukti Terima Surat:<br/>
+				Bukti Terima Surat&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :
 				<span class="label label-xs label-primary label-white middle">
-					<a href="./index.php?op=smprint&smid=<?php echo $data_sm->id_sm;?>" target="_blank"><b>Lihat</b></a>
+					<a class="btn btn-primary" href="./index.php?op=smprint&smid=<?php echo $data_sm->id_sm;?>"target="_blank" ><b>Lihat</b> <i data-feather="eye"></i></a>
 				</span>
 				<span class="label label-xs label-danger label-white middle">
-					<a href="./index.php?op=smprint&smid=<?php echo $data_sm->id_sm;?>&act=pdf" target="_blank"><b>Cetak</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
+					<a class="btn btn-info" href="./index.php?op=smprint&smid=<?php echo $data_sm->id_sm;?>&act=pdf" target="_blank"><b>Cetak</b> <i data-feather="printer"></i></a>
 				</span>
-			</p>
+			</p><br>
 			<p>
-				Detail Surat:<br/>
+				Detail Surat &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :
 				<span class="label label-xs label-primary label-white middle">
-					<a href="./index.php?op=memoprint&memoid=<?php echo $data_sm->id_sm;?>" target="_blank"><b>Lihat</b></a>
+					<a class="btn btn-primary" href="./index.php?op=memoprint&memoid=<?php echo $data_sm->id_sm;?>" target="_blank"><b>Lihat</b> <i data-feather="eye"></i></a>
 				</span>
 				<span class="label label-xs label-danger label-white middle">
-					<a href="./index.php?op=memoprint&memoid=<?php echo $data_sm->id_sm;?>&act=pdf" target="_blank"><b>Cetak</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
+					<a class="btn btn-info"  href="./index.php?op=memoprint&memoid=<?php echo $data_sm->id_sm;?>&act=pdf" target="_blank"><b>Cetak</b><i data-feather="printer"></i></a>
 				</span>
-			</p><?php
+			</p> <br><?php
 			$params = array(':id_sm' => $data_sm->id_sm);
 			$StatSurat = $this->model->selectprepare("status_surat a join user b on a.id_user=b.id_user", $field=null, $params, "a.id_sm=:id_sm", "ORDER BY a.id_status ASC");
 			if($StatSurat->rowCount() >= 1){?>
@@ -171,20 +173,21 @@ if($sm->rowCount() >= 1){
 					</table>
 				</p><?php
 			}?>
-			<ul class="pager"><?php
+			<span class="row justify-content-center"><?php
 				if($data_sm->file != ''){?>
-				<li class="previous">
-					<a href="./berkas/<?php echo $data_sm->file;?>" target="_blank" class="btn btn-primary">Lihat Surat<i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
-				</li><?php
+				
+					<a href="./berkas/<?php echo $data_sm->file;?>" target="_blank" class="btn btn-primary">Lihat Surat <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				<?php
 				}
 				if($HakAkses->sm == "W"){?>
-				<li class="next">
-					<a href="./index.php?op=add_sm&smid=<?php echo $data_sm->id_sm;?>" class="btn btn-danger">Edit Surat<i class="ace-icon fa fa-pencil align-top bigger-125 icon-on-right"></i></a>
-				</li><?php
+			
+					<a href="./index.php?op=add_sm&smid=<?php echo $data_sm->id_sm;?>" class="btn btn-danger">Edit Surat <i class="ace-icon fa fa-pencil align-top bigger-125 icon-on-right"></i></a>
+				<?php
 				}?>
-			</ul>
+			</span>
 		</div>
-	</div><?php
+	</div>
+	<?php
 }else{?>
 	<div class="alert alert-danger">
 		<button type="button" class="close" data-dismiss="alert">
@@ -197,5 +200,7 @@ if($sm->rowCount() >= 1){
 		<p>
 			<a href="./index.php?op=sm"><button class="btn btn-minier btn-danger">Kembali</button></a>
 		</p>
-	</div><?php
+	</div
+	
+	><?php
 }?>

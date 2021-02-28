@@ -128,39 +128,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	<div class="widget-box">
 		<div class="widget-header">
 			<h4 class="widget-title"><?php echo $title;?></h4>
-			<div class="widget-toolbar">
-				<a href="#" data-action="collapse">
-					<i class="ace-icon fa fa-chevron-up"></i>
-				</a>
-				<a href="#" data-action="close">
-					<i class="ace-icon fa fa-times"></i>
-				</a>
-			</div>
 		</div>
-		<div class="widget-body">
-			<div class="widget-main">
+		
+		<!-- <div class="row">
+		<div class="col-lg-6 grid-margin stretch-card">
+		<div class="card">
+		</div>
+		</div>
+		</div> -->
+		
+		<div class="card">
+			<div class="card-body">
 				<form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Nomor Arsip *</label>
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nomor Arsip *</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Isi dengan nomor arsip." title="Nomor Arsip">?</span>
-						<div class="col-sm-2">
+						<div class="col-sm-6">
 							<input class="form-control" placeholder="Nomor arsip" type="text" name="no_arsip" <?php if(isset($noArsip)){ echo $noArsip; }?> id="form-field-mask-1" required disabled />
 							<input type="hidden" name="no_arsip" value="<?php echo $noArsipShow;?>"/>
 						</div>
 					</div>
-					<div class="space-4"></div>
+					
 					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Tanggal Surat *</label>
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase " for="form-field-mask-1"> Tanggal Surat *</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih tanggal arsip." title="Tanggal Arsip">?</span>
-						<div class="col-sm-2">
-							<input class="form-control date-picker" id="id-date-picker-1" data-date-format="dd-mm-yyyy" placeholder="Tanggal arsip" type="text" name="tgl_arsip" <?php if(isset($tgl_arsip)){ echo $tgl_arsip; }?> id="form-field-mask-1" required />
+						<div class="col-sm-6">
+							<input class="form-control  date datepicker" id="datePickerExample" data-date-format="dd/mm/yyyy" placeholder="Tanggal arsip" type="text" name="tgl_arsip" <?php if(isset($tgl_arsip)){ echo $tgl_arsip; }?>  required />
 						</div>
 					</div>
-					<div class="space-4"></div>
+
+
 					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Tingkat Keamanan *</label>
+					<div class="col-sm-6">
+					<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tingkat Keamanan *</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih tingkat keamanan arsip." title="Tingkat keamanan">?</span>
-						<div class="col-sm-2">
+					<select class="js-example-basic-single w-100" name="keamanan" require>
+								<?php
+									$Arr_keamanan = array("Biasa/Terbuka", "Terbatas", "Rahasia", "Sangat Rahasia");
+									foreach($Arr_keamanan as $tingkat){
+										if(isset($keamanan) AND $keamanan == $tingkat){?>
+											<option value="<?php echo $tingkat;?>" selected><?php echo $tingkat;?></option><?php
+										}else{?>
+											<option value="<?php echo $tingkat;?>"><?php echo $tingkat;?></option><?php
+										}
+								}?>
+					</select>
+					</div>
+      			 	</div>
+
+
+					<!-- <div class="form-group">
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tingkat Keamanan *</label>
+						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih tingkat keamanan arsip." title="Tingkat keamanan">?</span>
+						<div class="col-sm-6">
 							<select class="form-control" id="form-field-select-1" name="keamanan" required><?php
 								$Arr_keamanan = array("Biasa/Terbuka", "Terbatas", "Rahasia", "Sangat Rahasia");
 								foreach($Arr_keamanan as $tingkat){
@@ -172,12 +192,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								}?>
 							</select>
 						</div>
-					</div>
-					<div class="space-4"></div>
+					</div> -->
+
+
 					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1">Klasifikasi File *</label>
+					<div class="col-sm-6">
+					<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Klasifikasi File *</label>
+					<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih klasifikasi arsip." title="Klasifikasi">?</span>
+					<select class="js-example-basic-single w-100" name="id_klasifikasi" require>
+					<option value="">Pilih Klasifikasi</option>
+					<?php
+								$KlasArsip= $this->model->selectprepare("klasifikasi_arsip", $field=null, $params=null, $where=null, "ORDER BY nama_klasifikasi ASC");
+								if($KlasArsip->rowCount() >= 1){
+									while($dataKlasArsip = $KlasArsip->fetch(PDO::FETCH_OBJ)){
+										if(isset($id_klasifikasi) && $id_klasifikasi == $dataKlasArsip->id_klasifikasi){?>
+											<option value="<?php echo $dataKlasArsip->id_klasifikasi;?>" selected><?php echo $dataKlasArsip->nama_klasifikasi;?></option><?php
+										}else{?>
+											<option value="<?php echo $dataKlasArsip->id_klasifikasi;?>"><?php echo $dataKlasArsip->nama_klasifikasi;?></option><?php
+										}
+									}
+								}else{?>
+									<option value="">Data klasifikasi belum ada</option><?php
+								}?>
+					</select>
+					</div>
+      			 	</div>
+
+
+					
+					<!-- <div class="form-group">
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Klasifikasi File *</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih klasifikasi arsip." title="Klasifikasi">?</span>
-						<div class="col-sm-3">
+						<div class="col-sm-6">
 							<select class="form-control" id="form-field-select-3" name="id_klasifikasi" data-placeholder="Pilih Klasifikasi..." required>
 								<option value="">Pilih Klasifikasi</option><?php
 								$KlasArsip= $this->model->selectprepare("klasifikasi_arsip", $field=null, $params=null, $where=null, "ORDER BY nama_klasifikasi ASC");
@@ -194,26 +240,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								}?>
 							</select>
 						</div>
+					</div> -->
+					
+
+					<div class="col-md-6 stretch-card">
+					<div class="card">
+					<div class="card-body">
+						<h6 class="card-title"><?php echo $ketfile;?></h6>
+						<p class="card-description">Pilih file yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .jpg, .png, .zip, .rarx</p>
+						<input type="file" id="myDropify" class="border" data-allowed-file-extensions="pdf doc docx ppt pptx xls xlsx jpg png zip rarx" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
 					</div>
-					<div class="space-4"></div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> <?php echo $ketfile;?></label>
+					</div>
+ 					</div>
+
+					<!-- <div class="form-group">
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> <?php echo $ketfile;?></label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih file yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .jpg, .png, .zip, .rar" title="File surat keluar">?</span>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<input class="form-control" type="file" name="file_arsip" id="id-input-file-1" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
 						</div>
-					</div>
-					<div class="space-4"></div>
+					</div> -->
+
+
 					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Keterangan</label>
+					<div class="col-lg-6">
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase">Keterangan</label>
+						<textarea id="maxlength-textarea" name ="ket" class="form-control" maxlength="150" rows="8" placeholder="Keterangan"><?php if(isset($ket)){ echo $ket; }?></textarea>
+					</div>
+					</div>
+					
+
+					<!-- <div class="form-group">
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Keterangan</label>
 						<div class="col-sm-6">
 							<textarea class="form-control limited" placeholder="Keterangan" name="ket" id="form-field-9" maxlength="150"><?php if(isset($ket)){ echo $ket; }?></textarea>
 						</div>
-					</div>
+					</div> -->
+
 					<div class="clearfix form-actions">
 						<div class="col-md-offset-3 col-md-9">
-							<div class="col-sm-2">
-								<button type="submit" class="btn btn-info" type="button">
+							<div class="col-sm-6">
+								<button type="submit" class="btn btn-primary" type="button">
 									<i class="ace-icon fa fa-check bigger-110"></i>
 									Submit
 								</button>

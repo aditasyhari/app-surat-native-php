@@ -112,6 +112,24 @@
                     }else{
                         require_once "invalid_akses.php";
                     }
+                // ===============================
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "view_event"){
+                            require_once "view_agenda.php";
+
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "add_event"){
+                            require_once "add_agenda.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "tracking_"){
+                            require_once "tracking_.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "statistik"){
+                            require_once "statistik_surat.php";
+                 }elseif(isset($_GET['op']) AND $_GET['op'] == "statistik_unit"){
+                            require_once "statistik_unit.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "pekanan"){
+                            require_once "libur_pekanan.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "add_pekanan"){
+                            require_once "entry_pekanan.php";
+
+                // ===============================
                 }elseif(isset($_GET['op']) AND $_GET['op'] == "cari_sk"){
                     if($HakAkses->cari_surat_keluar == "Y"){
                         require_once "cari_surat.php";

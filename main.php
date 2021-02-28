@@ -1129,6 +1129,8 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 										}else{
 											require_once "invalid_akses.php";
 										}
+										// ======================
+										// ======================
 									}elseif(isset($_GET['op']) AND $_GET['op'] == "memo"){
 										require_once "view_memo.php";
 									}elseif(isset($_GET['op']) AND $_GET['op'] == "disposisi"){

@@ -77,31 +77,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			<div class="widget-main">
 				<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Kode*</label>
+						<label class="col-sm-6 control-label no-padding-right" for="form-field-mask-1"> Kode*</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi kode klasifikasi." title="Kode klasifikasi">?</span>
-						<div class="col-sm-2">
+						<div class="col-sm-6">
 							<input class="form-control" placeholder="Kode klasifikasi" type="text" name="kode" <?php if(isset($kode)){ echo $kode; }?> id="form-field-mask-1" required/>
 						</div>
 					</div>
-					<div class="space-4"></div>
+					<div class="space-6"></div>
 					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Nama Klasifikasi*</label>
+						<label class="col-sm-6 control-label no-padding-right" for="form-field-mask-1"> Nama Klasifikasi*</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan nama/ket klasifikasi surat" title="Nama Klasifikasi">?</span>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<input class="form-control" placeholder="Nama/ket klasifikasi surat" type="text" name="nama" <?php if(isset($nama)){ echo $nama; }?> id="form-field-mask-1" required/>
 						</div>
 					</div>
 					<div class="clearfix form-actions">
 						<div class="col-md-offset-3 col-md-9">
 							<div class="col-sm-2">
-								<button type="submit" class="btn btn-info" type="button">
+								<button type="submit" class="btn btn-primary" type="button">
 									<i class="ace-icon fa fa-check bigger-110"></i>
 									Submit
 								</button>
 							</div>
 						</div>
 					</div>
-				</form>
+				</form><br>
 			</div>
 		</div>
 	</div>

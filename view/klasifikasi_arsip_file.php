@@ -60,17 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		}
 	}?>
 	<div class="widget-box">
-		<div class="widget-header">
-			<h4 class="widget-title"><?php echo $title;?></h4>
-			<div class="widget-toolbar">
-				<a href="#" data-action="collapse">
-					<i class="ace-icon fa fa-chevron-up"></i>
-				</a>
-				<a href="#" data-action="close">
-					<i class="ace-icon fa fa-times"></i>
-				</a>
-			</div>
-		</div>
 		<div class="widget-body">
 			<div class="widget-main">
 				<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
@@ -84,14 +73,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					<div class="clearfix form-actions">
 						<div class="col-md-offset-3 col-md-9">
 							<div class="col-sm-2">
-								<button type="submit" class="btn btn-info" type="button">
+								<button type="submit" class="btn btn-primary" type="button">
 									<i class="ace-icon fa fa-check bigger-110"></i>
 									Submit
 								</button>
 							</div>
 						</div>
 					</div>
-				</form>
+				</form><br>
 			</div>
 		</div>
 	</div>

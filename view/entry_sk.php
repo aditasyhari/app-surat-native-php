@@ -202,24 +202,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	<div class="widget-box">
 		<div class="widget-header">
 			<h4 class="widget-title"><?php echo $title;?></h4>
-			<div class="widget-toolbar">
-				<a href="#" data-action="collapse">
-					<i class="ace-icon fa fa-chevron-up"></i>
-				</a>
-				<a href="#" data-action="close">
-					<i class="ace-icon fa fa-times"></i>
-				</a>
-			</div>
 		</div>
-		<div class="widget-body">
-			<div class="widget-main">
+		<div class="card">
+			<div class="card-body">
 				<form class="form-horizontal" role="form" enctype="multipart/form-data" method="GET" name="formku" action="./index.php?op=add_sk">
 					<div class="form-group">
-						<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1">Jenis Naskah *</label>
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Jenis Naskah *</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih klasifikasi arsip." title="Klasifikasi">?</span>
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 							<input type="hidden" name="op" value="add_sk"/>
-							<select class="form-control" id="form-field-select-3" name="id_klasifikasi" data-placeholder="Pilih Klasifikasi..." required onchange="this.form.submit()" <?php if(isset($_GET['skid'])){ echo 'disabled'; } ?>>
+							<select class="js-example-basic-single w-100" id="form-field-select-3" name="id_klasifikasi" data-placeholder="Pilih Klasifikasi..." required onchange="this.form.submit()" <?php if(isset($_GET['skid'])){ echo 'disabled'; } ?>>
 								<option value="">Pilih Klasifikasi</option><?php
 								$KlasArsip= $this->model->selectprepare("klasifikasi_sk", $field=null, $params=null, $where=null, "ORDER BY nama ASC");
 								if($KlasArsip->rowCount() >= 1){
@@ -241,9 +233,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				if((isset($_GET['id_klasifikasi']) && $_GET['id_klasifikasi'] != '') OR (isset($_GET['skid'])  && $_GET['skid'] != '')){ ?>
 					<form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 						<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> No. Agenda *</label>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-1"> No. Agenda *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan nomor agenda surat masuk." title="Nomor Agenda">?</span>
-							<div class="col-sm-3"><?php 
+							<div class="col-sm-6"><?php 
 								$params = array(':id' => 1);
 								$cek_noagenda_custom = $this->model->selectprepare("pengaturan", $field=null, $params, "id=:id")->fetch(PDO::FETCH_OBJ);
 								if($cek_noagenda_custom->no_agenda_sm != '' && !isset($data_sk->no_agenda)){
@@ -259,63 +251,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 						</div>
 						<div class="space-4"></div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Nomor Surat *</label>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nomor Surat *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan nomor surat keluar." title="Nomor Surat Keluar">?</span>
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<input class="form-control" placeholder="Nomor surat keluar" type="text" name="nosk" <?php if(isset($nosk)){ echo $nosk; }?> id="form-field-mask-1" required/>
 							</div>
 						</div>
 						<div class="space-4"></div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Tanggal Surat *</label>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tanggal Surat *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan tanggal pada surat keluar. ex. 01-12-2015" title="Tanggal Surat">?</span>
-							<div class="col-sm-3">
-								<input class="form-control date-picker" id="id-date-picker-1" data-date-format="dd-mm-yyyy" placeholder="Tanggal surat keluar" type="text" name="tglsk" <?php if(isset($tgl_surat)){ echo $tgl_surat; }?> id="form-field-mask-1" required/>
+							<div class="col-sm-6">
+								<input class="form-control date datepicker" id ="datePickerExample"  placeholder="Tanggal surat keluar" type="text" name="tglsk" <?php if(isset($tgl_surat)){ echo $tgl_surat; }?> id="form-field-mask-1" required/>
 							</div>
 						</div>
 						<div class="space-4"></div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Pengolah *</label>
+						<div class="form-group"> 
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Pengolah *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan nama/bagian pengolah surat(nama perorangan/bagian)." title="Pengolah Surat">?</span>
-							<div class="col-sm-8">
+							<div class="col-sm-6">
 								<input class="form-control" data-rel="tooltip" placeholder="Nama atau bagian pengolah surat" type="text" name="pengolah" <?php if(isset($pengolah)){ echo $pengolah; }?> title="Di isi dengan nama atau bagian yang mengolah surat(nama perorangan/bagian)." data-placement="bottom" id="form-field-mask-1" required/>
 							</div>
 						</div>
 						<div class="space-4"></div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Tujuan Surat *</label>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tujuan Surat *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan tujuan surat (nama lembaga atau perorangan)." title="Tujuan Surat">?</span>
-							<div class="col-sm-8">
+							<div class="col-sm-6">
 								<input class="form-control" placeholder="Nama lembaga / Perorangan" type="text" name="tujuan" <?php if(isset($tujuan_surat)){ echo $tujuan_surat; }?> id="form-field-mask-1" required/>
 							</div>
 						</div>
 						<div class="space-4"></div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Perihal *</label>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Perihal *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai perihal atau subjek surat keluar." title="Perihal">?</span>
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<textarea class="form-control limited" placeholder="Perihal/subjek surat" name="perihal" id="form-field-9" maxlength="150" required><?php if(isset($perihal)){ echo $perihal; }?></textarea>
 							</div>
 						</div>
 						<div class="space-4"></div>
 						<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> konseptor dari </label>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> konseptor dari </label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan keterangan tambahan jika ada." title="Keterangan">?</span>
-							<div class="col-sm-9">
+							<div class="col-sm-6">
 								<textarea class="form-control limited" placeholder="Keterangan tambahan (jika ada)" name="ket" id="form-field-9" maxlength="150"><?php if(isset($ket)){ echo $ket; }?></textarea>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> <?php echo $ketfile;?></label>
+
+
+						<div class="col-md-6 stretch-card">
+						<div class="card">
+						<div class="card-body">
+							<h6 class="card-title"><?php echo $ketfile;?></h6>
+							<p class="card-description">Pilih file yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .jpg, .png, .zip, .rarx</p>
+							<input type="file" name="filesk" id="myDropify" class="border" data-allowed-file-extensions="pdf doc docx ppt pptx xls xlsx jpg png zip rarx" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
+						</div>
+						</div>
+						</div><br>
+
+						<!-- <div class="form-group">
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> <?php echo $ketfile;?></label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih File surat keluar yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .jpg, .png" title="File surat keluar">?</span>
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<input class="form-control" type="file" name="filesk" id="id-input-file-1" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
 							</div>
-						</div>
+						</div> -->
+
+
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
 								<div class="col-sm-2">
-									<button type="submit" class="btn btn-info" type="button">
+									<button type="submit" class="btn btn-primary" type="button">
 										<i class="ace-icon fa fa-check bigger-110"></i>
 										Submit
 									</button>

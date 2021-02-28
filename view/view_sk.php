@@ -50,17 +50,21 @@ if(isset($_GET['skid'])){
 			</div>
 		</div>
 		<!--Modal Preview PDF-->
-		<table id="simple-table" class="table  table-bordered table-hover">
+
+		<div class="card">
+			<div class="card-body">
+				<div class="table-responsive">
+				<table id="dataTableExample" class="table">
 			<thead>
 				<tr>
-					<th width="50">No</th>
-					<th width="200">No Agenda</th>
-					<th width="150">No Surat</th>
-					<th width="250">Tujuan</th>
-					<th width="250">Perihal</th>
-					<th width="120">Klasifikasi</th>
-					<th width="100">Tgl Surat</th>
-					<th width="100">Aksi</th>
+					<th >No</th>
+					<th>No Agenda</th>
+					<th>No Surat</th>
+					<th>Tujuan</th>
+					<th>Perihal</th>
+					<th>Klasifikasi</th>
+					<th>Tgl Surat</th>
+					<th>Aksi</th>
 				</tr>
 			</thead>
 			<tbody><?php
@@ -85,13 +89,13 @@ if(isset($_GET['skid'])){
 										<button class="btn btn-minier btn-info">
 											<i class="ace-icon fa fa-globe bigger-100"></i>
 										</button>
-									</a><?php
+									</a>&nbsp &nbsp<?php
 								}?>
 								<a href="./index.php?op=add_sk&skid=<?php echo $object->id_sk;?>">								
 									<button class="btn btn-minier btn-info">
 										<i class="ace-icon fa fa-pencil bigger-100"></i>
 									</button>
-								</a>
+								</a>&nbsp &nbsp
 								<a href="./index.php?op=sk&skid=<?php echo $object->id_sk;?>&act=del" onclick="return confirm('Anda yakin akan menghapus data ini??')">
 									<button class="btn btn-minier btn-danger">
 										<i class="ace-icon fa fa-trash-o bigger-110"></i>
@@ -103,7 +107,12 @@ if(isset($_GET['skid'])){
 				$no++;
 				}?>
 			</tbody>
-		</table><?php
+		</table>
+				</div>
+			</div>
+		</div>
+	
+		<?php
 	}else{?>
 		<div class="alert alert-danger">
 			<button type="button" class="close" data-dismiss="alert">

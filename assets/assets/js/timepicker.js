@@ -5,4 +5,7 @@ $(function() {
   $('#datetimepickerExample').datetimepicker({
     format: 'LT'
   });
+  $('#datetimepickerExample2').datetimepicker({
+    format: 'LT'
+  });
 });

@@ -11,13 +11,12 @@ if($sm->rowCount() >= 1){
 	while($data_bagian= $bagian->fetch(PDO::FETCH_OBJ)){
 		$dump_bagian[]=$data_bagian;
 	}?>
-	<div class="widget-box">
+	<div class="card">
 		<div class="message-header clearfix">
 			<div class="pull-left" style="padding:0 9px;">
 				<span class="blue bigger-125">
 					<?php echo $data_sm->perihal;?>
 				</span>
-				<div class="space-4"></div>
 				<img class="middle" alt="John's Avatar" src="assets/images/avatars/<?php echo $data_sm->picture;?>" width="32" />
 				<a href="#" class="sender"><?php echo $data_sm->nama;?></a>
 				<i class="ace-icon fa fa-clock-o bigger-110 orange middle"></i>
@@ -249,5 +248,11 @@ if($sm->rowCount() >= 1){
 		<p>
 			<a href="./index.php?op=sm"><button class="btn btn-minier btn-danger">Kembali</button></a>
 		</p>
-	</div><?php
+	</div>
+	
+	
+	
+	
+	
+	<?php
 }?>

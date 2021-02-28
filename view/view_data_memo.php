@@ -39,6 +39,8 @@
 		while($DataCekInfo = $CekInfo->fetch(PDO::FETCH_OBJ)){
 			$dump_info[]=$DataCekInfo;
 		}?>
+
+		<div class="table-responsive">
 		<table class="table tile">
 			<thead>
 				<tr>
@@ -86,7 +88,12 @@
 				$no++;
 				}?>
 			</tbody>
-		</table><?php
+		</table>
+		</div>
+	
+		
+		
+		<?php
 		/* PAGINATION */
 		//hitung jumlah data
 		if(isset($_GET['keyword'])){

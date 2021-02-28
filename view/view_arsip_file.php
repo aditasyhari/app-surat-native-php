@@ -42,6 +42,7 @@ if($ArsipFile->rowCount() >= 1){
 	while($dataArsipFile = $ArsipFile->fetch(PDO::FETCH_OBJ)){
 		$dump_ArsipFile[]=$dataArsipFile;
 	}?>
+	<div class="table-responsive">
 	<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
 		<thead>
 			<tr>
@@ -73,7 +74,7 @@ if($ArsipFile->rowCount() >= 1){
 					<td><?php echo $tgl_arsip;?></td>
 					<td><?php echo $tglFile;?></td>
 					<td><?php echo $object->ket;?></td>
-					<td><a href="./berkas/<?php echo $object->file_arsip;?>" target="_blank"><button class="btn btn-minier btn-success">view</button></a><?php
+					<td><a href="./berkas/<?php echo $object->file_arsip;?>" target="_blank"><button class="btn btn-behance btn-success">view</button></a><?php
 					if($HakAkses->arsip == "W"){?>
 						<td><center>
 							<div class="hidden-sm hidden-xs btn-group">
@@ -94,7 +95,10 @@ if($ArsipFile->rowCount() >= 1){
 			$no++;
 			}?>
 		</tbody>
-	</table><?php
+	</table>
+	</div>
+
+	<?php
 }else{?>
 	<div class="alert alert-danger">
 		<button type="button" class="close" data-dismiss="alert">

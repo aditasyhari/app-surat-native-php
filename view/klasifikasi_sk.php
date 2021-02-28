@@ -94,14 +94,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					<div class="clearfix form-actions">
 						<div class="col-md-offset-3 col-md-9">
 							<div class="col-sm-2">
-								<button type="submit" class="btn btn-info" type="button">
+								<button type="submit" class="btn btn-primary" type="button">
 									<i class="ace-icon fa fa-check bigger-110"></i>
 									Submit
 								</button>
 							</div>
 						</div>
 					</div>
-				</form>
+				</form> <br>
 			</div>
 		</div>
 	</div>

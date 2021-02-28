@@ -193,26 +193,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				</a>
 			</div>
 		</div>
-		<div class="widget-body">
+		<div class="card-body">
 			<form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
-				<div class="space-4"></div>
-				<div class="space-4"></div>
 				<div class="form-group">
-					<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Judul Correct *</label>
-					<div class="col-sm-9">
+					<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Judul Correct *</label>
+					<div class="col-sm-6">
 						<input class="form-control" data-rel="tooltip" placeholder="Perihal / judul memo" type="text" name="judul" <?php if(isset($judul)){ echo $judul; }?> data-placement="bottom" id="form-field-mask-1" required/>
 					</div>
-				</div>
-				<div class="space-4"></div>				
+				</div>		
+
 				<div class="form-group">
-					<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Isi Correct *</label>
+				<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Isi Correct *</label>
+					<div class="col-sm-6">
+						<textarea id="maxlength-textarea" name ="ket" class="form-control" maxlength="150" rows="8" placeholder="Isi memo" name="isi"><?php if(isset($isi)){ echo $isi; }?></textarea>
+					</div>
+					
+					
+					<!-- <label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Isi Correct *</label>
 					<div class="col-sm-9">
 						<textarea class="form-control limited" placeholder="Isi memo" name="isi" id="form-field-9" required><?php if(isset($isi)){ echo $isi; }?></textarea>
-					</div>
+					</div> -->
 				</div>
-				<div class="space-4"></div>
+
 				<div class="form-group">
-					<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Tujuan Correct *</label>
+				<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tujuan Correct *</label>
+					<div class="col-sm-6">
+					<select class="js-example-basic-single w-100" multiple name="tujuan[]" data-placeholder="Pilih Tujuan...">
+					<option value="">Pilih Tujuan</option>
+					<?php
+							$CekUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
+							if($CekUser->rowCount() >= 1){
+								while($DataCekUser = $CekUser->fetch(PDO::FETCH_OBJ)){
+									$DiteruskanSurat = $DataCekUser->nama ." (".$DataCekUser->nama_jabatan .")";
+									if(false !== array_search($DataCekUser->id_user, $CekTujuan)){?>
+										<option value="<?php echo $DataCekUser->id_user;?>" selected><?php echo $DiteruskanSurat;?></option><?php
+									}else{?>
+										<option value="<?php echo $DataCekUser->id_user;?>"><?php echo $DiteruskanSurat;?></option><?php
+									}
+								}								
+							}else{?>
+								<option value="">Not Found</option><?php
+							}?>
+					</select>
+					</div>
+
+
+
+
+
+
+					<!-- <label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Tujuan Correct *</label>
 					<div class="col-sm-7">
 						<select class="form-control" id="form-field-select-3" multiple name="tujuan[]" data-placeholder="Pilih user..." required ><?php
 							$CekUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
@@ -229,14 +259,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								<option value="">Not Found</option><?php
 							}?>
 						</select>
-					</div>
+					</div> -->
+
+
 				</div>
+
 				<div class="form-group">
-					<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1">File pendukung</label>
+				<h6 class="card-title">File Pendukung</h6>
+				<p class="card-description">Pilih File Pendukung</p>
+				<div class="col-md-6 stretch-card">
+					<div class="card">
+					<div class="card-body">
+						<input name="file_info" type="file" id="myDropify" data-allowed-file-extensions="pdf doc docx ppt pptx xls xlsx jpg png zip rarx" class="border"/>
+					</div>
+					</div>
+ 					</div>
+
+					<!-- <label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1">File pendukung</label>
 					<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih File  memo yang ingin di upload. Caranya klik menu Pilih File." title="File memo">?</span>
 					<div class="col-sm-4">
 						<input class="form-control" type="file" name="file_info" id="id-input-file-1"/>
-					</div>
+					</div> -->
+
+					
 				</div>
 				<div class="space-4"></div>
 				<div class="form-group">

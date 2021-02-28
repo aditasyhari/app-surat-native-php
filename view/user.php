@@ -76,24 +76,24 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 				<div class="widget-main">
 					<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 						<div class="form-group">
-							<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Nama Jabatan *</label>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nama Jabatan *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan nama jabatan." title="Nama Level">?</span>
-							<div class="col-sm-5">
+							<div class="col-sm-6">
 								<input class="form-control" placeholder="Nama Jabatan" type="text" name="jabatan" <?php if(isset($valueNamaJab)){ echo $valueNamaJab; }?> id="form-field-mask-1" required />
 							</div>
 						</div>
 						<div class="space-4"></div>
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">
-								<div class="col-sm-2">
-									<button type="submit" class="btn btn-info" type="button">
+								<div class="col-sm-6">
+									<button type="submit" class="btn btn-primary" type="button">
 										<i class="ace-icon fa fa-check bigger-110"></i>
 										Submit
 									</button>
 								</div>
 							</div>
 						</div>
-					</form>
+					</form> <br>
 				</div>
 			</div><?php
 	}
@@ -103,19 +103,72 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 			$dump_jab[]=$DataGetJab;
 		}?>
 		<div class="widget-body">
+
+
+
+
+
 			<div class="widget-main">
 				<a href="./index.php?op=user" title="Data User">
-					<button class="btn btn-white btn-info btn-bold">
+					<button class="btn btn-white btn-dark btn-bold">
 						<i class="ace-icon fa fa-users bigger-120 blue"></i>User
 					</button>
 				</a>
 				<a href="./index.php?op=user&act=jabatan" title="Pengaturan Unit Kerja User">
-					<button class="btn btn-white btn-info btn-bold">
+					<button class="btn btn-white btn-dark btn-bold">
 						<i class="ace-icon fa fa-users bigger-120 blue"></i>Jabatan
 					</button>
-				</a>
-				<div class="space-4"></div>
-				<table id="simple-table" class="table  table-bordered table-hover">
+				</a>	
+
+
+				<div class="row">
+				<div class="col-md-12 grid-margin stretch-card">
+					<div class="card">
+					<div class="card-body">
+						<div class="table-responsive">
+						<table id="dataTableExample" class="table">
+							<thead>
+							<tr>
+							<th width=10>No</th>
+							<th width=150>Nama Jabatan</th>
+							<th width=10>ACT</th>
+							</tr>
+							</thead>
+							<tbody>
+							<?php
+								$no=1;
+								foreach($dump_jab as $key => $object){?>
+									<tr>
+										<td><?php echo $no;?></td>
+										<td><?php echo $object->nama_jabatan;?></td>
+										<td>
+											<div class="hidden-sm hidden-xs btn-group">
+												<a href="./index.php?op=user&act=jabatan&id_jab=<?php echo $object->id_jab;?>">						
+													<button class="btn btn-minier btn-info">
+														<i class="ace-icon fa fa-pencil bigger-100"></i>
+													</button>
+												</a>
+												<a href="./index.php?op=user&act=jabatan&id_jab=<?php echo $object->id_jab;?>&act2=del" onclick="return confirm('Anda yakin akan menghapus data ini??')">
+													<button class="btn btn-minier btn-danger">
+														<i class="ace-icon fa fa-trash-o bigger-110"></i>
+													</button>
+												</a>
+											</div>
+										</td>
+									</tr><?php
+								$no++;
+								}?>
+							</tbody>
+						</table>
+						</div>
+					</div>
+					</div>
+				</div>
+				</div>
+
+
+
+				<!-- <table id="simple-table" class="table  table-bordered table-hover">
 					<thead>
 						<tr>
 							<th width=10>No</th>
@@ -147,7 +200,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 						$no++;
 						}?>
 					</tbody>
-				</table>
+				</table> -->
 			</div>
 		</div>
 		</div><?php
@@ -331,7 +384,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 						<form class="form-horizontal" role="form" name="formku" method="GET">	
 							<input type="hidden" name="op" value="user"/>
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1">Pilih Level User</label>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Pilih Level User</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" title="Level User">?</span>
 								<div class="col-sm-3">
 									<select class="form-control" id="form-field-select-3" name="Getlevel" data-placeholder="Pilih Level..." onchange='this.form.submit()'>
@@ -351,57 +404,57 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 						*/?>
 						<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 							<?php /*<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Level Akses</label>
-								<div class="col-sm-2">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Level Akses</label>
+								<div class="col-sm-6">
 									<input class="form-control" type="text" name="level" value="<?php echo trim($_GET['Getlevel'])?>" id="form-field-mask-1" disabled>
 								</div>
 							</div>*/?>
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> NIK/NIP *</label>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> NIK/NIP *</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan NIK/NIP Pengguna." title="NIK/NIP">?</span>
-								<div class="col-sm-5">
+								<div class="col-sm-6">
 									<input class="form-control" type="hidden" name="level" value="Pegawai">
 									<input class="form-control" placeholder="NIK/NIP" type="number" name="nik" <?php if(isset($nik)){ echo $nik; }?> id="form-field-mask-1" required/>
 								</div>
 							</div>
 							<div class="space-4"></div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Nama Lengkap *</label>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nama Lengkap *</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan Nama Lengkap Pengguna." title="Nama Lengkap">?</span>
-								<div class="col-sm-5">
+								<div class="col-sm-6">
 									<input class="form-control" placeholder="Nama Lengkap" type="text" name="nama" <?php if(isset($nama)){ echo $nama; }?> id="form-field-mask-1" required/>
 								</div>
 							</div>
 							<div class="space-4"></div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Username *</label>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Username *</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left"  data-content="Username untuk login." title="Username">?</span>
-								<div class="col-sm-3">
+								<div class="col-sm-6">
 									<input class="form-control" placeholder="Username" type="text" name="uname" <?php if(isset($uname)){ echo $uname; }?> id="form-field-mask-1" required/>
 								</div>
 							</div>
 							<div class="space-4"></div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> <?php echo $ketPasword;?></label>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> <?php echo $ketPasword;?></label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left"  data-content="Password untuk login" title="Password">?</span>
-								<div class="col-sm-3">
+								<div class="col-sm-6">
 									<input class="form-control" placeholder="Password" type="text" name="upass" id="form-field-mask-1" <?php if(isset($validasifile)){ echo $validasifile; }?>>
 								</div>
 							</div>
 							<div class="space-4"></div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Email</label>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Email</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left"  data-content="Email Pengguna" title="Email">?</span>
-								<div class="col-sm-3">
+								<div class="col-sm-6">
 									<input class="form-control" placeholder="Alamat Email" type="email" name="email" id="form-field-mask-1" <?php if(isset($email)){ echo $email; }?>>
 								</div>
 							</div><?php
 							/*
 							<div class="space-4"></div>
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Hak Akses</label>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Hak Akses</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="penentuan Level/Hak Akses User" title="Hak Akses">?</span>
-								<div class="col-sm-2">
+								<div class="col-sm-6">
 									<select class="form-control" id="form-field-select-3" name="level" data-placeholder="Pilih Level...">
 										<option value="" selected>Pilih Level</option><?php
 										$Getlevel = array("Konseptor", "Pemeriksa", "Admin");
@@ -415,12 +468,39 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 									</select>
 								</div>
 							</div>*/?>
-							<div class="space-4"></div>
+
+
+
+				
+
+
+
 							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Jabatan *</label>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Jabatan *</label>
+							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih Jabatan...." title="Jabatan">?</span>
+							<div class="col-sm-6">
+							<select class="js-example-basic-single w-100" name="jabatan" require>
+									<?php
+										$JabUser= $this->model->selectprepare("user_jabatan", $field=null, $params=null, $where=null, $order=null);
+										if($JabUser->rowCount() >= 1){
+											while($dataJabUser= $JabUser->fetch(PDO::FETCH_OBJ)){
+												if(isset($data_user->jabatan) && $data_user->jabatan == $dataJabUser->id_jab){?>
+													<option value="<?php echo $dataJabUser->id_jab;?>" selected><?php echo $dataJabUser->nama_jabatan;?></option><?php
+												}else{?>
+													<option value="<?php echo $dataJabUser->id_jab;?>"><?php echo $dataJabUser->nama_jabatan;?></option><?php
+												}
+											}
+										}?>
+							</select>
+							</div>
+							</div>
+
+							<!-- <div class="form-group">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Jabatan *</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih Jabatan" title="Jabatan">?</span>
-								<div class="col-sm-4">
-									<select class="form-control" id="form-field-select-3" name="jabatan" data-placeholder="Pilih Jabatan..." required><?php
+								<div class="col-sm-6">
+									<select class="form-control" id="form-field-select-3" name="jabatan" data-placeholder="Pilih Jabatan..." required>
+									<?php
 										$JabUser= $this->model->selectprepare("user_jabatan", $field=null, $params=null, $where=null, $order=null);
 										if($JabUser->rowCount() >= 1){
 											while($dataJabUser= $JabUser->fetch(PDO::FETCH_OBJ)){
@@ -434,9 +514,37 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 									</select>
 								</div>
 							</div>
-							<div class="space-4"></div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Dapat melakukan Disposisi ke</label>
+							 -->
+
+
+
+							 <div class="form-group">
+							 <div class="col-sm-6">
+							 <label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Dapat melakukan Disposisi ke</label>
+								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih Group Level Disposisi" title="Group Level Disposisi">?</span>
+							<select class="js-example-basic-multiple w-100"  name="disposisi[]" id="form-field-select-3" data-placeholder="Pilih user..."  multiple="multiple">
+							<?php
+										$GetUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
+										if($GetUser->rowCount() >= 1){
+											while($dataUser = $GetUser->fetch(PDO::FETCH_OBJ)){
+												$NamaUser = $dataUser->nama ." (".$dataUser->nama_jabatan .")";
+												if(false !== array_search($dataUser->id_user, $cekDisposisi)){?>
+													<option value="<?php echo $dataUser->id_user;?>" selected><?php echo $NamaUser;?></option><?php
+												}else{?>
+													<option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+												}
+											}								
+										}else{?>
+											<option value="">Not Found</option><?php
+										}?>
+							</select>
+							</div>
+							</div>
+
+
+
+							<!-- <div class="form-group">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Dapat melakukan Disposisi ke</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih Group Level Disposisi" title="Group Level Disposisi">?</span>
 								<div class="col-sm-6">
 									<select multiple="" class="chosen-select form-control" name="disposisi[]" id="form-field-select-3" data-placeholder="Pilih user..."><?php
@@ -456,11 +564,15 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 									</select>
 								</div>
 							</div>
+							 -->
 							<hr/>
-							<div class="space-4"></div>
+
+							
+
+
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Arsip Surat Masuk</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Arsip Surat Masuk</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										$ArrAkses1 = array("W" => "Tulis", "R" => "Baca", "N" => "Tanpa Hak Akses");
 										$ArrAkses2 = array("Y" => "Ya", "N" => "Tidak");
@@ -479,10 +591,12 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 										}?>
 									</div>
 								</div>
-							</div>
+							</div> 
+
+
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Arsip Surat Keluar</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Arsip Surat Keluar</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses1 as $value => $nilai){
 											if(isset($dataCekLevel->sk) && $dataCekLevel->sk == $value){?>
@@ -501,8 +615,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Arsip File</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Arsip File</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses1 as $value => $nilai){
 											if(isset($dataCekLevel->arsip) && $dataCekLevel->arsip == $value){?>
@@ -521,8 +635,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Laporan Surat Masuk</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Laporan Surat Masuk</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->report_sm) && $dataCekLevel->report_sm == $value){?>
@@ -541,8 +655,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Laporan Progress Surat</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Laporan Progress Surat</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->report_progress) && $dataCekLevel->report_progress == $value){?>
@@ -561,8 +675,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Laporan Surat Keluar</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Laporan Surat Keluar</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->report_sk) && $dataCekLevel->report_sk == $value){?>
@@ -581,8 +695,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Laporan Disposisi</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Laporan Disposisi</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->report_dispo) && $dataCekLevel->report_dispo == $value){?>
@@ -601,8 +715,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Laporan Arsip File</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Laporan Arsip File</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->report_arsip) && $dataCekLevel->report_arsip == $value){?>
@@ -621,8 +735,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Atur Layout</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Atur Layout</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->atur_layout) && $dataCekLevel->atur_layout == $value){?>
@@ -641,8 +755,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Atur Klasifikasi Surat Masuk</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Atur Klasifikasi Surat Masuk</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->atur_klasifikasi_sm) && $dataCekLevel->atur_klasifikasi_sm == $value){?>
@@ -661,8 +775,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Atur Klasifikasi Surat Keluar</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Atur Klasifikasi Surat Keluar</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->atur_klasifikasi_sk) && $dataCekLevel->atur_klasifikasi_sk == $value){?>
@@ -681,8 +795,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Atur Klasifikasi File Arsip</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Atur Klasifikasi File Arsip</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->atur_klasifikasi_arsip) && $dataCekLevel->atur_klasifikasi_arsip == $value){?>
@@ -701,8 +815,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Atur User</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Atur User</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->atur_user) && $dataCekLevel->atur_user == $value){?>
@@ -721,8 +835,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-mask-1"> Entri Memo</label>
-								<div class="col-sm-5">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Entri Memo</label>
+								<div class="col-sm-6">
 									<div class="radio"><?php
 										foreach($ArrAkses2 as $value => $nilai){
 											if(isset($dataCekLevel->info) && $dataCekLevel->info == $value){?>
@@ -742,8 +856,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 							</div>
 							<div class="clearfix form-actions">
 								<div class="col-md-offset-3 col-md-9">
-									<div class="col-sm-2">
-										<button type="submit" class="btn btn-info" type="button">
+									<div class="col-sm-6">
+										<button type="submit" class="btn btn-primary" type="button">
 											<i class="ace-icon fa fa-check bigger-110"></i>
 											Submit
 										</button>
@@ -752,7 +866,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 							</div>
 						</form>
 					</div>
-				</div><?php
+				</div><br>
+				<?php
 			}
 		}
 		/* PAGINATION */
@@ -771,18 +886,101 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 			<div class="widget-body">
 				<div class="widget-main">
 					<a href="./index.php?op=user&do=entri" title="Data User">
-						<button class="btn btn-white btn-info btn-bold">
+						<button class="btn btn-white btn-dark btn-bold">
 							<i class="ace-icon fa fa-users bigger-120 blue"></i>Tambah User
 						</button>
 					</a>
 					<a href="./index.php?op=user&act=jabatan" title="Pengaturan Jabatan">
-						<button class="btn btn-white btn-info btn-bold">
+						<button class="btn btn-white btn-dark btn-bold">
 							<i class="ace-icon fa fa-users bigger-120 blue"></i>Jabatan
 						</button>
 					</a>
-					<div class="space-4"></div><?php
+					<?php
 					if(!isset($_GET['userid'])){?>
-						<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+
+
+						<div class="row">
+						<div class="col-md-12 grid-margin stretch-card">
+							<div class="card">
+							<div class="card-body">
+								<h6 class="card-title">Data User</h6>
+								<div class="table-responsive">
+								<table id="dataTableExample" class="table">
+									<thead>
+									<tr>
+										<th width="40">No</th>
+										<th>NIK/NIP</th>
+										<th>Nama Lengkap</th>
+										<th>Username</th>
+										<th>Jabatan</th>
+										<th>Level Disposisi</th>
+										<th width="70"><center>ACT</center></th>
+									</tr>
+									</thead>
+									<tbody>
+									<?php
+								$no=1+$posisi;
+								$LevelDisposisi = '';
+								while($data_user = $user->fetch(PDO::FETCH_OBJ)){									
+									$ruleDispo = json_decode($data_user->rule_disposisi, true);
+									$params = array(':id_jab' => $data_user->jabatan);
+									$GetJabatan = $this->model->selectprepare("user_jabatan", $field=null, $params, "id_jab=:id_jab", $order=null);
+									if($GetJabatan->rowCount() >= 1){
+										$dataGetJabatan = $GetJabatan->fetch(PDO::FETCH_OBJ);
+										$JabUser = $dataGetJabatan->nama_jabatan;
+									}else{
+										$JabUser = "-";
+									}?>
+									<tr>
+										<td><center><?php echo $no;?></center></td>
+										<td><?php echo $data_user->nik;?></td>
+										<td><?php echo $data_user->nama;?></td>
+										<td><?php echo $data_user->uname;?></td>
+										<td><?php echo $JabUser;?></td>
+										<td><?php 
+											if(is_array($ruleDispo)){
+												foreach($ruleDispo as $field => $value){
+													$GetUserDis = $this->model->selectprepare("user", $field=null, $params=null, $where=null, "WHERE id_user='$value'")->fetch(PDO::FETCH_OBJ);
+													echo '- '.$GetUserDis->nama .'<br/>';
+												}
+											}?>
+										</td>
+										<td><center>
+											<div class="hidden-sm hidden-xs btn-group">
+												<a href="./index.php?op=user&userid=<?php echo $data_user->id_user;?>&do=entri">								
+													<button class="btn btn-minier btn-info">
+														<i class="ace-icon fa fa-pencil bigger-100"></i>
+													</button>
+												</a><?php
+												if($data_user->level != "Admin"){?>
+													<a href="./index.php?op=user&userid=<?php echo $data_user->id_user;?>&act=del" onclick="return confirm('Anda yakin akan menghapus data ini??')">
+														<button class="btn btn-minier btn-danger">
+															<i class="ace-icon fa fa-trash-o bigger-110"></i>
+														</button>
+													</a><?php
+												}?>
+											</div></center>
+										</td>
+									</tr><?php
+								$no++;
+								}?>
+									</tbody>
+								</table>
+								</div>
+							</div>
+							</div>
+						</div>
+						</div>
+
+
+
+
+
+
+
+
+
+						<!-- <table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
 							<thead>
 								<tr>
 									<th width="40">No</th>
@@ -841,7 +1039,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								$no++;
 								}?>
 							</tbody>
-						</table><?php
+						</table> -->
+						<!-- <?php
 						$jml_data = $total;
 						//Jumlah halaman
 						$JmlHalaman = ceil($jml_data/$batas); 
@@ -871,7 +1070,10 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 							<span class="text-muted">Halaman <?php echo $pg;?> dari <?php echo $JmlHalaman;?> (Total : <?php echo $jml_data;?> records)</span> <?php
 						}
 						/* END PAGINATION */
-					}?>
+					}?> -->
+
+
+
 				</div>
 			</div><?php
 		}?>

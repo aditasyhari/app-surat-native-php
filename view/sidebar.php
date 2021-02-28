@@ -76,6 +76,7 @@
     $surat = '';
   }
   
+  
   if(isset($_GET['op']) AND $_GET['op'] == "arsip_sk"){ $StatArsipSK = 'active open'; }else{ $StatArsipSK = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "arsip_sm"){ $StatArsipSM = 'active open'; }else{ $StatArsipSM = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "user"){ $StatUser = 'active open'; }else{ $StatUser = ''; }
@@ -90,6 +91,15 @@
   if(isset($_GET['op']) AND $_GET['op'] == "surat_keluar"){ $StatSuratKeluar = 'active'; }else{ $StatSuratKeluar = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "disposisi"){ $StatDisposisi = 'active open'; }else{ $StatDisposisi = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "tembusan"){ $StatTembusan = 'active open'; }else{ $StatTembusan = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "tracking_"){ $Tracking = 'active open'; }else{ $Tracking = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "statistik"){ $Statistik = 'active open'; }else{ $Statistik = ''; }
+
+  if(isset($_GET['op']) AND $_GET['op'] == "view_event"){ $ViewEvent = 'active open'; }else{ $ViewEvent = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "add_event"){ $AddEvent = 'active open'; }else{ $AddEvent = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "view_event"){ $ViewEvent = 'active open'; }else{ $ViewEvent = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "pekanan"){ $Pekanan = 'active open'; }else{ $Pekanan = ''; }
+
+
   if(isset($_GET['op']) AND $_GET['op'] == "info"){ $StatInfo = 'active open'; }else{ $StatInfo = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "info"){ $StatInfo = 'active open'; }else{ $StatInfo = ''; }
   if(!isset($_GET['op'])){
@@ -293,13 +303,13 @@
         <div class="collapse {{ show_class(['agenda/*']) }}" id="agenda">
           <ul class="nav sub-menu">
             <li class="nav-item">
-             <a href="{{ url('/agenda/buat-agenda') }}" class="nav-link {{ active_class(['agenda/buat-agenda']) }}">Buat Agenda</a>
+             <a href="./index.php?op=add_event" class="nav-link <?php echo $AddEvent;?>">Buat Agenda</a>
             </li>
             <li class="nav-item">
-              <a href="{{ url('/agenda/lihat-agenda') }}" class="nav-link {{ active_class(['agenda/lihat-agenda']) }}">Lihat Agenda</a>
+              <a href="./index.php?op=view_event" class="nav-link <?php echo $ViewEvent;?>">Lihat Agenda</a>
              </li>
             <li class="nav-item">
-              <a href="{{ url('/agenda/libur-pekanan') }}" class="nav-link {{ active_class(['agenda/libur-pekanan']) }}">Libur Pekanan</a>
+              <a href="./index.php?op=pekanan" class="nav-link <?php echo $Pekanan;?>">Libur Pekanan</a>
             </li>
           </ul>
         </div>
@@ -327,7 +337,7 @@
       </li>
 
       <li class="nav-item {{ active_class(['tracking/chat']) }}">
-        <a href="{{ url('/tracking/chat') }}" class="nav-link">
+        <a href="./index.php?op=tracking_" class="nav-link <?php echo $Tracking;?>">
           <i class="link-icon" data-feather="truck"></i>
           <span class="link-title">Tracking Surat</span>
         </a>
@@ -342,10 +352,10 @@
         <div class="collapse {{ show_class(['statistik/*']) }}" id="statistik">
           <ul class="nav sub-menu">
             <li class="nav-item">
-             <a href="{{ url('/statistik/statistik-surat') }}" class="nav-link {{ active_class(['statistik/inbox']) }}">Statistik Peredaran Surat</a>
+             <a href="./index.php?op=statistik" class="nav-link {{ active_class(['statistik/inbox']) }}">Statistik Peredaran Surat</a>
             </li>
             <li class="nav-item">
-              <a href="{{ url('/statistik/read') }}" class="nav-link {{ active_class(['statistik/read']) }}">Daftar Nomer Pesanan</a>
+              <a href="./index.php?op=statistik_unit" class="nav-link {{ active_class(['statistik/read']) }}">Statistik Unit</a>
             </li>
           </ul>
         </div>
@@ -354,7 +364,7 @@
       <?php
       if($HakAkses->atur_layout == "Y" OR $HakAkses->atur_klasifikasi_sm == "Y" OR $HakAkses->atur_klasifikasi_sk == "Y" OR $HakAkses->atur_klasifikasi_arsip == "Y" OR $HakAkses->atur_user == "Y"){?>
         <li class="nav-item <?php echo $StatAtur;?>">
-          <a class="nav-link" data-toggle="collapse" href="#setting" role="button" aria-expanded="{{ is_active_route(['setting/*']) }}" aria-controls="setting">
+          <a class="nav-link" data-toggle="collapse" href="#setting" role="button" aria-controls="setting">
             <i class="link-icon" data-feather="settings"></i>
             <span class="link-title">Pengaturan</span>
             <i class="link-arrow" data-feather="chevron-down"></i>

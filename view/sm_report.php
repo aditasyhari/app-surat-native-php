@@ -5,19 +5,33 @@
 			<div class="widget-box">
 				<div class="widget-header">
 					<h4 class="widget-title">Laporan Surat Masuk</h4>
-					<span class="widget-toolbar">
-						<a href="#" data-action="collapse">
-							<i class="ace-icon fa fa-chevron-up"></i>
-						</a>
-						<a href="#" data-action="close">
-							<i class="ace-icon fa fa-times"></i>
-						</a>
-					</span>
-				</div>
+				</div><br>
 				<div class="widget-body">
 					<div class="widget-main">
 						<label for="id-date-range-picker-1">Filter berdasarkan Range Tanggal</label>
+
 						<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+									<div class="input-group input-daterange" id="datePickerExample">
+									<input type="text" class="form-control" name="rangetgl" value="">
+										<div class="input-group-addon"> to </div>
+										<input type="text" class="form-control" name="rangetgl" value="">
+									</div>
+									</div>
+								</div>
+								<div class="form-check form-check-flat form-check-primary mt-0">
+									<label class="form-check-label">
+									<input name="filterTgl" type="checkbox" class="form-check-input">
+									</label>
+								</div>
+							</div>
+
+
+
+
+
+						<!-- <div class="row">
 							<div class="col-xs-8 col-sm-11">
 								<div class="input-group">
 									<span class="input-group-addon">
@@ -26,12 +40,11 @@
 									<input class="form-control" type="text" name="rangetgl" id="id-date-range-picker-1" />
 								</div>
 							</div>
-						</div>
-						<div class="space-6"></div>
+						</div> -->
 						<div class="row">
-							<div class="col-xs-8 col-sm-2">
+							<div class=" col-sm-6">
 								<div class="input-group">
-									<button type="submit" class="btn btn-info" type="button">
+									<button type="submit" class="btn btn-primary" type="button">
 										<i class="ace-icon fa fa-check bigger-110"></i>
 										Submit
 									</button>
@@ -43,11 +56,11 @@
 			</div>
 		</div>
 	</div>
-</form>
+</form><br>
 <?php
 if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-6">
 			<div class="widget-box">
 				<div class="widget-body">
 					<div class="widget-main"><?php
@@ -122,7 +135,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 								<p>
 									<strong><i class="ace-icon fa fa-check"></i>Perhatian!</strong>
 									Data tidak ditemukan. Terimakasih.
-								</p>
+								</p><br>
 								<p>
 									<a href="./index.php?op=report_sm"><button class="btn btn-minier btn-danger">Kembali</button></a>
 								</p>

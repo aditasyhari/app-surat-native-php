@@ -1,8 +1,7 @@
 <div class="row">
-	<div class="col-xs-12">
+	<div class="col-sm-12 grid-margin stretch-card">
 		<!-- PAGE CONTENT BEGINS -->
-		<div class="row">
-			<div class="col-xs-12"><?php
+			<?php
 				if(isset($_GET['smid'])){
 					require_once "view_sm_detail_sekretaris.php";
 				}else{
@@ -53,144 +52,161 @@
 								</div>
 							</div>
 						</div>
-						<table id="simple-table" class="table  table-bordered table-hover">
-							<thead>
-								<tr>
-									<th width="50">No</th>
-									<th width="230">No Agenda</th>
-									<th>Perihal</th>									
-									<th width="120">Tgl Terima</th>									
-									<th class="detail-col">Details</th>
-									<th width="100">Aksi</th>
-								</tr>
-							</thead>
-							<tbody><?php
-								$no=1+$posisi;
-								foreach($dump_sm as $key => $object){
-									$params = array(':id_sm' => $object->id_sm);
-									$cekDisposisi = $this->model->selectprepare("memo a join user b on a.id_user=b.id_user", $field=null, $params, "id_sm=:id_sm");
-									$tglSrt = explode("-", $object->tgl_surat);
-									$tglSrt = $tglSrt[2]."-".$tglSrt[1]."-".$tglSrt[0];
-									$tgltrm = explode("-", $object->tgl_terima);
-									$tgltrm = $tgltrm[2]."-".$tgltrm[1]."-".$tgltrm[0];
-									
-									$params = array(':id_sm' => $object->id_sm, ':kode' => 'SM');
-									$lihat_sm = $this->model->selectprepare("surat_read", $field=null, $params, "id_sm=:id_sm AND kode=:kode");
-									if($lihat_sm->rowCount() <= 0){
-										$labelstatus = "";
-									}else{
-										$labelstatus = "<i class=\"ace-icon fa fa-check bigger-110 green\" title=\"was read\"></i>";
-									}
-									
-									$params1 = array(':id_sm' => $object->id_sm);
-									$CekStatFinish = $this->model->selectprepare("status_surat a join user b on a.id_user=b.id_user", $field=null, $params1, "a.id_sm=:id_sm", "ORDER BY a.id_status DESC LIMIT 1");
-									if($CekStatFinish->rowCount() >= 1){
-										$dataCekStatFinish = $CekStatFinish->fetch(PDO::FETCH_OBJ);
-										if($dataCekStatFinish->statsurat == 1){
-											$ProgresStat = " <i class=\"ace-icon fa fa-history bigger-110 green\" title=\"Surat sedang ditindaklanjuti\"></i>";
-										}elseif($dataCekStatFinish->statsurat == 2){
-											$ProgresStat = " <i class=\"ace-icon fa fa-thumbs-o-up bigger-110 green\" title=\"Surat sudah selesai ditindaklanjuti\"></i>";
-										}elseif($dataCekStatFinish->statsurat == 0){
-											$ProgresStat = " <i class=\"ace-icon fa fa-times bigger-110 green\" title=\"Surat tidak dapat diproses\"></i>";
-										}
-									}else{
-										$ProgresStat = " <i class=\"ace-icon fa fa-info bigger-110 green\" title=\"Surat belum diproses\"></i>";
-									}
-									
-									if($cekDisposisi->rowCount() >= 1){
-										//$data_cek = $cek_memo->fetch(PDO::FETCH_OBJ);
-										$labelDis = " <i class=\"ace-icon fa fa-share bigger-110 green\" title=\"Telah di Disposisi\"></i>";
-									}else{
-										$labelDis = "";
-									}?>
-									<tr>
-										<td><?php echo $no;?></td>
-										<td>
-											<a href="./index.php?op=sm&smid=<?php echo $object->id_sm;?>"><?php echo $object->custom_noagenda;?></a>
-											<?php echo $labelstatus;?>
-											<?php echo $labelDis;?>
-											<?php echo $ProgresStat;?>
-										</td>
-										<td><?php echo $object->perihal;?></td>										
-										<td><?php echo $tgltrm;?></td>										
-										<td class="center">
-											<div class="action-buttons">
-												<a href="#" class="green bigger-140 show-details-btn" title="Show Details">
-													<i class="ace-icon fa fa-angle-double-down"></i>
-													<span class="sr-only">Details</span>
-												</a>
-											</div>
-										</td>
-										<td align="center">
-											<div class="hidden-sm hidden-xs btn-group">
-												<a href="./index.php?op=add_sm&smid=<?php echo $object->id_sm;?>">								
-													<button class="btn btn-minier btn-info">
-														<i class="ace-icon fa fa-pencil bigger-100"></i>
-													</button>
-												</a>
-												<a href="./index.php?op=sm&smid=<?php echo $object->id_sm;?>&act=del" onclick="return confirm('Anda yakin akan menghapus data ini??')">
-													<button class="btn btn-minier btn-danger">
-														<i class="ace-icon fa fa-trash-o bigger-110"></i>
-													</button>
-												</a>
-											</div>
-
-																						
-										</td>
-									</tr>
-									<tr class="detail-row">
-										<td colspan="12">
-											<div class="table-detail">
-												<div class="row">
-													<div class="col-xs-12 col-sm-12">
-														<div class="space visible-xs"></div>
-														<div class="profile-user-info profile-user-info-striped">
-															<div class="profile-info-row">
-																<div class="profile-info-name"> No Agenda </div>
-																<div class="profile-info-value"><span><a href="./index.php?op=sm&smid=<?php echo $object->id_sm;?>"><?php echo $object->custom_noagenda;?></a></span></div>
-															</div>
-															<div class="profile-info-row">
-																<div class="profile-info-name"> Nomor surat </div>
-																<div class="profile-info-value"><span><?php echo $object->no_sm;?></span></div>
-															</div>
-															<div class="profile-info-row">
-																<div class="profile-info-name"> Pengirim </div>
-																<div class="profile-info-value"><span><?php echo $object->pengirim;?></span></div>
-															</div>
-															<div class="profile-info-row">
-																<div class="profile-info-name"> Perihal </div>
-																<div class="profile-info-value"><span><?php echo $object->perihal;?></span></div>
-															</div>
-															<div class="profile-info-row">
-																<div class="profile-info-name"> Tanggal Surat </div>
-																<div class="profile-info-value"><span><?php echo $tglSrt;?></span></div>
-															</div>
-															<div class="profile-info-row">
-																<div class="profile-info-name"> Tanggal Terima </div>
-																<div class="profile-info-value"><span><?php echo $tgltrm;?></span></div>
-															</div>
-															<div class="profile-info-row">
-																<div class="profile-info-name"> File Surat </div>
-																<div class="profile-info-value">
-																	<span><?php 
-																		if($object->file != ""){?>
-																			<a href="./berkas/<?php echo $object->file;?>" target="_blank">Lihat File Surat</a><?php
-																		}else{ ?>
-																			- <?php
-																		}?>
-																	</span>
+								<div class="card">
+									<div class="card-body">
+										<div class="table-responsive">
+											<table id="dataTableExample" class="table">
+												<thead>
+													<tr>
+														<th>No</th>
+														<th>No Agenda</th>
+														<th>Perihal</th>									
+														<th>Tgl Terima</th>									
+														<th>Details</th>
+														<th>Aksi</th>
+													</tr>
+												</thead>
+												<tbody class="center"><?php
+													$no=1+$posisi;
+													foreach($dump_sm as $key => $object){
+														$params = array(':id_sm' => $object->id_sm);
+														$cekDisposisi = $this->model->selectprepare("memo a join user b on a.id_user=b.id_user", $field=null, $params, "id_sm=:id_sm");
+														$tglSrt = explode("-", $object->tgl_surat);
+														$tglSrt = $tglSrt[2]."-".$tglSrt[1]."-".$tglSrt[0];
+														$tgltrm = explode("-", $object->tgl_terima);
+														$tgltrm = $tgltrm[2]."-".$tgltrm[1]."-".$tgltrm[0];
+														
+														$params = array(':id_sm' => $object->id_sm, ':kode' => 'SM');
+														$lihat_sm = $this->model->selectprepare("surat_read", $field=null, $params, "id_sm=:id_sm AND kode=:kode");
+														if($lihat_sm->rowCount() <= 0){
+															$labelstatus = "";
+														}else{
+															$labelstatus = "<i class=\"ace-icon fa fa-check bigger-110 green\" title=\"was read\"></i>";
+														}
+														
+														$params1 = array(':id_sm' => $object->id_sm);
+														$CekStatFinish = $this->model->selectprepare("status_surat a join user b on a.id_user=b.id_user", $field=null, $params1, "a.id_sm=:id_sm", "ORDER BY a.id_status DESC LIMIT 1");
+														if($CekStatFinish->rowCount() >= 1){
+															$dataCekStatFinish = $CekStatFinish->fetch(PDO::FETCH_OBJ);
+															if($dataCekStatFinish->statsurat == 1){
+																$ProgresStat = " <i class=\"ace-icon fa fa-history bigger-110 green\" title=\"Surat sedang ditindaklanjuti\"></i>";
+															}elseif($dataCekStatFinish->statsurat == 2){
+																$ProgresStat = " <i class=\"ace-icon fa fa-thumbs-o-up bigger-110 green\" title=\"Surat sudah selesai ditindaklanjuti\"></i>";
+															}elseif($dataCekStatFinish->statsurat == 0){
+																$ProgresStat = " <i class=\"ace-icon fa fa-times bigger-110 green\" title=\"Surat tidak dapat diproses\"></i>";
+															}
+														}else{
+															$ProgresStat = " <i class=\"ace-icon fa fa-info bigger-110 green\" title=\"Surat belum diproses\"></i>";
+														}
+														
+														if($cekDisposisi->rowCount() >= 1){
+															//$data_cek = $cek_memo->fetch(PDO::FETCH_OBJ);
+															$labelDis = " <i class=\"ace-icon fa fa-share bigger-110 green\" title=\"Telah di Disposisi\"></i>";
+														}else{
+															$labelDis = "";
+														}?>
+														<tr>
+															<td><?php echo $no;?></td>
+															<td>
+																<a href="./index.php?op=sm&smid=<?php echo $object->id_sm;?>"><?php echo $object->custom_noagenda;?></a>
+																<?php echo $labelstatus;?>
+																<?php echo $labelDis;?>
+																<?php echo $ProgresStat;?>
+															</td>
+															<td><?php echo $object->perihal;?></td>										
+															<td><?php echo $tgltrm;?></td>										
+															<td class="center">
+																<label class="profile-info-name"> No Agenda &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp:</label>
+																<span><a href="./index.php?op=sm&smid=<?php echo $object->id_sm;?>"><?php echo $object->custom_noagenda;?></a></span><br>
+																<label class="profile-info-name"> Nomor surat &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :</label>
+																<span><?php echo $object->no_sm;?></span><br>
+																<label class="profile-info-name"> Pengirim  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp:</label>
+																<span><?php echo $object->pengirim;?></span><br>
+																<label class="profile-info-name"> Perihal &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp :</label>
+																<span><?php echo $object->perihal;?></span><br>
+																<label class="profile-info-name"> Tanggal Surat &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :</label>
+																<span><?php echo $tglSrt;?></span><br>
+																<label class="profile-info-name"> Tanggal Terima &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :</label>
+																<span><?php echo $tgltrm;?></span><br>
+																<span><?php 
+																			if($object->file != ""){?>
+																					<a href="./berkas/<?php echo $object->file;?>" target="_blank">Lihat File Surat</a><?php
+																			}else{ ?>
+																								- <?php
+																							}?>
+																						</span>
+															</td>
+															<td class="center">
+																	<a href="./index.php?op=add_sm&smid=<?php echo $object->id_sm;?>">								
+																		<button class="btn btn-minier btn-info">
+																			<i class="ace-icon fa fa-pencil bigger-100"></i>
+																		</button>
+																	</a>
+																	<a href="./index.php?op=sm&smid=<?php echo $object->id_sm;?>&act=del" onclick="return confirm('Anda yakin akan menghapus data ini??')">
+																		<button class="btn btn-minier btn-danger">
+																			<i class="ace-icon fa fa-trash-o bigger-110"></i>
+																		</button>
+																	</a>										
+															</td>
+														</tr>
+														<!-- <tr class="detail-row">
+															<td colspan="12">
+																<div class="table-detail">
+																	<div class="row">
+																		<div class="col-xs-12 col-sm-12">
+																			<div class="space visible-xs"></div>
+																			<div class="profile-user-info profile-user-info-striped">
+																				<div class="profile-info-row">
+																					<label class="profile-info-name"> No Agenda &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp:</label>
+																					<span><a href="./index.php?op=sm&smid=<?php echo $object->id_sm;?>"><?php echo $object->custom_noagenda;?></a></span>
+																				</div>
+																				<div class="profile-info-row">
+																					<label class="profile-info-name"> Nomor surat &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :</label>
+																					<span><?php echo $object->no_sm;?></span>
+																				</div>
+																				<div class="profile-info-row">
+																					<label class="profile-info-name"> Pengirim  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp:</label>
+																					<span><?php echo $object->pengirim;?></span>
+																				</div>
+																				<div class="profile-info-row">
+																					<label class="profile-info-name"> Perihal &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp :</label>
+																					<span><?php echo $object->perihal;?></span>
+																				</div>
+																				<div class="profile-info-row">
+																					<label class="profile-info-name"> Tanggal Surat &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :</label>
+																					<span><?php echo $tglSrt;?></span></div>
+																				</div>
+																				<div class="profile-info-row">
+																					<label class="profile-info-name"> Tanggal Terima &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :</label>
+																					<span><?php echo $tgltrm;?></span>
+																				</div>
+																				<div class="profile-info-row">
+																					<div class="profile-info-value">
+																						<span><?php 
+																							if($object->file != ""){?>
+																								<a href="./berkas/<?php echo $object->file;?>" target="_blank">Lihat File Surat</a><?php
+																							}else{ ?>
+																								- <?php
+																							}?>
+																						</span>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
 																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</td>
-									</tr><?php
-								$no++;
-								}?>
-							</tbody>
-						</table><?php
+															</td>
+														</tr> -->
+														<?php
+													$no++;
+													}?>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+					</div>
+						<?php
 					}else{?>
 						<div class="alert alert-danger">
 							<button type="button" class="close" data-dismiss="alert">

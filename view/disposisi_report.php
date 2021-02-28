@@ -4,20 +4,30 @@
 		<div class="col-sm-12">
 			<div class="widget-box">
 				<div class="widget-header">
-					<h4 class="widget-title">Laporan Disposisi Surat</h4>
-					<span class="widget-toolbar">
-						<a href="#" data-action="collapse">
-							<i class="ace-icon fa fa-chevron-up"></i>
-						</a>
-						<a href="#" data-action="close">
-							<i class="ace-icon fa fa-times"></i>
-						</a>
-					</span>
+					<h4 class="widget-title">Laporan Disposisi Surat</h4><br>
 				</div>
 				<div class="widget-body">
 					<div class="widget-main">
 						<label for="id-date-range-picker-1">Filter Tanggal Disposisi</label><span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Tentukan range Tanggal yang akan di filter." title="Filter Tanggal">?</span>
-						<div class="row">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group">
+									<div class="input-group input-daterange" id="datePickerExample">
+									<input type="text" class="form-control" name="rangetgl" value="">
+										<div class="input-group-addon"> to </div>
+										<input type="text" class="form-control" name="rangetgl" value="">
+									</div>
+									</div>
+								</div>
+								<div class="form-check form-check-flat form-check-primary mt-0">
+									<label class="form-check-label">
+									<input name="filterTgl" type="checkbox" class="form-check-input">
+									</label>
+								</div>
+							</div>
+
+
+						<!-- <div class="row">
 							<div class="col-xs-8 col-sm-8">
 								<div class="input-group">
 									<span class="input-group-addon">
@@ -34,14 +44,17 @@
 									</label>
 								</div>
 							</div>
-						</div>
-						<div class="space-6"></div>
-						<label>Filter User Tujuan Disposisi</label>
+						</div> -->
+
+
+
+
+						<label >Filter User Tujuan Disposisi</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Tentukan user tujuan disposisi yg ingin di filter." title="Filter User">?</span>
 						<div class="row">
-							<div class="col-xs-8 col-sm-8">
+							<div class="col-sm-6">
 								<div class="input-group">
-									<select id="form-field-select-3" name="user" data-placeholder="Pilih User...">
+									<select id="form-field-select-3" class="js-example-basic-single w-100" name="user" data-placeholder="Pilih User...">
 										<option value="">Pilih User...</option><?php 
 										$user = $this->model->selectprepare("user", $field=null, $params=null, $where=null, $other=null);
 										while($dataUser= $user->fetch(PDO::FETCH_OBJ)){
@@ -51,20 +64,18 @@
 									</select>
 								</div>
 							</div>
-							<div class="col-xs-8 col-sm-1">
-								<div class="input-group">
-									<label>
-										<input name="filterUser" type="checkbox" class="ace" value="1"/>
-										<span class="lbl"> </span>
+								<div class="form-check form-check-flat form-check-primary mt-0 ">
+									<label class ="form-check-label">
+										<input name="filterUser" type="checkbox" class="form-check-input"/>
 									</label>
 								</div>
-							</div>
-						</div>						
-						<div class="space-6"></div>
+						</div>		<br>
+
+
 						<div class="row">
 							<div class="col-xs-8 col-sm-2">
 								<div class="input-group">
-									<button type="submit" class="btn btn-info" type="button">
+									<button type="submit" class="btn btn-primary" type="button">
 										<i class="ace-icon fa fa-check bigger-110"></i>
 										Submit
 									</button>
@@ -76,11 +87,11 @@
 			</div>
 		</div>
 	</div>
-</form>
+</form><br>
 <?php
 if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-6">
 			<div class="widget-box">
 				<div class="widget-body">
 					<div class="widget-main"><?php
@@ -192,7 +203,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 									<strong><i class="ace-icon fa fa-check"></i>Perhatian!</strong>
 									Data tidak ditemukan. Terimakasih.
 								</p>
-								<p>
+								<p><br>
 									<a href="./index.php?op=report_disposisi"><button class="btn btn-minier btn-danger">Kembali</button></a>
 								</p>
 							</div><?php
