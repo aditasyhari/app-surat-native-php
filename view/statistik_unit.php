@@ -50,8 +50,8 @@
 
         $conn->close();
     ?>
-            <div class="row">
                 <form class="form-sample" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
+                    <div class="row justify-content-center">
                     <div class="form-group">
                         <select class="js-example-basic-multiple w-100 form-control" name="tujuan"  data-placeholder="Pilih user..." required><?php
 									$Diteruskan = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
@@ -68,10 +68,8 @@
 										<option value="">Not Found</option><?php
 									}?>
                                     
-					    </select><br>
-                    </div>
-                            <div class="form-group">
-                                <select class="js-example-basic-multiple w-100 form-control" name="bulan"  data-placeholder="Pilih Tanggal...">
+					             </select> 
+                                <select class="js-example-basic-multiple w-100 form-control" name="bulan" data-placeholder="Pilih Tanggal...">
                                     <option value="01">Januari</option>
                                     <option value="02">Februari</option>
                                     <option value="03">Maret</option>
@@ -85,16 +83,17 @@
                                     <option value="11">November</option>
                                     <option value="12">Desember</option>
 								</select>
-                            </div>
-                            
+                            </div> &nbsp
                             <div class="form-group">
                                 <select id='year' class="js-example-basic-multiple w-100 form-control" name="tahun"  data-placeholder="Pilih Tanggal...">
 								</select>
+                                <button name = 'pilih' type ='submit' class = 'btn btn-primary'> PILIH </button>
                             </div>
-                                <button name = 'pilih' type ='submit' class = 'btn btn-primary pull-right'> PILIH </button>
+                            
+                    </div>
                 </form>
                 <hr>
-            </div>
+            
 
 
 
