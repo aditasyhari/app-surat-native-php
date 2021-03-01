@@ -52,7 +52,7 @@
     ?>
         <form class="form-sample" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
             <div class="row ">
-                <div class="form-group d-flex flex-row w-100">
+                <div class="form-group d-flex flex-row w-100 justify-content-center">
                     <select class="js-example-basic-multiple form-control" name="tujuan"  data-placeholder="Pilih user..." required>
                         <?php
                         $Diteruskan = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
@@ -85,8 +85,9 @@
                         <option value="11">November</option>
                         <option value="12">Desember</option>
                     </select>
-                    <select id='year' class="js-example-basic-multiple form-control" name="tahun"  data-placeholder="Pilih Tanggal...">
-                    </select>
+                    <div class="form-group">
+                    <select id='year' class="js-example-basic-multiple form-control" name="tahun"  data-placeholder="Pilih Tahun..."></select>
+                    </div>
                     <button name = 'pilih' type ='submit' class = 'btn btn-primary'> PILIH </button>
                 </div> 
 
@@ -94,9 +95,6 @@
         </form>
         <hr>
             
-
-
-
 
 <div id="chart">
 </div>

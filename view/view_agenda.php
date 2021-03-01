@@ -21,7 +21,7 @@
 
     if(isset($_POST["id"])){
         $query = "
-        DELETE from events WHERE id=:id
+        DELETE from agenda WHERE id=:id
         ";
         $statement = $connect->prepare($query);
         $statement->execute(
@@ -78,7 +78,7 @@ $(document).ready(function () {
                     var title = event.title;
                     var id = event.id;
                     $.ajax({
-                        url: 'http://localhost/surat_native/index.php?op=view_event',
+                        url: 'http://localhost/app-surat/index.php?op=view_event',
                         data: {title:title, start:start, end:end, id:id},
                         type: "POST",
                         success: function (response) {
@@ -93,7 +93,7 @@ $(document).ready(function () {
             if (deleteMsg) {
                 $.ajax({
                     type: "POST",
-                    url: "http://localhost/surat_native/index.php?op=view_event",
+                    url: "http://localhost/app-surat/index.php?op=view_event",
                     data: "&id=" + event.id,
                     success: function(json) {
 			 $('#calendar').fullCalendar('removeEvents', event.id);
