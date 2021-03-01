@@ -51,9 +51,10 @@
         $conn->close();
     ?>
         <form class="form-sample" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
-            <div class="row d-flex justify-content-center flex-row">
-                <div class="form-group">
-                    <select class="js-example-basic-multiple w-100 form-control" name="tujuan"  data-placeholder="Pilih user..." required><?php
+            <div class="row ">
+                <div class="form-group d-flex flex-row w-100">
+                    <select class="js-example-basic-multiple form-control" name="tujuan"  data-placeholder="Pilih user..." required>
+                        <?php
                         $Diteruskan = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
                         if($Diteruskan->rowCount() >= 1){
                             while($dataDiteruskan = $Diteruskan->fetch(PDO::FETCH_OBJ)){
@@ -70,6 +71,7 @@
                         
                     </select> 
                     <select class="js-example-basic-multiple form-control" name="bulan" data-placeholder="Pilih Tanggal...">
+                        <option value="" selected disabled>Pilih</option>
                         <option value="01">Januari</option>
                         <option value="02">Februari</option>
                         <option value="03">Maret</option>
@@ -87,8 +89,7 @@
                     </select>
                     <button name = 'pilih' type ='submit' class = 'btn btn-primary'> PILIH </button>
                 </div> 
-                <!-- <div class="form-group"> -->
-                <!-- </div> -->
+
             </div>
         </form>
         <hr>
