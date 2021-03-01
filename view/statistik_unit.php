@@ -50,8 +50,8 @@
 
         $conn->close();
     ?>
-            <div class="row">
                 <form class="form-sample" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
+                    <div class="row justify-content-center">
                     <div class="form-group">
                         <select class="js-example-basic-multiple w-100 form-control" name="tujuan"  data-placeholder="Pilih user..." required><?php
 									$Diteruskan = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
@@ -92,9 +92,9 @@
 								</select>
                             </div>
                                 <button name = 'pilih' type ='submit' class = 'btn btn-primary pull-right'> PILIH </button>
+                    </div>
                 </form>
                 <hr>
-            </div>
 
 
 

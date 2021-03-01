@@ -42,11 +42,10 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<!-- Favicon  -->
 		<!-- <link rel="icon" href="img/core-img/favicon.ico"> -->
 
-		<link href="assets/css/app.css" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
 		<!-- plugin css -->
-		<link href="assets/assets/plugins/select2/select2.min.css" rel="stylesheet" />
+		<!-- <link href="assets/assets/plugins/select2/select2.min.css" rel="stylesheet" /> -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
-		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" /> -->
 		<link rel="stylesheet" href="assets/assets/fullcalendar/fullcalendar.min.css" />
 		<link href="assets/assets/fonts/feather-font/css/iconfont.css" rel="stylesheet" />
 		<link href="assets/assets/plugins/flag-icon-css/css/flag-icon.min.css" rel="stylesheet" />
@@ -61,12 +60,13 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<!-- common css -->
 		<!-- end common css -->
 		<script src="https://code.highcharts.com/highcharts.src.js"></script>
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script> -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
 		
 		
+		<link href="assets/css/app.css" rel="stylesheet" />
 
 		<link href="assets/css/add_template.css" rel="stylesheet">
 
@@ -93,15 +93,14 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 
 
 		<!-- base js -->
+		<script src="assets/assets/fullcalendar/lib/jquery.min.js"></script>
 		<script src="assets/js/app.js"></script>
 		<script src="assets/assets/plugins/feather-icons/feather.min.js"></script>
 		<script src="assets/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
-		
 
 
 		<!-- plugin script -->
-		<!-- <script src="assets/assets/fullcalendar/lib/jquery.min.js"></script> -->
 		<script	src="assets/assets/fullcalendar/lib/moment.min.js"></script>
 		<script src="assets/assets/fullcalendar/fullcalendar.min.js"></script>
 		<script src="assets/assets/plugins/chartjs/Chart.min.js"></script>
