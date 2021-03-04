@@ -82,8 +82,24 @@
                     }else{
                         require_once "invalid_akses.php";
                     }
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "karakteristik"){
+                    if($HakAkses->atur_layout == "Y"){
+                        require_once "karakteristik.php";
+                    }else{
+                        require_once "invalid_akses.php";
+                    }
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "derajat"){
+                    if($HakAkses->atur_layout == "Y"){
+                        require_once "derajat.php";
+                    }else{
+                        require_once "invalid_akses.php";
+                    }
                 }elseif(isset($_GET['op']) AND $_GET['op'] == "memo"){
                     require_once "view_memo.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "surat_keluar"){
+                    require_once "view_surat_keluar.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "entri_surat"){
+                    require_once "view_entri_surat.php";
                 }elseif(isset($_GET['op']) AND $_GET['op'] == "disposisi"){
                     require_once "view_disposisi.php";
                 }elseif(isset($_GET['op']) AND $_GET['op'] == "tembusan"){
@@ -168,6 +184,12 @@
                     }else{
                         require_once "invalid_akses.php";
                     }
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "template"){
+                    require_once "view_template.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "add_template"){
+                    require_once "view_add_template.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "approval_template"){
+                    require_once "view_approval_template.php";
                 }else{
                     require_once "dashboard.php";
                 } ?>

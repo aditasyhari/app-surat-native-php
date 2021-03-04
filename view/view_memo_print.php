@@ -18,8 +18,8 @@ if($memo->rowCount() >= 1){
 		$deskripsi = $data_pengaturan->deskripsi;
 	}else{
 		$kop = "default.jpg";
-		$title = "SI-NADIN - Sistem Naskah Dinas";
-		$deskripsi = "SI-NADIN merupakan aplikasi pengelolaan arsip surat Naskah";
+		$title = "E - OFFICE";
+		$deskripsi = "E - OFFICE merupakan aplikasi pengelolaan arsip surat Naskah";
 	}
 	
 	$ListUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");

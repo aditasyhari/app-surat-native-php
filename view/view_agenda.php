@@ -21,7 +21,7 @@
 
     if(isset($_POST["id"])){
         $query = "
-        DELETE from events WHERE id=:id
+        DELETE from agenda WHERE id=:id
         ";
         $statement = $connect->prepare($query);
         $statement->execute(
@@ -36,6 +36,7 @@
 
 <div id="calendar">
 </div>
+
 
 
 

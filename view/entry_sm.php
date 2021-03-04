@@ -127,15 +127,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 							$mail->AltBody = $perihal;
 							if(!$mail->send()) {
 								//echo "Mailer Error: " . $mail->ErrorInfo;
-								echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan. Email notifikasi gagal dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
+								echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan. Email notifikasi gagal dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
 							}else{
-								echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
+								echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
 							}
 						}else{
-							echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan!');window.location.href=\"./index.php?op=add_sm\";</script>";
+							echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan!');window.location.href=\"./index.php?op=add_sm\";</script>";
 						}
 					}else{
-						echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan!');window.location.href=\"./index.php?op=add_sm\";</script>";
+						echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan!');window.location.href=\"./index.php?op=add_sm\";</script>";
 					}
 				}else{
 					die("<script>alert('Data Gagal di simpan ke Database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
@@ -416,7 +416,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					</form> <?php
 					if((isset($_GET['id_klasifikasi']) && $_GET['id_klasifikasi'] != '') OR (isset($_GET['smid'])  && $_GET['smid'] != '')){ ?>
 						<form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
-						<div class="space-4"></div>
 						<div class="form-group">
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-1"> No. Agenda *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan nomor agenda surat masuk." title="Nomor Agenda">?</span>
@@ -437,7 +436,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								<input class="form-control" data-rel="tooltip" type="text" name="noagenda" <?php if(isset($noagenda)){ echo $noagenda; }?> id="form-field-1" placeholder="Nomor Agenda Surat" title="Diisi dengan nomor agenda surat masuk!" data-placement="bottom" required/>*/?>
 							</div>
 						</div>
-						<div class="space-4"></div>
 						<div class="form-group">
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nomor Surat *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan nomor surat masuk yang diterima." title="Nomor Surat Masuk">?</span>
@@ -445,7 +443,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								<input class="form-control" placeholder="Nomor surat masuk" type="text" name="nosm" <?php if(isset($nosm)){ echo $nosm; }?> id="form-field-mask-1" required/>
 							</div>
 						</div>
-						<div class="space-4"></div>
 						<div class="form-group">
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tanggal Surat *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan tanggal pada surat masuk. ex. 01-12-2015" title="Tanggal Surat">?</span>
@@ -453,7 +450,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								<input class="form-control date datepicker" id ="tgl_awal" data-date-format="dd/mm/yyyy" placeholder="Tanggal pada surat masuk" type="text" name="tglsm" <?php if(isset($tgl_surat)){ echo $tgl_surat; }?>  required/>
 							</div>
 						</div>
-						<div class="space-4"></div>
 						<div class="form-group">
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tanggal Terima *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan tanggal surat masuk diterima. ex. 01-12-2015" title="Tanggal Terima">?</span>
@@ -461,7 +457,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								<input class="form-control date datepicker" id ="tgl_akhir" data-date-format="dd/mm/yyyy" placeholder="Tanggal terima surat masuk" type="text" name="tgl_terima" <?php if(isset($tgl_terima)){ echo $tgl_terima; }?>  required/>
 							</div>
 						</div>
-						<div class="space-4"></div>
 						<div class="form-group">
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Surat Dari *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai sumber pengirim surat (nama lembaga/peroranngan)." title="Sumber Surat">?</span>
@@ -469,7 +464,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								<input class="form-control" data-rel="tooltip" placeholder="Sumber surat/pengirim" type="text" name="pengirim" <?php if(isset($pengirim)){ echo $pengirim; }?> title="Di isi sesuai sumber pengirim surat (nama lembaga atau peroranngan)" data-placement="bottom" id="form-field-mask-1" required/>
 							</div>
 						</div>
-						<div class="space-4"></div>
 						<div class="form-group">
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Diteruskan ke *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih tujuan Surat dieruskan (support multiple choise)." title="Diteruskan ke *">?</span>
@@ -492,7 +486,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								</select>
 							</div>
 						</div>
-						<div class="space-4"></div>
 						<div class="form-group">
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Perihal *</label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai perihal atau subjek surat masuk." title="Perihal">?</span>
@@ -500,7 +493,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 								<textarea id="maxlength-textarea" class="form-control" placeholder="Perihal/subjek surat" name="perihal"  maxlength="150" required><?php if(isset($perihal)){ echo $perihal; }?></textarea>
 							</div>
 						</div>
-						<div class="space-4"></div>
 						<div class="form-group">
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Keterangan </label>
 							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan keterangan tambahan jika ada (seperti jadwal undangan, tempat, tanggal penting dsb)." title="Keterangan">?</span>

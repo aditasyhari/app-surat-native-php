@@ -1,3 +1,4 @@
+<h6 class="card-title">Pengingat Masuk</h6>
 <?php
 if(isset($_GET['infoid'])){
 	require_once "view_info_detail.php";
@@ -36,50 +37,47 @@ if(isset($_GET['infoid'])){
 				</a>
 			</li><?php */
 		}?>
-		<div class="widget-box">
-			<div id="inbox" class="tab-pane in active">
-				<div class="message-container">
-					<div class="message-list-container">
-						<div class="message-list" id="message-list"><?php
-							$no=1+$posisi;
-							while($DataInfo = $CekInfo->fetch(PDO::FETCH_OBJ)){
-								$tgl_info = substr($DataInfo->tgl_info,0,10);
-								$params2 = array(':id_sm' => $DataInfo->id_info, ':id_user' => $_SESSION['id_user'], ':kode' => 'INFO');
-								$CekRead = $this->model->selectprepare("surat_read", $field=null, $params2, "id_sm=:id_sm AND id_user=:id_user AND kode=:kode", $order=null);
-								if($CekRead->rowCount() <= 0){?>
-									<div class="message-item message-unread">
-										<label class="inline">
-											<span class="lbl" style="color:#609FC4;font-weight:700"><small><?php echo $no;?></small></span>
-										</label>
-										<span class="sender" title="<?php echo $DataInfo->nama;?>"><?php echo $DataInfo->nama;?></span>
-										<span class="time" style="width:100px;"><small><?php echo tgl_indo($tgl_info);?></small></span>
-										<span class="summary">
-											<span class="text">
-												<a href="./index.php?op=info&infoid=<?php echo $DataInfo->id_info;?>"><?php echo $DataInfo->judul_info;?></a>
-											</span>
-										</span>
-									</div><?php
-								}else{?>
-									<div class="message-item">
-										<label class="inline">
-											<span style="color:#467287;"><small><?php echo $no;?></small></span>
-										</label>
-										<span class="sender" title="<?php echo $DataInfo->nama;?>"><?php echo $DataInfo->nama;?></span>
-										<span class="time" style="width:100px;"><small><?php echo tgl_indo($tgl_info);?></small></span>
-										<span class="summary">
-											<span class="text">
-												<a href="./index.php?op=info&infoid=<?php echo $DataInfo->id_info;?>"><?php echo $DataInfo->judul_info;?></a>
-											</span>
-										</span>
-									</div><?php
-								}
-								$no++;
-							}?>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><?php
+		<ul class="list-group">
+			<?php
+				$no=1+$posisi;
+				while($DataInfo = $CekInfo->fetch(PDO::FETCH_OBJ)){
+					$tgl_info = substr($DataInfo->tgl_info,0,10);
+					$params2 = array(':id_sm' => $DataInfo->id_info, ':id_user' => $_SESSION['id_user'], ':kode' => 'INFO');
+					$CekRead = $this->model->selectprepare("surat_read", $field=null, $params2, "id_sm=:id_sm AND id_user=:id_user AND kode=:kode", $order=null);
+					if($CekRead->rowCount() <= 0){?>
+						<li class="list-group-item d-flex justify-content-between align-items-center disabled">
+							<div>
+								<span><?php echo $no;?></span>
+								<span title="<?php echo $DataInfo->nama;?>"><?php echo $DataInfo->nama;?></span>
+							</div>
+							<div>
+								<span class="text">
+									<a href="./index.php?op=info&infoid=<?php echo $DataInfo->id_info;?>"><?php echo $DataInfo->judul_info;?></a>
+								</span>
+							</div>
+							<span class="badge badge-primary"><?php echo tgl_indo($tgl_info);?></span>
+						</li>
+						<?php
+					}else{?>
+						<li class="list-group-item d-flex justify-content-between align-items-center">
+							<div>
+								<span><?php echo $no;?></span>
+								<span title="<?php echo $DataInfo->nama;?>"><?php echo $DataInfo->nama;?></span>
+							</div>
+							<div>
+								<span class="text">
+									<a href="./index.php?op=info&infoid=<?php echo $DataInfo->id_info;?>"><?php echo $DataInfo->judul_info;?></a>
+								</span>
+							</div>
+							<span class="badge badge-primary"><?php echo tgl_indo($tgl_info);?></span>
+						</li>
+						<?php
+					}
+					$no++;
+				}
+			?>
+		</ul>
+		<?php
 	}else{?>
 		<div class="alert alert-danger">
 			<button type="button" class="close" data-dismiss="alert">
@@ -123,11 +121,11 @@ if(isset($_GET['infoid'])){
 		$next_disable = "disabled";
 	}
 	if($batas < $jml_data){?>
-		<ul class="pager">
-			<li class="previous <?php echo $prev_disable;?>"><a href="<?php echo $prev;?>"><font color="black"><b>&larr; Sebelumnya </font></b></a></li>
-			<li class="next <?php echo $next_disable;?>"><a href="<?php echo $next;?>"><font color="black"><b>Selanjutnya &rarr;</b></font></a></li>
+		<ul class="pagination mt-3">
+			<li class="page-item <?php echo $prev_disable;?>"><a href="<?php echo $prev;?>"><font color="black"><b>&larr; Sebelumnya </font></b></a></li>
+			<li class="page-item <?php echo $next_disable;?>"><a href="<?php echo $next;?>"><font color="black"><b>Selanjutnya &rarr;</b></font></a></li>
 		</ul>
-		<span class="text-muted color"><font color="white">Halaman <?php echo $pg;?> dari <?php echo $JmlHalaman;?> (Total : <?php echo $jml_data;?> records)</font></span><?php
+		<span class="text-muted">Halaman <?php echo $pg;?> dari <?php echo $JmlHalaman;?> (Total : <?php echo $jml_data;?> records)</span><?php
 	}
 	/* END PAGINATION */
 }?>

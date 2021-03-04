@@ -43,37 +43,35 @@ if($memo->rowCount() >= 1){
 		$dumpListUser[] = $dataListUser;
 	}?>
 	<div class="widget-box">
-		<div class="message-header clearfix">
-			<div class="pull-left" style="padding:0 9px;">
-				<span class="blue bigger-125"> Surat Masuk: <?php echo $data_memo->pengirim;?>, Ref: <?php echo $data_memo->custom_noagenda;?></span>
-				<div class="space-4"></div>
-				<img class="middle" alt="<?php echo $DataUser->nama;?>" src="assets/images/avatars/<?php echo $DataUser->picture;?>" width="32" />
-				<a href="#" class="sender"><?php echo $DataUser->nama;?></a>
-				<i class="ace-icon fa fa-clock-o bigger-110 orange middle"></i>
-				<span class="time grey"><?php echo tgl_indo($tgl_memo);?></span>
-			</div>
-		</div>
-		<div class="hr hr-double"></div>
+		
+		<li class="list-group-item">
+			<h6 class="card-title">Surat Masuk : <?php echo $data_memo->pengirim;?>, Ref: <?php echo $data_memo->custom_noagenda;?></h6>
+			<img class="middle" alt="<?php echo $DataUser->nama;?>" src="assets/images/avatars/<?php echo $DataUser->picture;?>" width="32" />
+			<a href="#" class="sender"><?php echo $DataUser->nama;?></a>
+			<i class="ace-icon fa fa-clock-o text-warning"></i>
+			<span class="time grey"><?php echo tgl_indo($tgl_memo);?></span>
+		
+			<hr>
 		<div class="message-body">
 			<p>
 				Tgl terima/No agenda: <br/><b><?php echo tgl_indo($data_memo->tgl_terima);?> | <?php echo $data_memo->custom_noagenda;?></b>
 			</p>
-			<p>
+			<p class="mt-2">
 				Dari: <br/><b><?php echo $data_memo->pengirim;?></b>
 			</p>
-			<p>
+			<p class="mt-2">
 				Tgl/No surat: <br/><b><?php echo tgl_indo($data_memo->tgl_surat);?> | <?php echo $data_memo->no_sm;?></b>
 			</p>
-			<p>
+			<p class="mt-2">
 				Perihal: <br/><b><?php echo $data_memo->perihal;?></b>
 			</p>
 			<?php
 			if($data_memo->file != ''){?>
-				<p>
+				<p class="mt-2">
 					<a href="./berkas/<?php echo $data_memo->file;?>" target="_blank"><button class="btn btn-success btn-minier ">Lihat File Surat<i class="ace-icon fa fa-book align-top bigger-125 icon-on-right"></i></button></a>
 				</p><?php
 			}?>
-			<p>
+			<p class="mt-2">
 				Detail Surat:<br/>
 				<span class="label label-xs label-primary label-white middle">
 					<a href="./index.php?op=memoprint&memoid=<?php echo $data_memo->id_sm;?>" target="_blank"><b>Lihat</b></a>
@@ -125,10 +123,10 @@ if($memo->rowCount() >= 1){
 						if($dataStatSurat->id_user == $_SESSION['id_user']){?>
 							<div class="tools action-buttons">
 								<a href="./index.php?op=memo&memoid=<?php echo $data_memo->id_sm;?>&act=progres&id=<?php echo $dataStatSurat->id_status;?>" class="blue">
-									<i class="ace-icon fa fa-pencil bigger-125"></i>
+									<i class="fa fa-pencil"></i>
 								</a>
 								<a href="./index.php?op=memo&memoid=<?php echo $data_memo->id_sm;?>&act=progres&id=<?php echo $dataStatSurat->id_status;?>&do=delete" class="red">
-									<i class="ace-icon fa fa-times bigger-125"></i>
+									<i class="fa fa-times"></i>
 								</a>
 							</div><?php
 						}?>
@@ -229,7 +227,7 @@ if($memo->rowCount() >= 1){
 									</button>
 									<p>
 										<strong><i class="ace-icon fa fa-check"></i>Perhatian!</strong>
-										Anda tidak dapat menghapus progress surat karena progress surat sudah bersatus selesai.
+										Anda tidak dapat menghapus progress surat karena progress surat sudah berstaus selesai.
 									</p>
 								</div><?php									
 							}else{
@@ -263,7 +261,7 @@ if($memo->rowCount() >= 1){
 								<input type="hidden" name="file_progres_old" value="<?php echo $db_file_progress;?>"/> <?php
 							} ?>							
 							<div class="form-group">
-								<div class="col-sm-4">
+								<div class="col-sm-6">
 									<select class="form-control" id="form-field-select-3" name="progres" data-placeholder="Pilih Progres..." required>
 										<option value="">Pilih Progres...</option><?php
 										$ArrStatProgres = array("Sedang diproses" => 1, "Selesai" => 2, "Dibatalkan" => 0);
@@ -282,15 +280,24 @@ if($memo->rowCount() >= 1){
 									<textarea class="form-control limited" placeholder="Keterangan progress" name="ket" id="form-field-9" maxlength="150" required><?php if(isset($dbKetProgres)){ echo $dbKetProgres;}?></textarea>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="col-md-6 stretch-card">
+								<div class="card">
+									<div class="card-body">
+										<!-- <h6 class="card-title">Dropify</h6> -->
+										<p class="card-description">Lampirkan file.</p>
+										<input type="file" id="myDropify" name="file_progres" class="border" required/>
+									</div>
+								</div>
+							</div>
+							<!-- <div class="form-group">
 								<div class="col-sm-4">
 									<input class="form-control" type="file" name="file_progres" id="id-input-file-1" />
 								</div>
-							</div>
-							<div class="form-group">
+							</div> -->
+							<div class="form-group mt-3">
 								<div class="col-sm-2">
-									<button class="btn btn-white btn-info btn-bold">
-										Submit <i class="ace-icon fa fa-arrow-right icon-on-right"></i>
+									<button class="btn btn-primary">
+										Submit <i class="fa fa-arrow-right"></i>
 									</button>
 								</div>
 							</div>
@@ -583,27 +590,21 @@ if($memo->rowCount() >= 1){
 					</div><?php
 				}
 			}else{?>
-				<ul class="pager"><?php
-					//if($HakAkses->sm == "W"){?>
-						<li class="previous">
-							<a href="./index.php?op=add_sm&smid=<?php echo $data_memo->id_sm;?>" class="btn btn-danger">Edit Surat<i class="ace-icon fa fa-pencil align-top bigger-125 icon-on-right"></i></a>
-						</li> <?php
-					//}
-					/* if($data_memo->file != ''){?>
-						<li class="previous">
-							<a href="./berkas/<?php echo $data_memo->file;?>" target="_blank" class="btn btn-primary">Lihat File Surat<i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
-						</li><?php
-					} */
+				<ul class="pagination mt-2">
+					<li class="page-item mr-1">
+						<a href="./index.php?op=add_sm&smid=<?php echo $data_memo->id_sm;?>" class="btn btn-danger">Edit Surat <i class="fa fa-pencil"></i></a>
+					</li> <?php
 					if($cekDisposisi->rowCount() >= 1){?>
-						<li class="next"><a href="./index.php?op=memo&memoid=<?php echo $data_memo->id_sm;?>&act=disposisi" class="btn btn-success">Telah di-Disposisi<i class="ace-icon fa fa-pencil align-top bigger-125 icon-on-right"></i></a>
+						<li class="page-item"><a href="./index.php?op=memo&memoid=<?php echo $data_memo->id_sm;?>&act=disposisi" class="btn btn-success">Telah di-Disposisi<i class="fa fa-pencil"></i></a>
 						</li><?php
 					}else{?>
-						<li class="next"><a href="./index.php?op=memo&memoid=<?php echo $data_memo->id_sm;?>&act=disposisi" class="btn btn-danger">Disposisi<i class="ace-icon fa fa-share align-top bigger-125 icon-on-right"></i></a>
+						<li class="page-item"><a href="./index.php?op=memo&memoid=<?php echo $data_memo->id_sm;?>&act=disposisi" class="btn btn-danger">Disposisi <i class="fa fa-share"></i></a>
 						</li><?php
 					}?>
 				</ul><?php
 			}?>
 		</div>
+		</li>
 
 	</div><?php
 }else{?>

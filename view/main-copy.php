@@ -43,8 +43,8 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<!-- <link rel="icon" href="img/core-img/favicon.ico"> -->
 
 		<!-- plugin css -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
 		<link rel="stylesheet" href="assets/assets/fullcalendar/fullcalendar.min.css" />
 		<link href="assets/assets/fonts/feather-font/css/iconfont.css" rel="stylesheet" />
 		<link href="assets/assets/plugins/flag-icon-css/css/flag-icon.min.css" rel="stylesheet" />
@@ -59,12 +59,14 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<!-- common css -->
 		<link href="assets/css/app.css" rel="stylesheet" />
 		<!-- end common css -->
+		
 		<script src="https://code.highcharts.com/highcharts.src.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
-		
+		<script src="assets/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+		<link href="assets/css/add_template.css" rel="stylesheet">
 		
 
 	</head>
@@ -90,14 +92,12 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 
 		<!-- base js -->
 		<script src="assets/js/app.js"></script>
+		<script src="assets/assets/fullcalendar/lib/jquery.min.js"></script>
 		<script src="assets/assets/plugins/feather-icons/feather.min.js"></script>
-		<script src="assets/assets/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
 		
 
-
 		<!-- plugin script -->
-		<script src="assets/assets/fullcalendar/lib/jquery.min.js"></script>
 		<script	src="assets/assets/fullcalendar/lib/moment.min.js"></script>
 		<script src="assets/assets/fullcalendar/fullcalendar.min.js"></script>
 		<script src="assets/assets/plugins/chartjs/Chart.min.js"></script>
@@ -111,6 +111,7 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<script src="assets/assets/plugins/select2/select2.min.js"></script>
 		<script src="assets/assets/plugins/datatables-net/jquery.dataTables.js"></script>
   		<script src="assets/assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js"></script>
+		<script src="assets/assets/plugins/tinymce-dist/tinymce.min.js"></script>
 
 
 		<script src="assets/assets/js/dropify.js"></script>
@@ -120,6 +121,8 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
  		<!-- <script src="assets/assets/js/timepicker.js"></script> -->
 		<script src="assets/assets/js/select2.js"></script>
 		<script src="assets/assets/js/data-table.js"></script>
+		<script src="assets/assets/js/tinymce.js"></script>
+
 	
 
 
@@ -129,6 +132,7 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 		<!-- common js -->
 		<script src="assets/assets/js/template.js"></script>
 		<!-- end common js -->
+
 
 	</body>
 
