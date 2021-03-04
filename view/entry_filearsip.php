@@ -141,8 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			<div class="card-body">
 				<form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 					<div class="form-group">
-						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nomor Arsip *</label>
-						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Isi dengan nomor arsip." title="Nomor Arsip">?</span>
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nomor Arsip </label>
 						<div class="col-sm-6">
 							<input class="form-control" placeholder="Nomor arsip" type="text" name="no_arsip" <?php if(isset($noArsip)){ echo $noArsip; }?> id="form-field-mask-1" required disabled />
 							<input type="hidden" name="no_arsip" value="<?php echo $noArsipShow;?>"/>
@@ -150,18 +149,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					</div>
 					
 					<div class="form-group">
-						<label class="tx-11 font-weight-bold mb-0 text-uppercase " for="form-field-mask-1"> Tanggal Surat *</label>
-						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih tanggal arsip." title="Tanggal Arsip">?</span>
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase " for="form-field-mask-1"> Tanggal Surat </label>
 						<div class="col-sm-6">
-							<input class="form-control  date datepicker" id="datePickerExample" data-date-format="dd/mm/yyyy" placeholder="Tanggal arsip" type="text" name="tgl_arsip" <?php if(isset($tgl_arsip)){ echo $tgl_arsip; }?>  required />
+							<input class="form-control  date "  data-date-format="dd/mm/yyyy" placeholder="Tanggal arsip" type="date" name="tgl_arsip" <?php if(isset($tgl_arsip)){ echo $tgl_arsip; }?>  required />
 						</div>
 					</div>
 
 
 					<div class="form-group">
 					<div class="col-sm-6">
-					<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tingkat Keamanan *</label>
-						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih tingkat keamanan arsip." title="Tingkat keamanan">?</span>
+					<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tingkat Keamanan </label>
 					<select class="js-example-basic-single w-100" name="keamanan" require>
 								<?php
 									$Arr_keamanan = array("Biasa/Terbuka", "Terbatas", "Rahasia", "Sangat Rahasia");
@@ -197,8 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
 					<div class="form-group">
 					<div class="col-sm-6">
-					<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Klasifikasi File *</label>
-					<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih klasifikasi arsip." title="Klasifikasi">?</span>
+					<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Klasifikasi File </label>
 					<select class="js-example-basic-single w-100" name="id_klasifikasi" require>
 					<option value="">Pilih Klasifikasi</option>
 					<?php

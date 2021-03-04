@@ -181,29 +181,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$dummy_arr = '[""]';
 		$CekTujuan = json_decode($dummy_arr, true);
 	}?>
-	<div class="widget-box">
-		<div class="widget-header">
-			<h4 class="widget-title"><?php echo $title;?></h4>
-			<div class="widget-toolbar">
-				<a href="#" data-action="collapse">
-					<i class="ace-icon fa fa-chevron-up"></i>
-				</a>
-				<a href="#" data-action="close">
-					<i class="ace-icon fa fa-times"></i>
-				</a>
-			</div>
-		</div>
+	<h4 class="widget-title"><?php echo $title;?></h4>
+	<div class="card">
 		<div class="card-body">
 			<form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 				<div class="form-group">
-					<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Judul Correct *</label>
+					<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Judul Correct </label>
 					<div class="col-sm-6">
 						<input class="form-control" data-rel="tooltip" placeholder="Perihal / judul memo" type="text" name="judul" <?php if(isset($judul)){ echo $judul; }?> data-placement="bottom" id="form-field-mask-1" required/>
 					</div>
 				</div>		
 
 				<div class="form-group">
-				<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Isi Correct *</label>
+				<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Isi Correct </label>
 					<div class="col-sm-6">
 						<textarea id="maxlength-textarea" name ="ket" class="form-control" maxlength="150" rows="8" placeholder="Isi memo" name="isi"><?php if(isset($isi)){ echo $isi; }?></textarea>
 					</div>
@@ -216,7 +206,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				</div>
 
 				<div class="form-group">
-				<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tujuan Correct *</label>
+				<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tujuan Correct </label>
 					<div class="col-sm-6">
 					<select class="js-example-basic-single w-100" multiple name="tujuan[]" data-placeholder="Pilih Tujuan...">
 					<option value="">Pilih Tujuan</option>
