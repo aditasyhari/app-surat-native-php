@@ -1,4 +1,4 @@
-                
+            
    <?php
         $servername = "localhost";
         $username = "root";
@@ -19,6 +19,7 @@
             $tahun = $_POST['tahun'];
         
 
+        // echo $id;
 
         $sql = "SELECT COUNT(*) as jumlah FROM arsip_sm INNER JOIN user ON arsip_sm.id_user = user.id_user INNER JOIN user_jabatan ON user.jabatan = user_jabatan.id_jab WHERE arsip_sm.id_user = '$id' AND MONTH(arsip_sm.created) = '$bulan' AND YEAR(arsip_sm.created) = '$tahun' GROUP BY MONTH(arsip_sm.created)";
         $sql2 = "SELECT COUNT(*) as jumlah FROM arsip_sk INNER JOIN user ON arsip_sk.id_user = user.id_user INNER JOIN user_jabatan ON user.jabatan = user_jabatan.id_jab WHERE arsip_sk.id_user = '$id' AND MONTH(arsip_sk.created) = '$bulan' AND YEAR(arsip_sk.created) = '$tahun' GROUP BY MONTH(arsip_sk.created)";
@@ -49,7 +50,6 @@
             } else {
                 // echo "0 results";
             }
-
             if ($numRow3 > 0) {
                 // output data of each row
                     while($row3 = $result3->fetch_assoc()) {
@@ -61,7 +61,7 @@
                 } else {
                     // echo "0 results";
                 }
-    
+
         $conn->close();
     ?>
                 <form class="form-sample" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
@@ -106,27 +106,15 @@
                             
                     </div>
                 </form>
-                <?php
-                // if(isset($_POST['pilih'])){
-                //     echo "<div class='card'>
-                //             <div class='card-body'>
-                //                 <h3 align='center' class='tx-20 font-weight-bold mb-0 text-uppercase'>STATISTIK UNIT</h3><br>
-                //                 <h6 align ='center' class=tx-14 font-weight-bold mb-0 text-uppercase>" . $kategori .;
-           
-                //      "<span class='badge badge-primary'><h6>" . date('M', strtotime($POST['bulan'])) ." - " . $tahun . "</span> </h6>";
-                //      "</div>";
-                //      "</div>";
-                // ?>
-                <div class='card'>
-                <div class="card-body">
+             
+                
                     <h3 align='center' class="tx-20 font-weight-bold mb-0 text-uppercase">STATISTIK UNIT</h3><br>
-                    <h6 align ='center' class="tx-14 font-weight-bold mb-0 text-uppercase"> <?=$kategori?> <span class="badge badge-primary"><h6><?=date('M', strtotime($POST['bulan'])) ." - " . $tahun?></span> </h6>
-                </div>
+                    <h6 align ='center' class="tx-14 font-weight-bold mb-0 text-uppercase"> <?=$kategori?> <span class="badge badge-primary"><h6><?= date('F', mktime(0, 0, 0, $bulan)) ." - " . $tahun?></span> </h6>
+              
                 </div>
                
                 <hr>
-
-            
+         
 
 
 
@@ -159,8 +147,25 @@
           text: ''
       },
       xAxis: {
-        categories: [''],
-       {
+        categories: [' '],
+      },
+      yAxis: {
+          title: {
+              text: 'Jumlah'
+          }
+      },
+      legend: {
+          layout: 'vertical',
+          align: 'right',
+          verticalAlign: 'middle'
+      },
+      plotOptions: {
+          series: {
+              allowPointSelect: true
+          }
+      },
+      series: [
+          {
                 name:['surat masuk'],
                 data: [<?= $data?>],
                 color: "#6163fc"
