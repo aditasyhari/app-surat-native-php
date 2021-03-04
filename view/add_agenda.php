@@ -27,10 +27,10 @@
 	
 ?>
 	<div class="widget-header">
-			<h4 class="widget-title">Tambah Agenda</h4>
-		</div>
+		<h4 class="widget-title">Tambah Agenda</h4>
+	</div>
 		
-	<div class="card">
+	<div class="card mt-3">
 	
 		<div class="card-body">
 		
@@ -41,11 +41,8 @@
 						<input class="form-control" data-rel="tooltip" placeholder="Perihal Agenda" type="text" name="title"  data-placement="bottom" id="form-field-mask-1" required/>
 					</div>
 				</div>		
-
-				
-
 				<div class="form-group">
-					<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Lokasi</label>
+					<label class="text-uppercase" for="form-field-mask-1"> Lokasi</label>
 					<div class="col-sm-6">
 						<input class="form-control" data-rel="tooltip" placeholder="Masukan Lokasi" type="text" name="lokasi"  data-placement="bottom" id="form-field-mask-1" required/>
 					</div>
