@@ -107,42 +107,13 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 					$dataKopTerima = $KopTerima->fetch(PDO::FETCH_OBJ);?>
 					<div class="widget-header">
 						<h4 class="widget-title">Konfigurasi <?php echo $dataKopTerima->ket;?></h4>
-						<div class="widget-toolbar">
-							<a href="#" data-action="collapse">
-								<i class="ace-icon fa fa-chevron-up"></i>
-							</a>
-							<a href="#" data-action="close">
-								<i class="ace-icon fa fa-times"></i>
-							</a>
-						</div>
 					</div>
 					<div class="widget-body">
 						<div class="widget-main"><?php?>
-							<!-- <script src="./tinymce/tinymce.min.js"></script> -->
-							<!-- <script src="./assets/assets/plugins/tinymce-dist/tinymce.min.js"></script> -->
-							<!-- <script>
-								tinymce.init({
-								  selector: 'textarea',
-								  height: 200,
-								  theme: 'modern',
-								  plugins: [
-									'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-									'searchreplace wordcount visualblocks visualchars code fullscreen',
-									'insertdatetime media nonbreaking save table contextmenu directionality',
-									'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc'
-								  ],
-								  toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-								  toolbar2: 'print preview media | forecolor backcolor emoticons | codesample',
-								  image_advtab: true,
-								  templates: [
-									{ title: 'Test template 1', content: 'Test 1' },
-									{ title: 'Test template 2', content: 'Test 2' }
-								  ]
-								 });
-							</script> -->
+
 							<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" name="formku" action="<?php echo $_SESSION['url'];?>">
 								<div class="form-group">
-									<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Aktifkan Layout*</label>
+									<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Aktifkan Layout</label>
 									<div class="radio"><?php
 										if($dataKopTerima->status == "Y"){?>
 											<label>
@@ -166,7 +137,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Kop Default*</label>
+									<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Kop Default </label>
 									<div class="radio"><?php
 										if($dataKopTerima->kopdefault == "Y"){?>
 											<label>
@@ -197,7 +168,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 									</div>
 								</div>
 								<div class="form-group">
-									<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Variabel dinamis yang tersedia*</label>
+									<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Variabel dinamis yang tersedia </label>
 									<div class="col-sm-6">
 										<?php echo $VarDinamis;?>
 									</div>
@@ -205,7 +176,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 								<div class="clearfix form-actions">
 									<div class="col-md-offset-3 col-md-9">
 										<div class="col-sm-2">
-											<button type="submit" class="btn btn-info" type="button">
+											<button type="submit" class="btn btn-primary" type="button">
 												<i class="ace-icon fa fa-check bigger-110"></i>
 												Submit
 											</button>
@@ -235,8 +206,8 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 						</a>
 					</div>
 				</div>
-				<div class="widget-body">
-					<div class="widget-main">
+				<div class="card">
+					<div class="card-body">
 						<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" name="formku" action="<?php echo $_SESSION['url'];?>">
 							<div class="form-group">
 								<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Title*</label>
@@ -270,8 +241,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 								</div> -->
 							</div>
 							<div class="form-group">
-								<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Gambar Kop Surat*</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih kop surat yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .jpg, .png" title="File kop surat">?</span>
+								<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Gambar Kop Surat </label>
 
 								<input type="file" name="filelogo" class="file-upload-default">
 								<div class="input-group col-sm-6">
@@ -308,7 +278,6 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 						
 							<div class="form-group">
 								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Email</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan alamat email yang akan digunakan untuk mengirim notifikasi." title="Email">?</span>
 								<div class="col-sm-6">
 									<input type="email" class="form-control" placeholder="Isi dengan alamat email pengirim notifikasi" name="email" <?php if(isset($email)){ echo $email; }?> id="form-field-mask-1"/>
 								</div>
@@ -316,7 +285,6 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 						
 							<div class="form-group">
 								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Password Email</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan password login email." title="Email">?</span>
 								<div class="col-sm-4">
 									<input type="text" class="form-control" placeholder="password email pengirim notifikasi" name="pass_email" <?php if(isset($pass_email)){ echo $pass_email; }?> id="form-field-mask-1"/>
 								</div>
@@ -324,7 +292,6 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 						
 							<div class="form-group">
 								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nilai awal no agenda surat masuk</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Isi dengan nomor agenda surat masuk. Jika nilai kosong maka nomor agenda otomatis dimulai dari 1" title="Nilai Awal Agenda Surat Masuk">?</span>
 								<div class="col-sm-4">
 									<input type="text" class="form-control" placeholder="Nomor agenda surat masuk dimulai dari" name="no_agenda_sm_start" <?php if(isset($no_agenda_sm_start)){ echo $no_agenda_sm_start; }?> id="form-field-mask-1"/>
 								</div>
@@ -332,7 +299,6 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 						
 							<div class="form-group">
 								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Kode tambahan no agenda surat masuk</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Isi dengan kode tambahan untuk nomor agenda surat masuk (optional)." title="Kode Tambahan Agenda Surat Masuk">?</span>
 								<div class="col-sm-4">
 									<input type="text" class="form-control" placeholder="Kode tambahan untuk nomor agenda surat masuk" name="no_agenda_sm" <?php if(isset($no_agenda_sm)){ echo $no_agenda_sm; }?> id="form-field-mask-1"/> <br>
 									<span class="help-block">Note Variabel: <br/><b>=Tahun=</b> | untuk nilai tahun surat masuk otomatis <br/><b>=KodeSurat=</b> | untuk kode jenis surat masuk Otomatis</span>
@@ -341,7 +307,6 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 						
 							<div class="form-group">
 								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nilai awal no agenda surat keluar</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Isi dengan nomor agenda surat keluar. Jika nilai kosong maka nomor agenda otomatis dimulai dari 1" title="Nilai Awal Agenda Surat Keluar">?</span>
 								<div class="col-sm-4">
 									<input type="text" class="form-control" placeholder="Nomor agenda surat keluar dimulai dari" name="no_agenda_sk_start" <?php if(isset($no_agenda_sk_start)){ echo $no_agenda_sk_start; }?> id="form-field-mask-1"/>
 								</div>
@@ -349,7 +314,6 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 						
 							<div class="form-group">
 								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Kode tambahan no agenda surat keluar</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Isi dengan kode tambahan untuk nomor agenda surat keluar (optional)" title="Kode Tambahan Agenda Surat Keluar">?</span>
 								<div class="col-sm-4">
 									<input type="text" class="form-control" placeholder="Kode tambahan untuk nomor agenda surat keluar" name="no_agenda_sk" <?php if(isset($no_agenda_sk)){ echo $no_agenda_sk; }?> id="form-field-mask-1"/> <br>
 									<span class="help-block">Note Variabel: <br/><b>=Tahun=</b> | untuk nilai tahun surat keluar otomatis <br/><b>=KodeSurat=</b> | untuk kode jenis surat keluar otomatis</span>

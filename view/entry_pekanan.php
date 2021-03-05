@@ -3,7 +3,7 @@ include('db.php');
 
 
 if(isset($_POST['reset'])){
-	$sql="DELETE FROM libur_pekan";	
+	$sql="TRUNCATE TABLE libur_pekan";	
 	if($mysqli->query($sql) === false) { // Jika gagal meng-insert data tampilkan pesan dibawah 'Perintah SQL Salah'
 		trigger_error('Perintah SQL Salah: ' . $sql . ' Error: ' . $mysqli->error, E_USER_ERROR);
 	  } else {

@@ -23,10 +23,13 @@
 
         $sql = "SELECT COUNT(*) as jumlah FROM arsip_sm INNER JOIN user ON arsip_sm.id_user = user.id_user INNER JOIN user_jabatan ON user.jabatan = user_jabatan.id_jab WHERE arsip_sm.id_user = '$id' AND MONTH(arsip_sm.created) = '$bulan' AND YEAR(arsip_sm.created) = '$tahun' GROUP BY MONTH(arsip_sm.created)";
         $sql2 = "SELECT COUNT(*) as jumlah FROM arsip_sk INNER JOIN user ON arsip_sk.id_user = user.id_user INNER JOIN user_jabatan ON user.jabatan = user_jabatan.id_jab WHERE arsip_sk.id_user = '$id' AND MONTH(arsip_sk.created) = '$bulan' AND YEAR(arsip_sk.created) = '$tahun' GROUP BY MONTH(arsip_sk.created)";
+        $sql3 = "SELECT *  FROM user INNER JOIN user_jabatan ON user.jabatan = user_jabatan.id_jab WHERE user.id_user = '$id'";
         $result = mysqli_query($conn, $sql);
         $result2 = mysqli_query($conn, $sql2);
+        $result3 = mysqli_query($conn, $sql3);
         $numRow = mysqli_num_rows($result);
         $numRow2 = mysqli_num_rows($result2);
+        $numRow3 = mysqli_num_rows($result3);
 
         if ($numRow > 0) {
         // output data of each row
@@ -47,54 +50,74 @@
             } else {
                 // echo "0 results";
             }
+            if ($numRow3 > 0) {
+                // output data of each row
+                    while($row3 = $result3->fetch_assoc()) {
+                        $jabatan = $row3['nama_jabatan'];
+                        $user = $row3['nama'];
+                    }
+                    $kategori =  $user."(".$jabatan.")";
+                    
+                } else {
+                    // echo "0 results";
+                }
 
         $conn->close();
     ?>
-        <form class="form-sample" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
-            <div class="row ">
-                <div class="form-group d-flex flex-row w-100 justify-content-center">
-                    <select class="js-example-basic-multiple form-control" name="tujuan"  data-placeholder="Pilih user..." required>
-                        <?php
-                        $Diteruskan = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
-                        if($Diteruskan->rowCount() >= 1){
-                            while($dataDiteruskan = $Diteruskan->fetch(PDO::FETCH_OBJ)){
-                                $DiteruskanSurat = $dataDiteruskan->nama ." (".$dataDiteruskan->nama_jabatan .")";
-                                if(false !== array_search($dataDiteruskan->id_user, $cekDiteruskan)){?>
-                                    <option value="<?php echo $dataDiteruskan->id_user;?>" selected><?php echo $DiteruskanSurat;?></option><?php
-                                }else{?>
-                                    <option value="<?php echo $dataDiteruskan->id_user;?>"><?php echo $DiteruskanSurat;?></option><?php
-                                }
-                            }								
-                        }else{?>
-                            <option value="">Not Found</option><?php
-                        }?>
-                        
-                    </select> 
-                    <select class="js-example-basic-multiple form-control" name="bulan" data-placeholder="Pilih Tanggal...">
-                        <option value="" selected disabled>Pilih</option>
-                        <option value="01">Januari</option>
-                        <option value="02">Februari</option>
-                        <option value="03">Maret</option>
-                        <option value="04">April</option>
-                        <option value="05">Mei</option>
-                        <option value="06">Juni</option>
-                        <option value="07">Juli</option>
-                        <option value="08">Agustus</option>
-                        <option value="09">September</option>
-                        <option value="10">Oktober</option>
-                        <option value="11">November</option>
-                        <option value="12">Desember</option>
-                    </select>
+                <form class="form-sample" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
+                    <div class="row justify-content-center">
                     <div class="form-group">
-                    <select id='year' class="js-example-basic-multiple form-control" name="tahun"  data-placeholder="Pilih Tahun..."></select>
+                        <select class="js-example-basic-multiple w-100 form-control" name="tujuan"  data-placeholder="Pilih user..." required><?php
+									$Diteruskan = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
+									if($Diteruskan->rowCount() >= 1){
+										while($dataDiteruskan = $Diteruskan->fetch(PDO::FETCH_OBJ)){
+											$DiteruskanSurat = $dataDiteruskan->nama ." (".$dataDiteruskan->nama_jabatan .")";
+											if(false !== array_search($dataDiteruskan->id_user, $cekDiteruskan)){?>
+												<option value="<?php echo $dataDiteruskan->id_user;?>" selected><?php echo $DiteruskanSurat;?></option><?php
+											}else{?>
+												<option value="<?php echo $dataDiteruskan->id_user;?>"><?php echo $DiteruskanSurat;?></option><?php
+											}
+										}								
+									}else{?>
+										<option value="">Not Found</option><?php
+									}?>
+                                    
+					             </select> 
+                                <select class="js-example-basic-multiple w-100 form-control" name="bulan" data-placeholder="Pilih Tanggal...">
+                                    <option value="01">Januari</option>
+                                    <option value="02">Februari</option>
+                                    <option value="03">Maret</option>
+                                    <option value="04">April</option>
+                                    <option value="05">Mei</option>
+                                    <option value="06">Juni</option>
+                                    <option value="07">Juli</option>
+                                    <option value="08">Agustus</option>
+                                    <option value="09">September</option>
+                                    <option value="10">Oktober</option>
+                                    <option value="11">November</option>
+                                    <option value="12">Desember</option>
+								</select>
+                            </div> &nbsp
+                            <div class="form-group">
+                                <select id='year' class="js-example-basic-multiple w-100 form-control" name="tahun"  data-placeholder="Pilih Tanggal...">
+								</select>
+                                <button name = 'pilih' type ='submit' class = 'btn btn-primary'> PILIH </button>
+                            </div>
+                            
                     </div>
-                    <button name = 'pilih' type ='submit' class = 'btn btn-primary'> PILIH </button>
-                </div> 
+                </form>
+             
+                
+                    <h3 align='center' class="tx-20 font-weight-bold mb-0 text-uppercase">STATISTIK UNIT</h3><br>
+                    <h6 align ='center' class="tx-14 font-weight-bold mb-0 text-uppercase"> <?=$kategori?> <span class="badge badge-primary"><h6><?= date('F', mktime(0, 0, 0, $bulan)) ." - " . $tahun?></span> </h6>
+              
+                </div>
+               
+                <hr>
+         
 
-            </div>
-        </form>
-        <hr>
-            
+
+
 
 <div id="chart">
 </div>
@@ -118,7 +141,7 @@
             type: 'column'
         },
       title: {
-          text: 'STATISTIK PER UNIT'
+          text: ''
       },
       subtitle: {
           text: ''

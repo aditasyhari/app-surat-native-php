@@ -397,8 +397,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			<div class="card-body">
 				<form class="form-horizontal" role="form" enctype="multipart/form-data" method="GET" name="formku" action="./index.php?op=add_sm">
 					<div class="form-group">
-						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Jenis Surat *</label>
-						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih klasifikasi arsip." title="Klasifikasi">?</span>
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Jenis Surat </label>
 						<div class="col-sm-6">
 							<input type="hidden" name="op" value="add_sm"/>
 							<select class="js-example-basic-single w-100" id="form-field-select-3" name="id_klasifikasi" data-placeholder="Pilih Klasifikasi..." required onchange="this.form.submit()" <?php if(isset($_GET['smid'])){ echo 'disabled'; } ?>>
@@ -422,8 +421,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					if((isset($_GET['id_klasifikasi']) && $_GET['id_klasifikasi'] != '') OR (isset($_GET['smid'])  && $_GET['smid'] != '')){ ?>
 						<form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 						<div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-1"> No. Agenda *</label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan nomor agenda surat masuk." title="Nomor Agenda">?</span>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-1"> No. Agenda </label>
 							<div class="col-sm-6"> <?php 
 								$params = array(':id' => 1);
 								$cek_noagenda_custom = $this->model->selectprepare("pengaturan", $field=null, $params, "id=:id")->fetch(PDO::FETCH_OBJ);
@@ -442,38 +440,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nomor Surat *</label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan nomor surat masuk yang diterima." title="Nomor Surat Masuk">?</span>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nomor Surat </label>
 							<div class="col-sm-6">
 								<input class="form-control" placeholder="Nomor surat masuk" type="text" name="nosm" <?php if(isset($nosm)){ echo $nosm; }?> id="form-field-mask-1" required/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tanggal Surat *</label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan tanggal pada surat masuk. ex. 01-12-2015" title="Tanggal Surat">?</span>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tanggal Surat </label>
 							<div class="col-sm-6">
-								<input class="form-control" placeholder="Tanggal pada surat masuk" type="date" name="tglsm" <?php if(isset($tgl_surat)){ echo $tgl_surat; }?>  required/>
-								<!-- <input class="form-control date datepicker" id ="tgl_awal" data-date-format="dd/mm/yyyy" placeholder="Tanggal pada surat masuk" type="text" name="tglsm" <?php if(isset($tgl_surat)){ echo $tgl_surat; }?>  required/> -->
+								<input class="form-control date"  placeholder="Tanggal pada surat masuk" type="date" name="tglsm" <?php if(isset($tgl_surat)){ echo $tgl_surat; }?>  required/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tanggal Terima *</label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan tanggal surat masuk diterima. ex. 01-12-2015" title="Tanggal Terima">?</span>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tanggal Terima </label>
 							<div class="col-sm-6">
-								<input class="form-control" placeholder="Tanggal terima surat masuk" type="date" name="tgl_terima" <?php if(isset($tgl_terima)){ echo $tgl_terima; }?>  required/>
-								<!-- <input class="form-control date datepicker" id ="tgl_akhir" data-date-format="dd/mm/yyyy" placeholder="Tanggal terima surat masuk" type="text" name="tgl_terima" <?php if(isset($tgl_terima)){ echo $tgl_terima; }?>  required/> -->
+								<input class="form-control date"  data-date-format="dd/mm/yyyy" placeholder="Tanggal terima surat masuk" type="date" name="tgl_terima" <?php if(isset($tgl_terima)){ echo $tgl_terima; }?>  required/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Surat Dari *</label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai sumber pengirim surat (nama lembaga/peroranngan)." title="Sumber Surat">?</span>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Surat Dari </label>
 							<div class="col-sm-6">
 								<input class="form-control" data-rel="tooltip" placeholder="Sumber surat/pengirim" type="text" name="pengirim" <?php if(isset($pengirim)){ echo $pengirim; }?> title="Di isi sesuai sumber pengirim surat (nama lembaga atau peroranngan)" data-placement="bottom" id="form-field-mask-1" required/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Diteruskan ke *</label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih tujuan Surat dieruskan (support multiple choise)." title="Diteruskan ke *">?</span>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Diteruskan ke </label>
 							<div class="col-sm-6">
 								<div class="space-2"></div>
 								<select multiple="" class="js-example-basic-multiple w-100 form-control" name="tujuan[]"  data-placeholder="Pilih user..." required><?php
@@ -494,15 +485,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Perihal *</label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai perihal atau subjek surat masuk." title="Perihal">?</span>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Perihal </label>
 							<div class="col-sm-6">
 								<textarea id="maxlength-textarea" class="form-control" placeholder="Perihal/subjek surat" name="perihal"  maxlength="150" required><?php if(isset($perihal)){ echo $perihal; }?></textarea>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Keterangan </label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan keterangan tambahan jika ada (seperti jadwal undangan, tempat, tanggal penting dsb)." title="Keterangan">?</span>
 							<div class="col-sm-6">
 								<textarea class="form-control" placeholder="Keterangan tambahan (jika ada)" name="ket" id="form-field-9" maxlength="150"><?php if(isset($ket)){ echo $ket; }?></textarea>
 							</div>

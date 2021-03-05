@@ -48,17 +48,9 @@
 				echo $dataKopEmail->ket;
 			}?>
 			</h4>
-			<div class="widget-toolbar">
-				<a href="#" data-action="collapse">
-					<i class="ace-icon fa fa-chevron-up"></i>
-				</a>
-				<a href="#" data-action="close">
-					<i class="ace-icon fa fa-times"></i>
-				</a>
-			</div>
 		</div>
-		<div class="widget-body">
-			<div class="widget-main"><?php?>
+		<div class="card">
+			<div class="card-body"><?php?>
 				<script src="./tinymce/tinymce.min.js"></script>
 				<script>
 					tinymce.init({
@@ -86,7 +78,6 @@
 					<div class="form-group">
 						<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1" for="form-field-mask-1">Pilih jenis kop email</label>
 						<div class="col-sm-6">
-						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left"  data-content="Pilih kop email yang tersedia" title="Jenis kop email">?</span>
 						<select class="js-example-basic-single w-100" name="GetId"  data-placeholder="Pilih Kop..." onchange='this.form.submit()'>
 						<option value="">Pilih Kop</option><?php
 								$KopEmail = $this->model->selectprepare("email_setting", $field=null, $params=null, $where=null);
@@ -131,7 +122,7 @@
 						$dataKopEmail = $KopEmail->fetch(PDO::FETCH_OBJ);?>
 						<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" name="formku" action="<?php echo $_SESSION['url'];?>">
 							<div class="form-group">
-								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Aktifkan notif email*</label><br>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Aktifkan notif email </label><br>
 
 								<div class="form-check form-check-inline"><?php
 									if($dataKopEmail->status == "Y"){?>
@@ -156,8 +147,7 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Format notif eMail*</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan deskripsi aplikasi/perusahaan" title="Deskripsi">?</span>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Format notif EMail </label>
 								<div class="col-sm-8">
 									<textarea class="form-control limited" name="layout"/><?php echo $dataKopEmail->layout;?></textarea>
 								</div>
@@ -178,7 +168,7 @@
 									</div>
 									&nbsp; &nbsp; &nbsp;
 									<div class="col-sm-2">
-									<button class="btn btn-behance" type="reset">
+									<button class="btn btn-warning" type="reset">
 										<i class="ace-icon fa fa-undo bigger-110"></i>
 										Reset
 									</button>

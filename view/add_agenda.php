@@ -19,7 +19,11 @@
 				
 			}
 			}
-				
+			
+			$date = date('d/m/Y ', time());
+	
+
+		
 	
 ?>
 	<div class="widget-header">
@@ -32,7 +36,7 @@
 		
 			<form class="form-horizontal"  enctype="multipart/form-data" method="POST"  action="">
 				<div class="form-group">
-					<label class="text-uppercase" for="form-field-mask-1"> Nama Agenda</label>
+					<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nama Agenda </label>
 					<div class="col-sm-6">
 						<input class="form-control" data-rel="tooltip" placeholder="Perihal Agenda" type="text" name="title"  data-placement="bottom" id="form-field-mask-1" required/>
 					</div>
@@ -44,18 +48,16 @@
 					</div>
 				</div>	
 				<div class="form-group">
-						<label class="text-uppercase " for="form-field-mask-1"> Tanggal Dimulai </label>
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase " for="form-field-mask-1"> Tanggal Dimulai </label>
 						<div class="col-sm-6">
-							<input class="form-control"  placeholder="Tanggal awal" type="date" name="tgl_awal"  required />
-							<!-- <input class="form-control  date datepicker" id="tgl_awal"  placeholder="Tanggal awal" type="text" name="tgl_awal"  required /> -->
+							<input class="form-control  date "  placeholder="Tanggal awal" type="date" name="tgl_awal" value ="<?php echo date('Y-m-d',strtotime($date))?>"  required />
 						</div>
 				</div>
 
 				<div class="form-group">
-						<label class="text-uppercase " for="form-field-mask-1"> Tanggal Diakhiri </label>
+						<label class="tx-11 font-weight-bold mb-0 text-uppercase " for="form-field-mask-1"> Tanggal Diakhiri </label>
 						<div class="col-sm-6">
-							<input class="form-control" placeholder="Tanggal akhir" type="date" name="tgl_akhir"  required />
-							<!-- <input class="form-control  date datepicker" id="tgl_akhir"  placeholder="Tanggal akhir" type="text" name="tgl_akhir"  required /> -->
+							<input class="form-control  date"   placeholder="Tanggal akhir" type="date"  name="tgl_akhir" value ="<?php echo date('Y-m-d',strtotime($date))?>"  required />
 						</div>
 				</div>
 

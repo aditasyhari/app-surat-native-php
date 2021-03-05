@@ -45,6 +45,21 @@
 							</div>
 
 							<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Filter Klasifikasi</label>
+							<select class="js-example-basic-single w-100" name="klasifikasi" require data-placeholder="Pilih Klasifikasi...">
+									<option value="">Pilih klasifikasi...</option>
+									<?php 
+										$klasArsip = $this->model->selectprepare("klasifikasi_arsip", $field=null, $params=null, $where=null, "ORDER BY nama_klasifikasi ASC");
+										while($dataKlasArsip= $klasArsip->fetch(PDO::FETCH_OBJ)){?>
+											<option value="<?php echo $dataKlasArsip->id_klasifikasi;?>"><?php echo $dataKlasArsip->nama_klasifikasi;?></option><?php
+										}?>
+									</select>
+							</select>
+							</div>
+							</div>
+
+
+
+							<!-- <label>Filter Klasifikasi</label><span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Pilih klasifikasi arsip." title="Filter Klasifikasi">?</span>
 							<div class="row">
 								<div class="col-sm-6">
 									<div class="form-group">
@@ -85,11 +100,11 @@
 	</div>
 <?php
 if($_SERVER["REQUEST_METHOD"] == "POST"){?>
-	<div class="row">
-		<div class="col-sm-6">
+	<br><div class="row">
+		<div class="col-sm-12">
 			<div class="widget-box">
-				<div class="widget-body">
-					<div class="widget-main"><?php
+				<div class="card">
+					<div class="card-body"><?php
 						//print_r($_POST);
 						$from = explode("/", substr($_POST['rangetgl1'],0,10));
 						$tglfrom = htmlspecialchars($from[2]."-".$from[0]."-".$from[1]);
