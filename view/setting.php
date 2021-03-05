@@ -118,8 +118,9 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 					</div>
 					<div class="widget-body">
 						<div class="widget-main"><?php?>
-							<script src="./tinymce/tinymce.min.js"></script>
-							<script>
+							<!-- <script src="./tinymce/tinymce.min.js"></script> -->
+							<!-- <script src="./assets/assets/plugins/tinymce-dist/tinymce.min.js"></script> -->
+							<!-- <script>
 								tinymce.init({
 								  selector: 'textarea',
 								  height: 200,
@@ -138,7 +139,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 									{ title: 'Test template 2', content: 'Test 2' }
 								  ]
 								 });
-							</script>
+							</script> -->
 							<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" name="formku" action="<?php echo $_SESSION['url'];?>">
 								<div class="form-group">
 									<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Aktifkan Layout*</label>
@@ -191,7 +192,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 								<div class="form-group">
 									<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Format Kop Surat Terima*</label>
 									<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan deskripsi aplikasi/perusahaan" title="Deskripsi">?</span>
-									<div class="col-sm-8">
+									<div class="col-sm-12">
 										<textarea class="form-control limited" name="layout"/><?php echo $dataKopTerima->layout;?></textarea>
 									</div>
 								</div>
@@ -211,10 +212,10 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 										</div>
 										&nbsp; &nbsp; &nbsp;
 										<div class="col-sm-2">
-										<button class="btn" type="reset">
+										<!-- <button class="btn" type="reset">
 											<i class="ace-icon fa fa-undo bigger-110"></i>
 											Reset
-										</button>
+										</button> -->
 										</div>
 									</div>
 								</div>
@@ -224,7 +225,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 				}
 			}else{?>
 				<div class="widget-header">
-					<h4 class="widget-title">Konfigurasi SI-NADIN</h4>
+					<h4 class="widget-title">Konfigurasi E-Office</h4>
 					<div class="widget-toolbar">
 						<a href="#" data-action="collapse">
 							<i class="ace-icon fa fa-chevron-up"></i>
@@ -240,8 +241,8 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 							<div class="form-group">
 								<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Title*</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan nama aplikasi/perusahaan." title="Nama">?</span>
-								<div class="col-sm-6">
-									<textarea id="maxlength-textarea" name ="title" class="form-control" maxlength="150" rows="4"><?php if(isset($title)){ echo $title; }?></textarea>
+								<div class="col-sm-12">
+									<textarea id="maxlength-textarea" id="tinymceExample" name ="title" class="form-control" maxlength="150" rows="4"><?php if(isset($title)){ echo $title; }?></textarea>
 								</div>
 
 
@@ -258,7 +259,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 								<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Deskripsi*</label>
 								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan deskripsi aplikasi/perusahaan" title="Deskripsi">?</span>
 
-								<div class="col-sm-6">
+								<div class="col-sm-12">
 									<textarea id="maxlength-textarea" name="deskripsi" class="form-control" maxlength="150" rows="4" ><?php if(isset($deskripsi)){ echo $deskripsi; }?></textarea>
 								</div>
 								
@@ -363,12 +364,12 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 										</button>
 									</div>
 									&nbsp; &nbsp; &nbsp;
-									<div class="col-sm-2">
+									<!-- <div class="col-sm-2">
 											<button class="btn btn-behance" type="reset">
 												<i class="ace-icon fa fa-undo bigger-110"></i>
 												Reset
 											</button>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</form>
@@ -397,11 +398,11 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 					<i class="ace-icon fa fa-cog bigger-120 blue"></i>Kop Disposisi
 				</button>
 			</a>
-			<a href="./index.php?op=setting&act=email_notif" title="Pengaturan Email Notifikasi Surat">
+			<!-- <a href="./index.php?op=setting&act=email_notif" title="Pengaturan Email Notifikasi Surat">
 				<button class="btn btn-white btn-info btn-bold">
 					<i class="ace-icon fa fa-cog bigger-120 blue"></i>Email Notifikasi
 				</button>
-			</a>
+			</a> -->
 		</div><?php
 	}
 }?>

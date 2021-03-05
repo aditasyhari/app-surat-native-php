@@ -121,9 +121,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					$mail->AltBody = $judul;
 					if(!$mail->send()) {
 						//echo "Mailer Error: " . $mail->ErrorInfo;
-						echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan. Email notifikasi gagal dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
+						echo "<script type=\"text/javascript\">alert('Data Berhasil di Simpan');window.location.href=\"./index.php?op=data_memo\";</script>";
+						// echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan. Email notifikasi gagal dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
 					}else{
-						echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
+						echo "<script type=\"text/javascript\">alert('Data Berhasil di Simpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=data_memo\";</script>";
+						// echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
 					}
 				}
 			}else{
@@ -205,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				<div class="form-group">
 				<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Isi Correct *</label>
 					<div class="col-sm-6">
-						<textarea id="maxlength-textarea" name ="ket" class="form-control" maxlength="150" rows="8" placeholder="Isi memo" name="isi"><?php if(isset($isi)){ echo $isi; }?></textarea>
+						<textarea id="maxlength-textarea" class="form-control" maxlength="150" rows="8" placeholder="Isi memo" name="isi" required ><?php if(isset($isi)){ echo $isi; }?></textarea>
 					</div>
 					
 					

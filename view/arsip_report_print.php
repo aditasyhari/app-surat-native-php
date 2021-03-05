@@ -36,8 +36,8 @@ if($ArsipFile->rowCount() >= 1){
 		$deskripsi = $data_pengaturan->deskripsi;
 	}else{
 		$kop = "default.jpg";
-		$title = "SI-Nadin - Sistem Informasi Naskah Dinas";
-		$deskripsi = "SI-Nadin merupakan aplikasi pengelolaan arsip surat Naskah";
+		$title = "E - Office";
+		$deskripsi = "E - Office merupakan aplikasi surat menyurat";
 	}?>
 	<html>
 		<head>

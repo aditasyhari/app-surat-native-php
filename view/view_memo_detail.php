@@ -513,12 +513,12 @@ if($memo->rowCount() >= 1){
 					}?>
 					<div class="widget-box">
 						<div class="widget-header">
-							<h5 class="widget-title">Disposisi Surat</h5>
+							<h5 class="widget-title mt-3">Disposisi Surat</h5>
 						</div>
 						<div class="widget-body">
 							<div class="widget-main">
 								<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
-									<div class="form-group">
+									<div class="form-group mt-3">
 										<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Disposisikan ke *</label>
 										<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan pilihan user yang tersedia">?</span>
 										<div class="col-sm-6">
@@ -591,9 +591,10 @@ if($memo->rowCount() >= 1){
 				}
 			}else{?>
 				<ul class="pagination mt-2">
-					<li class="page-item mr-1">
+					<!-- <li class="page-item mr-1">
 						<a href="./index.php?op=add_sm&smid=<?php echo $data_memo->id_sm;?>" class="btn btn-danger">Edit Surat <i class="fa fa-pencil"></i></a>
-					</li> <?php
+					</li>  -->
+					<?php
 					if($cekDisposisi->rowCount() >= 1){?>
 						<li class="page-item"><a href="./index.php?op=memo&memoid=<?php echo $data_memo->id_sm;?>&act=disposisi" class="btn btn-success">Telah di-Disposisi<i class="fa fa-pencil"></i></a>
 						</li><?php

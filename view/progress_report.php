@@ -21,9 +21,9 @@
 								<div class="col-sm-6">
 									<div class="form-group">
 									<div class="input-group input-daterange" id="datePickerExample">
-									<input type="text" class="form-control" name="rangetgl" >
+										<input type="text" class="form-control" name="rangetgl1" >
 										<div class="input-group-addon"> to </div>
-										<input type="text" class="form-control" name="rangetgl" >
+										<input type="text" class="form-control" name="rangetgl2" >
 									</div>
 									</div>
 								</div>
@@ -93,9 +93,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 						$wherekCon = '';
 						if(isset($_POST['filterTgl'])){
 							$filterTgl = htmlspecialchars($purifier->purify(trim($_POST['filterTgl'])), ENT_QUOTES);
-							$from = explode("/", substr($_POST['rangetgl'],0,10));
+							$from = explode("/", substr($_POST['rangetgl1'],0,10));
 							$tglfrom = htmlspecialchars($from[2]."-".$from[0]."-".$from[1]);
-							$to = explode("/", substr($_POST['rangetgl'],-10));
+							$to = explode("/", substr($_POST['rangetgl2'],-10));
 							$tglto = htmlspecialchars($to[2]."-".$to[0]."-".$to[1]);
 							$wherekCon .= "WHERE tgl_surat between '$tglfrom' AND '$tglto'";
 						}else{

@@ -5,20 +5,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 	$id_klasifikasi = htmlspecialchars($purifier->purify(trim($_POST['id_klasifikasi'])), ENT_QUOTES);
 	$ket = htmlspecialchars($purifier->purify(trim($_POST['ket'])), ENT_QUOTES);
+	$no_arsip = htmlspecialchars($purifier->purify(trim($_POST['no_arsip'])), ENT_QUOTES);
+	$tgl_arsip = $_POST['tgl_arsip'];
+	// $tgl_arsip = htmlspecialchars($purifier->purify(trim($_POST['tgl_arsip'])), ENT_QUOTES);
+	// $tgl_arsip = explode("-",$tgl_arsip);
+	// $tgl_arsipdb = $tgl_arsip[2]."-".$tgl_arsip[1]."-".$tgl_arsip[0];
+	$keamanan = htmlspecialchars($purifier->purify(trim($_POST['keamanan'])), ENT_QUOTES);
 	
 	$fileName = htmlspecialchars($_FILES['file_arsip']['name'], ENT_QUOTES);
 	$tipefile = pathinfo($fileName,PATHINFO_EXTENSION);
 	$extensionList = array("pdf","doc","docx","xls","xlsx","ppt","pptx","jpg","jpeg","png","zip","rar","gif");
 	$namaDir = 'berkas/';
-	$fileArsip = $namaDir."ARSIP"."_". slugify($fileName)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
-	$filedb = "ARSIP"."_". slugify($fileName)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
+	$fileArsip = $namaDir."ARSIP"."_".slugify($fileName)."_".$tgl_arsip.".".$tipefile;
+	$filedb = "ARSIP"."_".slugify($fileName)."_".$tgl_arsip.".".$tipefile;
 	$tgl_upload = date("Y-m-d");
 	
-	$no_arsip = htmlspecialchars($purifier->purify(trim($_POST['no_arsip'])), ENT_QUOTES);
-	$tgl_arsip = htmlspecialchars($purifier->purify(trim($_POST['tgl_arsip'])), ENT_QUOTES);
-	$tgl_arsip = explode("-",$tgl_arsip);
-	$tgl_arsipdb = $tgl_arsip[2]."-".$tgl_arsip[1]."-".$tgl_arsip[0];
-	$keamanan = htmlspecialchars($purifier->purify(trim($_POST['keamanan'])), ENT_QUOTES);
 	
 	//echo "$filesk <br/>";
 	//print_r($_POST);
@@ -30,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			$LihatDataArsip = $DataArsip->fetch(PDO::FETCH_OBJ);
 			$idArsip = $LihatDataArsip->id_arsip;
 			if(empty($fileName)){
-				$field = array('no_arsip' => $no_arsip, 'tgl_arsip' => $tgl_arsipdb, 'no_arsip' => $no_arsip, 'keamanan' => $keamanan, 'id_klasifikasi' => $id_klasifikasi, 'ket' => $ket);
+				$field = array('no_arsip' => $no_arsip, 'tgl_arsip' => $tgl_arsip, 'no_arsip' => $no_arsip, 'keamanan' => $keamanan, 'id_klasifikasi' => $id_klasifikasi, 'ket' => $ket);
 				$params = array(':id_arsip' => $idArsip);
 				$update = $this->model->updateprepare("arsip_file", $field, $params, "id_arsip=:id_arsip");
 				if($update){
@@ -43,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				//if(in_array($tipefile, $extensionList)){
 					@unlink($namaDir.$LihatDataArsip->file_arsip);
 					//'pengolah' => $pengolah,
-					$field = array('id_klasifikasi' => $id_klasifikasi, 'ket' => $ket, 'file_arsip' => $filedb, 'no_arsip' => $no_arsip, 'tgl_arsip' => $tgl_arsipdb, 'no_arsip' => $no_arsip, 'keamanan' => $keamanan);
+					$field = array('id_klasifikasi' => $id_klasifikasi, 'ket' => $ket, 'file_arsip' => $filedb, 'no_arsip' => $no_arsip, 'tgl_arsip' => $tgl_arsip, 'no_arsip' => $no_arsip, 'keamanan' => $keamanan);
 					move_uploaded_file($_FILES['file_arsip']['tmp_name'], $fileArsip);
 					$params = array(':id_arsip' => $idArsip);
 					$update = $this->model->updateprepare("arsip_file", $field, $params, "id_arsip=:id_arsip");
@@ -58,8 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			}
 		}
 	}else{
-		$field = array('id_user' => $_SESSION['id_user'],'id_klasifikasi'=>$id_klasifikasi, 'ket'=>$ket, 'file_arsip'=>$filedb, 'tgl_upload'=>$tgl_upload, 'no_arsip' => $no_arsip, 'tgl_arsip' => $tgl_arsipdb, 'no_arsip' => $no_arsip, 'keamanan' => $keamanan);
-		$params = array(':id_user' => $_SESSION['id_user'], ':id_klasifikasi'=>$id_klasifikasi, ':ket'=>$ket, ':file_arsip'=>$filedb, ':tgl_upload'=>$tgl_upload, ':no_arsip' => $no_arsip, ':tgl_arsip' => $tgl_arsipdb, ':no_arsip' => $no_arsip, ':keamanan' => $keamanan);
+		$field = array('id_user' => $_SESSION['id_user'],'id_klasifikasi'=>$id_klasifikasi, 'ket'=>$ket, 'file_arsip'=>$filedb, 'tgl_upload'=>$tgl_upload, 'no_arsip' => $no_arsip, 'tgl_arsip' => $tgl_arsip, 'no_arsip' => $no_arsip, 'keamanan' => $keamanan);
+		$params = array(':id_user' => $_SESSION['id_user'], ':id_klasifikasi'=>$id_klasifikasi, ':ket'=>$ket, ':file_arsip'=>$filedb, ':tgl_upload'=>$tgl_upload, ':no_arsip' => $no_arsip, ':tgl_arsip' => $tgl_arsip, ':no_arsip' => $no_arsip, ':keamanan' => $keamanan);
 		//if(in_array($tipefile, $extensionList)){
 			if(move_uploaded_file($_FILES['file_arsip']['tmp_name'], $fileArsip)){
 				$insert = $this->model->insertprepare("arsip_file", $field, $params);
@@ -153,7 +154,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 						<label class="tx-11 font-weight-bold mb-0 text-uppercase " for="form-field-mask-1"> Tanggal Surat *</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih tanggal arsip." title="Tanggal Arsip">?</span>
 						<div class="col-sm-6">
-							<input class="form-control  date datepicker" id="datePickerExample" data-date-format="dd/mm/yyyy" placeholder="Tanggal arsip" type="text" name="tgl_arsip" <?php if(isset($tgl_arsip)){ echo $tgl_arsip; }?>  required />
+							<input class="form-control" placeholder="Tanggal arsip" type="date" name="tgl_arsip" value=<?php if(isset($tgl_arsip)){ echo $tgl_arsip; }?>  required />
+							<!-- <input class="form-control  date datepicker" id="datePickerExample" data-date-format="dd/mm/yyyy" placeholder="Tanggal arsip" type="text" name="tgl_arsip" <?php if(isset($tgl_arsip)){ echo $tgl_arsip; }?>  required /> -->
 						</div>
 					</div>
 
@@ -199,8 +201,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					<div class="col-sm-6">
 					<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Klasifikasi File *</label>
 					<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih klasifikasi arsip." title="Klasifikasi">?</span>
-					<select class="js-example-basic-single w-100" name="id_klasifikasi" require>
-					<option value="">Pilih Klasifikasi</option>
+					<select class="js-example-basic-single w-100" name="id_klasifikasi" required>
+					<option value="" selected disabled>Pilih Klasifikasi</option>
 					<?php
 								$KlasArsip= $this->model->selectprepare("klasifikasi_arsip", $field=null, $params=null, $where=null, "ORDER BY nama_klasifikasi ASC");
 								if($KlasArsip->rowCount() >= 1){
@@ -247,8 +249,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					<div class="card">
 					<div class="card-body">
 						<h6 class="card-title"><?php echo $ketfile;?></h6>
-						<p class="card-description">Pilih file yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .jpg, .png, .zip, .rarx</p>
-						<input type="file" id="myDropify" class="border" data-allowed-file-extensions="pdf doc docx ppt pptx xls xlsx jpg png zip rarx" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
+						<p class="card-description">Pilih file yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .jpg, .jpeg, .png, .zip, .rarx</p>
+						<input type="file" id="myDropify" name="file_arsip" class="border" data-allowed-file-extensions="pdf doc docx ppt pptx xls xlsx jpg jpeg png zip rarx" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
 					</div>
 					</div>
  					</div>
@@ -265,7 +267,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					<div class="form-group">
 					<div class="col-lg-6">
 						<label class="tx-11 font-weight-bold mb-0 text-uppercase">Keterangan</label>
-						<textarea id="maxlength-textarea" name ="ket" class="form-control" maxlength="150" rows="8" placeholder="Keterangan"><?php if(isset($ket)){ echo $ket; }?></textarea>
+						<textarea id="maxlength-textarea" name ="ket" class="form-control" maxlength="150" rows="8" placeholder="Keterangan" required><?php if(isset($ket)){ echo $ket; }?></textarea>
 					</div>
 					</div>
 					

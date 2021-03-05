@@ -1,3 +1,5 @@
+
+
 tinymce.init({
   selector: '#tinymceExample',
   plugins: 'lineheight style fullpage print preview powerpaste casechange searchreplace autosave save directionality advcode visualblocks visualchars fullscreen table charmap hr nonbreaking toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter permanentpen charmap mentions',
@@ -86,3 +88,5 @@ function editKonten(mode) {
       tinymce.get('entriKonten').mode.set("readonly");
   }
 }
+
+

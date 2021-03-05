@@ -19,8 +19,8 @@ if($arsip_sm->rowCount() >= 1){
 		$deskripsi = $data_pengaturan->deskripsi;
 	}else{
 		$kop = "default.jpg";
-		$title = "SIAS - Sistem Informasi Arsip Surat";
-		$deskripsi = "SIAS merupakan aplikasi pengelolaan arsip surat";
+		$title = "E - Office";
+		$deskripsi = "E - Office merupakan aplikasi surat menyurat";
 	}?>
 	<html>
 		<head>

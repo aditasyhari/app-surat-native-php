@@ -14,33 +14,16 @@
 								<div class="col-sm-6">
 									<div class="form-group">
 									<div class="input-group input-daterange" id="datePickerExample">
-									<input type="text" class="form-control" name="rangetgl" value="">
+									<input type="text" class="form-control" name="rangetgl1" value="">
 										<div class="input-group-addon"> to </div>
-										<input type="text" class="form-control" name="rangetgl" value="">
+										<input type="text" class="form-control" name="rangetgl2" value="">
 									</div>
 									</div>
 								</div>
-								<div class="form-check form-check-flat form-check-primary mt-0">
-									<label class="form-check-label">
-									<input name="filterTgl" type="checkbox" class="form-check-input">
-									</label>
-								</div>
+								
 							</div>
 
 
-
-
-
-
-						<!-- <div class="row">
-							<div class=" col-sm-6">
-								<div class="form-group">
-								<div class="input-group date datepicker" id="datePickerExample">
-									<input class="form-control" type="text" name="rangetgl" id="id-date-range-picker-1" /><span class="input-group-addon"><i data-feather="calendar"></i></span>
-								</div>
-								</div>
-							</div>
-						</div> -->
 						<div class="space-6"></div>
 						<div class="row">
 							<div class=" col-sm-6">
@@ -66,9 +49,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 				<div class="widget-body">
 					<div class="widget-main"><?php
 						//print_r($_POST);
-						$from = explode("/", substr($_POST['rangetgl'],0,10));
+						$from = explode("/", substr($_POST['rangetgl1'],0,10));
 						$tglfrom = htmlspecialchars($from[2]."-".$from[0]."-".$from[1]);
-						$to = explode("/", substr($_POST['rangetgl'],-10));
+						$to = explode("/", substr($_POST['rangetgl2'],-10));
 						$tglto = htmlspecialchars($to[2]."-".$to[0]."-".$to[1]); 
 						//echo "$tglfrom $tglto";
 						$arsip_sm = $this->model->selectprepare("arsip_sk", $field=null, $params=null, $where=null, "where tgl_surat between '$tglfrom' and '$tglto' order by tgl_surat ASC");
