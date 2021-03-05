@@ -63,21 +63,12 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 		<div class="widget-box">
 			<div class="widget-header">
 				<h4 class="widget-title"><?php echo $title;?></h4>
-				<div class="widget-toolbar">
-					<a href="#" data-action="collapse">
-						<i class="ace-icon fa fa-chevron-up"></i>
-					</a>
-					<a href="#" data-action="close">
-						<i class="ace-icon fa fa-times"></i>
-					</a>
-				</div>
 			</div>
-			<div class="widget-body">
-				<div class="widget-main">
+			<div class="card">
+				<div class="card-body">
 					<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 						<div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nama Jabatan *</label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan nama jabatan." title="Nama Level">?</span>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nama Jabatan </label>
 							<div class="col-sm-6">
 								<input class="form-control" placeholder="Nama Jabatan" type="text" name="jabatan" <?php if(isset($valueNamaJab)){ echo $valueNamaJab; }?> id="form-field-mask-1" required />
 							</div>
@@ -102,13 +93,13 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 		while($DataGetJab = $GetJab->fetch(PDO::FETCH_OBJ)){
 			$dump_jab[]=$DataGetJab;
 		}?>
-		<div class="widget-body">
+		<div class="card">
 
 
 
 
 
-			<div class="widget-main">
+			<div class="card-body">
 				<a href="./index.php?op=user" title="Data User">
 					<button class="btn btn-white btn-dark btn-bold">
 						<i class="ace-icon fa fa-users bigger-120 blue"></i>User
@@ -320,7 +311,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 				$dataCekLevel = $cekLevel->fetch(PDO::FETCH_OBJ);
 			}else{
 				$title= "Entri Data User";
-				$ketPasword = "Password *";
+				$ketPasword = "Password ";
 				$validasifile = "required";
 				$dummy_arr = '[""]';
 				$cekDisposisi = json_decode($dummy_arr, true);
@@ -328,7 +319,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 		}else{
 			$title= "Entri Data User";
 			$validasifile = "required";
-			$ketPasword = "Password *";
+			$ketPasword = "Password ";
 			$dummy_arr = '[""]';
 			$cekDisposisi = json_decode($dummy_arr, true);
 		}
@@ -370,17 +361,9 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 			if(isset($_GET['do']) && $_GET['do'] == "entri"){?>
 				<div class="widget-header">
 					<h4 class="widget-title"><?php echo $title;?></h4>
-					<div class="widget-toolbar">
-						<a href="#" data-action="collapse">
-							<i class="ace-icon fa fa-chevron-up"></i>
-						</a>
-						<a href="#" data-action="close">
-							<i class="ace-icon fa fa-times"></i>
-						</a>
-					</div>
 				</div>
-				<div class="widget-body">
-					<div class="widget-main"><?php /*?>
+				<div class="card">
+					<div class="card-body"><?php /*?>
 						<form class="form-horizontal" role="form" name="formku" method="GET">	
 							<input type="hidden" name="op" value="user"/>
 							<div class="form-group">
@@ -410,8 +393,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>*/?>
 							<div class="form-group">
-								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> NIK/NIP *</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan NIK/NIP Pengguna." title="NIK/NIP">?</span>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> NIK/NIP </label>
 								<div class="col-sm-6">
 									<input class="form-control" type="hidden" name="level" value="Pegawai">
 									<input class="form-control" placeholder="NIK/NIP" type="number" name="nik" <?php if(isset($nik)){ echo $nik; }?> id="form-field-mask-1" required/>
@@ -419,16 +401,14 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 							</div>
 							<div class="space-4"></div>
 							<div class="form-group">
-								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nama Lengkap *</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan Nama Lengkap Pengguna." title="Nama Lengkap">?</span>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nama Lengkap </label>
 								<div class="col-sm-6">
 									<input class="form-control" placeholder="Nama Lengkap" type="text" name="nama" <?php if(isset($nama)){ echo $nama; }?> id="form-field-mask-1" required/>
 								</div>
 							</div>
 							<div class="space-4"></div>
 							<div class="form-group">
-								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Username *</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left"  data-content="Username untuk login." title="Username">?</span>
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Username </label>
 								<div class="col-sm-6">
 									<input class="form-control" placeholder="Username" type="text" name="uname" <?php if(isset($uname)){ echo $uname; }?> id="form-field-mask-1" required/>
 								</div>
@@ -436,7 +416,6 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 							<div class="space-4"></div>
 							<div class="form-group">
 								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> <?php echo $ketPasword;?></label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left"  data-content="Password untuk login" title="Password">?</span>
 								<div class="col-sm-6">
 									<input class="form-control" placeholder="Password" type="text" name="upass" id="form-field-mask-1" <?php if(isset($validasifile)){ echo $validasifile; }?>>
 								</div>
@@ -444,7 +423,6 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 							<div class="space-4"></div>
 							<div class="form-group">
 								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Email</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left"  data-content="Email Pengguna" title="Email">?</span>
 								<div class="col-sm-6">
 									<input class="form-control" placeholder="Alamat Email" type="email" name="email" id="form-field-mask-1" <?php if(isset($email)){ echo $email; }?>>
 								</div>
@@ -476,8 +454,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 
 
 							<div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Jabatan *</label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih Jabatan...." title="Jabatan">?</span>
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Jabatan </label>
 							<div class="col-sm-6">
 							<select class="js-example-basic-single w-100" name="jabatan" require>
 									<?php
@@ -520,8 +497,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 
 							 <div class="form-group">
 							 <div class="col-sm-6">
-							 <label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Dapat melakukan Disposisi ke</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih Group Level Disposisi" title="Group Level Disposisi">?</span>
+							 <label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Dapat melakukan Disposisi ke</label>
 							<select class="js-example-basic-multiple w-100"  name="disposisi[]" id="form-field-select-3" data-placeholder="Pilih user..."  multiple="multiple">
 							<?php
 										$GetUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");

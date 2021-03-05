@@ -61,32 +61,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			}
 		}
 	}?>
-	<div class="widget-box">
-		<div class="widget-header">
+	<div class="card">
+		<div class="card-body">
 			<h4 class="widget-title"><?php echo $title;?></h4>
-			<div class="widget-toolbar">
-				<a href="#" data-action="collapse">
-					<i class="ace-icon fa fa-chevron-up"></i>
-				</a>
-				<a href="#" data-action="close">
-					<i class="ace-icon fa fa-times"></i>
-				</a>
-			</div>
 		</div>
 		<div class="widget-body">
 			<div class="widget-main">
 				<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 					<div class="form-group">
-						<label class="col-sm-6 control-label no-padding-right" for="form-field-mask-1"> Kode*</label>
-						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi kode klasifikasi." title="Kode klasifikasi">?</span>
+						<label class="col-sm-6 control-label no-padding-right" for="form-field-mask-1"> Kode </label>
 						<div class="col-sm-6">
 							<input class="form-control" placeholder="Kode klasifikasi" type="text" name="kode" <?php if(isset($kode)){ echo $kode; }?> id="form-field-mask-1" required/>
 						</div>
 					</div>
 					<div class="space-6"></div>
 					<div class="form-group">
-						<label class="col-sm-6 control-label no-padding-right" for="form-field-mask-1"> Nama Klasifikasi*</label>
-						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan nama/ket klasifikasi surat" title="Nama Klasifikasi">?</span>
+						<label class="col-sm-6 control-label no-padding-right" for="form-field-mask-1"> Nama Klasifikasi </label>
 						<div class="col-sm-6">
 							<input class="form-control" placeholder="Nama/ket klasifikasi surat" type="text" name="nama" <?php if(isset($nama)){ echo $nama; }?> id="form-field-mask-1" required/>
 						</div>
@@ -112,9 +102,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		while($data_GetKlasifikasi = $GetKlasifikasi->fetch(PDO::FETCH_OBJ)){
 			$dump_klasifikasi[]=$data_GetKlasifikasi;
 		}?>
-		<div class="widget-body">
-			<div class="widget-main">
-				<table class="table table-striped table-bordered table-hover no-margin-bottom no-border-top">
+		<div class="card">
+			<div class="card-body">
+				<table id="dataTableExample" class="table">
 					<thead>
 						<tr>
 							<th width="50">No</th>
