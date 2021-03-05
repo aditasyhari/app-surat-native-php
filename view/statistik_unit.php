@@ -1,22 +1,12 @@
             
    <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "surat";
-
-        // Create connection
-        $conn = mysqli_connect($servername, $username, $password, $dbname);
-        // Check connection
-        if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-        }
+        require_once 'db/db2.php';
 
         // $id =$_SESSION['id_user'];
-       
-            $id = $_POST['tujuan'];
-            $bulan = $_POST['bulan'];
-            $tahun = $_POST['tahun'];
+
+        $id = $_POST['tujuan'];
+        $bulan = $_POST['bulan'];
+        $tahun = $_POST['tahun'];
         
 
         // echo $id;
@@ -67,13 +57,14 @@
                 <form class="form-sample" role="form" enctype="multipart/form-data" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
                     <div class="row justify-content-center">
                     <div class="form-group">
-                        <select class="js-example-basic-multiple w-100 form-control" name="tujuan"  data-placeholder="Pilih user..." required><?php
+                        <select class="js-example-basic-multiple w-100 form-control" name="tujuan"  data-placeholder="Pilih user..." required>
+                            <option value="" disabled selected>Pilih</option><?php
 									$Diteruskan = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
 									if($Diteruskan->rowCount() >= 1){
 										while($dataDiteruskan = $Diteruskan->fetch(PDO::FETCH_OBJ)){
 											$DiteruskanSurat = $dataDiteruskan->nama ." (".$dataDiteruskan->nama_jabatan .")";
 											if(false !== array_search($dataDiteruskan->id_user, $cekDiteruskan)){?>
-												<option value="<?php echo $dataDiteruskan->id_user;?>" selected><?php echo $DiteruskanSurat;?></option><?php
+												<option value="<?php echo $dataDiteruskan->id_user;?>"><?php echo $DiteruskanSurat;?></option><?php
 											}else{?>
 												<option value="<?php echo $dataDiteruskan->id_user;?>"><?php echo $DiteruskanSurat;?></option><?php
 											}
@@ -83,7 +74,8 @@
 									}?>
                                     
 					             </select> 
-                                <select class="js-example-basic-multiple w-100 form-control" name="bulan" data-placeholder="Pilih Tanggal...">
+                                <select class="js-example-basic-multiple w-100 form-control" name="bulan" data-placeholder="Pilih Bulan...">
+                                    <option value="" selected disabled>bulan...</option>
                                     <option value="01">Januari</option>
                                     <option value="02">Februari</option>
                                     <option value="03">Maret</option>
@@ -109,7 +101,9 @@
              
                 
                     <h3 align='center' class="tx-20 font-weight-bold mb-0 text-uppercase">STATISTIK UNIT</h3><br>
-                    <h6 align ='center' class="tx-14 font-weight-bold mb-0 text-uppercase"> <?=$kategori?> <span class="badge badge-primary"><h6><?= date('F', mktime(0, 0, 0, $bulan)) ." - " . $tahun?></span> </h6>
+                    <?php if(isset($_POST['pilih'])) { ?>
+                        <h6 align ='center' class="tx-14 font-weight-bold mb-0 text-uppercase"> <?=$kategori?> <span class="badge badge-primary"><h6><?= date('F', mktime(0, 0, 0, $bulan)) ." - " . $tahun?></span> </h6>
+                    <?php } ?>
               
                 </div>
                

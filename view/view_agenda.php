@@ -1,6 +1,15 @@
 
 <?php
-    require('load.php');
+    // require('load.php');
+    require_once 'db/db2.php';
+    // $connect = new PDO('mysql:host=localhost;dbname=surat', 'root', '');
+
+    $data = array();
+
+    $query = "SELECT * FROM agenda ORDER BY id";
+    $req = $dbpdo->prepare($query);
+    $req->execute();
+    $events = $req->fetchAll();
 
     if(isset($_POST["id"])){
         $query = "
@@ -8,7 +17,7 @@
         SET title=:title, start_event=:start_event, end_event=:end_event 
         WHERE id=:id
         ";
-        $statement = $connect->prepare($query);
+        $statement = $dbpdo->prepare($query);
         $statement->execute(
         array(
         ':title'  => $_POST['title'],
@@ -23,7 +32,7 @@
         $query = "
         DELETE from agenda WHERE id=:id
         ";
-        $statement = $connect->prepare($query);
+        $statement = $dbpdo->prepare($query);
         $statement->execute(
         array(
         ':id' => $_POST['id']
