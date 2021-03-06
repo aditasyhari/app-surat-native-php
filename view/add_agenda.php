@@ -8,10 +8,10 @@
 			$raw_tgl_akhir = htmlentities($_POST['tgl_akhir']);
 			$tgl_awal =  date('Y-m-d H:i:s', strtotime($raw_tgl_awal));;
 			$tgl_akhir =  date('Y-m-d H:i:s', strtotime($raw_tgl_akhir));;
-			if(!empty($title) and (!empty($lokasi))){ // Memeriksa apakah variabel judul dan pengarang sudah terisi,jika sudah jalankan query dibawah
+			if(!empty($title) and (!empty($lokasi))){ 
 				$sql="INSERT INTO agenda (title,lokasi,start_event,end_event) VALUES ('$title','$lokasi','$tgl_awal','$tgl_akhir')";
 				echo '<script language="javascript">alert("Penambahan Agenda Berhasil!!!"); document.location="./index.php?op=view_event";</script>';
-				if($mysqli->query($sql) === false) { // Jika gagal meng-insert data tampilkan pesan dibawah 'Perintah SQL Salah'
+				if($mysqli->query($sql) === false) { 
 				  trigger_error('Perintah SQL Salah: ' . $sql . ' Error: ' . $mysqli->error, E_USER_ERROR);
 				} else {
 					header('location:./index.php?op=view_event');
