@@ -93,8 +93,6 @@ if(isset($_GET['memoid'])){
 						</div>
 						<span class="badge badge-primary"><?php echo tgl_indo($tglterima);?></span>
 					</li>
-
-					
 				<?php
 				}
 				$no++;
