@@ -19,8 +19,8 @@ if($arsip_sm->rowCount() >= 1){
 		$deskripsi = $data_pengaturan->deskripsi;
 	}else{
 		$kop = "default.jpg";
-		$title = "SI-NADIN - Sistem Informasi Naskah Dinas";
-		$deskripsi = "SI-NADIN merupakan aplikasi pengelolaan arsip surat Naskah";
+		$title = "E - Office";
+		$deskripsi = "E - Office merupakan aplikasi surat menyurat";
 	}
 	if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
 		$width="700";

@@ -3,12 +3,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$noagenda = htmlspecialchars($purifier->purify(trim($_POST['noagenda'])), ENT_QUOTES);
 	$noagenda_custom = trim($_POST['noagenda_custom']);
 	$nosm = htmlspecialchars($purifier->purify(trim($_POST['nosm'])), ENT_QUOTES);
-	$tglsm = htmlspecialchars($purifier->purify(trim($_POST['tglsm'])), ENT_QUOTES);
-	$tglsm = explode("-",$tglsm);
-	$tglsmdb = $tglsm[2]."-".$tglsm[1]."-".$tglsm[0];
-	$tgl_terima = htmlspecialchars($purifier->purify(trim($_POST['tgl_terima'])), ENT_QUOTES);
-	$tgl_terima = explode("-",$tgl_terima);
-	$tgl_terimadb = $tgl_terima[2]."-".$tgl_terima[1]."-".$tgl_terima[0];
+	$tglsm = $_POST['tglsm'];
+	// $tglsm = htmlspecialchars($purifier->purify(trim($_POST['tglsm'])), ENT_QUOTES);
+	// $tglsm = explode("-",$tglsm);
+	// $tglsmdb = $tglsm[2]."-".$tglsm[1]."-".$tglsm[0];
+	$tgl_terima = $_POST['tgl_terima'];
+	// $tgl_terima = htmlspecialchars($purifier->purify(trim($_POST['tgl_terima'])), ENT_QUOTES);
+	// $tgl_terima = explode("-",$tgl_terima);
+	// $tgl_terimadb = $tgl_terima[2]."-".$tgl_terima[1]."-".$tgl_terima[0];
 	$pengirim = htmlspecialchars($purifier->purify(trim($_POST['pengirim'])), ENT_QUOTES);
 	$tujuan = json_encode($_POST['tujuan']);
 	$perihal = htmlspecialchars($purifier->purify(trim($_POST['perihal'])), ENT_QUOTES);
@@ -19,11 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$tipefile = pathinfo($fileName,PATHINFO_EXTENSION);
 	$extensionList = array("pdf","jpg","jpeg","png");
 	$namaDir = 'berkas/';
+    $nama_file = $_FILES['filesm']['name'];
+	$file = 'berkas/'.'SM'.'_'.date("d-m-Y_H-i-s", time())."_".$nama_file;
 	$filesm = $namaDir."SM"."_".$tgl_terima[0]."-".$tgl_terima[1]."-".$tgl_terima[2]."_". slugify($perihal)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
 	if(empty($fileName)){
 		$filedb = "";
 	}else{
-		$filedb = "SM"."_".$tgl_terima[0]."-".$tgl_terima[1]."-".$tgl_terima[2]."_". slugify($perihal)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
+		$filedb = 'SM'.'_'.date("d-m-Y_H-i-s", time())."_".$nama_file;
+		// $filedb = "SM"."_".$tgl_terima[0]."-".$tgl_terima[1]."-".$tgl_terima[2]."_". slugify($perihal)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
 	}
 	$tgl_upload = date("Y-m-d H:i:s", time());
 	
@@ -37,12 +42,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			$idsm = $data_lihat_sm->id_sm;
 			if(empty($fileName)){
 				//echo "No Update File";
-				$field = array('no_sm' => $nosm, 'tgl_terima' => $tgl_terimadb, 'no_agenda' => $noagenda, 'custom_noagenda' => $noagenda_custom, 'tgl_surat' => $tglsmdb, 'pengirim' => $pengirim, 'klasifikasi' => $klasifikasi, 'tujuan_surat' => $tujuan, 'perihal' => $perihal, 'ket' => $ket);
+				$field = array('no_sm' => $nosm, 'tgl_terima' => $tgl_terima, 'no_agenda' => $noagenda, 'custom_noagenda' => $noagenda_custom, 'tgl_surat' => $tglsm, 'pengirim' => $pengirim, 'klasifikasi' => $klasifikasi, 'tujuan_surat' => $tujuan, 'perihal' => $perihal, 'ket' => $ket);
 			}else{
 				//if(in_array($tipefile, $extensionList)){
 					@unlink($namaDir.$data_lihat_sm->file);
-					$field = array('no_sm' => $nosm, 'tgl_terima' => $tgl_terimadb, 'tgl_surat' => $tglsmdb, 'pengirim' => $pengirim, 'klasifikasi' => $klasifikasi, 'tujuan_surat' => $tujuan, 'perihal' => $perihal, 'ket' => $ket, 'file' => $filedb);
-					move_uploaded_file($_FILES['filesm']['tmp_name'], $filesm);
+					$field = array('no_sm' => $nosm, 'tgl_terima' => $tgl_terima, 'tgl_surat' => $tglsm, 'pengirim' => $pengirim, 'klasifikasi' => $klasifikasi, 'tujuan_surat' => $tujuan, 'perihal' => $perihal, 'ket' => $ket, 'file' => $filedb);
+					move_uploaded_file($_FILES['filesm']['tmp_name'], $file);
 				/*}else{
 					echo "<script type=\"text/javascript\">alert('File gagal di Upload, Format file tidak di dukung!!!');window.location.href=\"./index.php?op=add_sm&smid=$idsm\";</script>";
 				}*/
@@ -55,11 +60,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		}
 	}else{
 		//echo $tujuan;
-		$params = array(':no_agenda' => $noagenda);
+		// $params = array(':no_agenda' => $noagenda);
 		/*$cek_nosm = $this->model->selectprepare("arsip_sm", $field=null, $params, "no_agenda=:no_agenda");
 		if($cek_nosm->rowCount() <= 0){*/
-			$field = array('id_user' => $_SESSION['id_user'], 'no_sm'=>$nosm, 'tgl_terima'=>$tgl_terimadb, 'no_agenda'=>$noagenda, 'custom_noagenda' => $noagenda_custom, 'tgl_surat'=>$tglsmdb, 'pengirim'=>$pengirim, 'klasifikasi' => $klasifikasi, 'perihal'=>$perihal, 'tujuan_surat'=>$tujuan, 'ket'=>$ket, 'file'=>$filedb, 'created'=>$tgl_upload);
-			$params = array(':id_user' => $_SESSION['id_user'], ':no_sm'=>$nosm, ':tgl_terima'=>$tgl_terimadb, ':no_agenda'=>$noagenda, ':custom_noagenda' => $noagenda_custom, ':tgl_surat'=>$tglsmdb, ':pengirim'=>$pengirim, 'klasifikasi' => $klasifikasi, ':perihal'=>$perihal, ':tujuan_surat'=>$tujuan, ':ket'=>$ket, ':file'=>$filedb, ':created'=>$tgl_upload);
+			$field = array('id_user' => $_SESSION['id_user'], 'no_sm'=>$nosm, 'tgl_terima'=>$tgl_terima, 'no_agenda'=>$noagenda, 'custom_noagenda' => $noagenda_custom, 'tgl_surat'=>$tglsm, 'pengirim'=>$pengirim, 'klasifikasi' => $klasifikasi, 'perihal'=>$perihal, 'tujuan_surat'=>$tujuan, 'ket'=>$ket, 'file'=>$filedb, 'created'=>$tgl_upload);
+			$params = array(':id_user' => $_SESSION['id_user'], ':no_sm'=>$nosm, ':tgl_terima'=>$tgl_terima, ':no_agenda'=>$noagenda, ':custom_noagenda' => $noagenda_custom, ':tgl_surat'=>$tglsm, ':pengirim'=>$pengirim, 'klasifikasi' => $klasifikasi, ':perihal'=>$perihal, ':tujuan_surat'=>$tujuan, ':ket'=>$ket, ':file'=>$filedb, ':created'=>$tgl_upload);
 			if(empty($fileName)){
 				$insert = $this->model->insertprepare("arsip_sm", $field, $params);
 				if($insert->rowCount() >= 1){
@@ -142,7 +147,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 				}
 			}else{
 				//if(in_array($tipefile, $extensionList)){
-					if(move_uploaded_file($_FILES['filesm']['tmp_name'], $filesm)){
+					if(move_uploaded_file($_FILES['filesm']['tmp_name'], $file)){
 						$insert = $this->model->insertprepare("arsip_sm", $field, $params);
 						if($insert->rowCount() >= 1){
 							//Kirim Email
@@ -496,21 +501,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 						<div class="card">
 						<div class="card-body">
 							<h6 class="card-title"><?php echo $ketfile;?></h6>
-							<p class="card-description">Pilih file yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .jpg, .png, .zip, .rarx</p>
-							<input type="file" name="filesm" id="myDropify" class="border" data-allowed-file-extensions="pdf doc docx ppt pptx xls xlsx jpg png zip rarx" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
+							<p class="card-description">Pilih file yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .jpg, .jpeg, .png</p>
+							<input type="file" name="filesm" id="myDropify" class="border" data-allowed-file-extensions="pdf jpg jpeg png" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
+							<!-- <input type="file" name="filesm" id="myDropify" class="border" data-allowed-file-extensions="pdf jpg jpeg png" <?php if(isset($validasifile)){ echo $validasifile; }?>/> -->
 						</div>
 						</div>
 						</div><br>
-
-
-						<!-- <div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> <?php echo $ketfile;?></label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih File surat masuk yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .jpg, .png" title="File surat masuk">?</span>
-							<div class="col-sm-4">
-								<input type="file" class="form-control" name="filesm" id="id-input-file-1"/>
-							</div>
-						</div> -->
-
 
 						<div class="clearfix form-actions">
 							<div class="col-md-offset-3 col-md-9">

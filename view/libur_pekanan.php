@@ -1,15 +1,17 @@
 <?php
 
 //load.php
+require_once 'db/db2.php';
 
-$connect = new PDO('mysql:host=localhost;dbname=surat', 'root', '');
+// $connect = new PDO('mysql:host=localhost;dbname=surat', 'root', '');
 
 $data = array();
 
 $query = "SELECT * FROM libur_pekan ORDER BY id";
-    $req = $connect->prepare($query);
-    $req->execute();
-    $events = $req->fetchAll();
+$req = $dbpdo->prepare($query);
+$req->execute();
+$events = $req->fetchAll();
+
 ?>
 
 <div class="row justify-content-end">
@@ -62,19 +64,19 @@ $(document).ready(function () {
         //         },
 
                 
-        eventClick: function (event) {
-            var deleteMsg = confirm("Do you really want to delete?");
-            if (deleteMsg) {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost/surat_native/index.php?op=view_event",
-                    data: "&id=" + event.id,
-                    success: function(json) {
-			 $('#pekanan').fullCalendar('removeEvents', event.id);
-			  alert("Delete Sukses");}
-                });
-            }
-        }
+        // eventClick: function (event) {
+        //     var deleteMsg = confirm("Do you really want to delete?");
+        //     if (deleteMsg) {
+        //         $.ajax({
+        //             type: "POST",
+        //             url: "http://localhost/surat_native/index.php?op=view_event",
+        //             data: "&id=" + event.id,
+        //             success: function(json) {
+		// 	 $('#pekanan').fullCalendar('removeEvents', event.id);
+		// 	  alert("Delete Sukses");}
+        //         });
+        //     }
+        // }
 
     });
 });

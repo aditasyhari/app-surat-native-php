@@ -55,7 +55,7 @@ if(isset($_GET['smid'])){
 				}
 				
 				if($CekRead->rowCount() <= 0){?>
-					<li class="list-group-item d-flex justify-content-between align-items-center disabled">
+					<li class="list-group-item d-flex justify-content-between align-items-center">
 						<div>
 							<span><?php echo $no;?>. </span>
 							<span title="<?php echo $data_Disposisi->nama;?>"><?php echo $data_Disposisi->nama;?> </span>
@@ -70,7 +70,7 @@ if(isset($_GET['smid'])){
 					</li>
 					<?php
 				}else{?>						
-					<li class="list-group-item d-flex justify-content-between align-items-center">
+					<li class="list-group-item d-flex justify-content-between align-items-center text-secondary">
 						<div>
 							<span><?php echo $no;?></span>
 							<span title="<?php echo $data_Disposisi->nama;?>"><?php echo $data_Disposisi->nama;?> </span>

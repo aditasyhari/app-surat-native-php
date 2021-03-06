@@ -222,6 +222,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 		$akses_atur_klasifikasi_sm = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_klas_sm'])), ENT_QUOTES);
 		$akses_atur_klasifikasi_sk = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_klas_sk'])), ENT_QUOTES);
 		$akses_atur_info = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_info'])), ENT_QUOTES);
+		$akses_atur_template_sk = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_template_sk'])), ENT_QUOTES);
 		$akses_atur_klasifikasi_arsip = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_klas_arsip'])), ENT_QUOTES);
 		$akses_atur_user = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_user'])), ENT_QUOTES);
 		//$akses_atur_infoapp = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_infoapp'])), ENT_QUOTES);
@@ -244,14 +245,14 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 				if($update){
 					$CekLevel = $this->model->selectprepare("user_level", $field=null, $params, "id_user=:id_user");
 					if($CekLevel->rowCount() >= 1){
-						$field = array('sm' => $akses_sm, 'sk' => $akses_sk, 'arsip' => $akses_arsip, 'atur_layout' => $akses_atur_layout, 'atur_klasifikasi_sm' => $akses_atur_klasifikasi_sm, 'atur_klasifikasi_sk' => $akses_atur_klasifikasi_sk, 'atur_klasifikasi_arsip' => $akses_atur_klasifikasi_arsip, 'atur_user' => $akses_atur_user, 'report_sm' => $akses_report_sm, 'report_sk' => $akses_report_sk, 'report_arsip' => $akses_report_arsip,'report_dispo' => $akses_report_dispo,'report_progress' => $akses_reportprogress,'info' => $akses_atur_info);
+						$field = array('sm' => $akses_sm, 'sk' => $akses_sk, 'arsip' => $akses_arsip, 'atur_layout' => $akses_atur_layout, 'atur_klasifikasi_sm' => $akses_atur_klasifikasi_sm, 'atur_klasifikasi_sk' => $akses_atur_klasifikasi_sk, 'atur_klasifikasi_arsip' => $akses_atur_klasifikasi_arsip, 'atur_user' => $akses_atur_user, 'report_sm' => $akses_report_sm, 'report_sk' => $akses_report_sk, 'report_arsip' => $akses_report_arsip,'report_dispo' => $akses_report_dispo,'report_progress' => $akses_reportprogress,'info' => $akses_atur_info, 'template_sk' => $akses_atur_template_sk);
 						$params = array(':id_user' => $id_user);
 						$updateLevel = $this->model->updateprepare("user_level", $field, $params, "id_user=:id_user");
 					}else{
 						$field = array('id_user' => $id_user, 'sm' => $akses_sm, 'sk' => $akses_sk, 'arsip' => $akses_arsip, 'atur_layout' => $akses_atur_layout, 'atur_klasifikasi_sm' => $akses_atur_klasifikasi_sm, 'atur_klasifikasi_arsip' => $akses_atur_klasifikasi_arsip, 'atur_user' => $akses_atur_user, 'report_sm' => $akses_report_sm, 'report_sk' => $akses_report_sk, 'report_arsip' => $akses_report_arsip,'report_dispo' => $akses_report_dispo,'report_progress' => $akses_reportprogress,'info' => $akses_atur_info);
 						$params = array(':id_user' => $id_user, ':sm' => $akses_sm, ':sk' => $akses_sk, ':arsip' => $akses_arsip, ':atur_layout' => $akses_atur_layout, ':atur_klasifikasi_sm' => $akses_atur_klasifikasi_sm, ':atur_klasifikasi_sk' => $akses_atur_klasifikasi_sk, ':atur_klasifikasi_arsip' => $akses_atur_klasifikasi_arsip, ':atur_user' => $akses_atur_user, ':report_sm' => $akses_report_sm, ':report_sk' => $akses_report_sk, ':report_arsip' => $akses_report_arsip,':report_dispo' => $akses_report_dispo,':report_progress' => $akses_reportprogress,':info' => $akses_atur_info);
 						$insertLevel = $this->model->insertprepare("user_level", $field, $params);
-						//print_r($_POST);
+						// print_r($_POST);
 					}
 					echo "<script type=\"text/javascript\">alert('Data Berhasil diperbaharui...!!');window.location.href=\"./index.php?op=user&userid=$_GET[userid]&do=entri\";</script>";
 				}else{
@@ -823,6 +824,26 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 											}else{?>
 												<label>
 													<input type="radio" class="ace" name="akses_atur_info" value="<?php echo $value;?>" />
+													<span class="lbl"> <?php echo $nilai;?></span>
+												</label><?php												
+											}
+										}?>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Entri Template & Surat Keluar</label>
+								<div class="col-sm-6">
+									<div class="radio"><?php
+										foreach($ArrAkses2 as $value => $nilai){
+											if(isset($dataCekLevel->template_sk) && $dataCekLevel->template_sk == $value){?>
+												<label>
+													<input type="radio" class="ace" name="akses_atur_template_sk" value="<?php echo $value;?>" checked />
+													<span class="lbl"> <?php echo $nilai;?></span>
+												</label><?php
+											}else{?>
+												<label>
+													<input type="radio" class="ace" name="akses_atur_template_sk" value="<?php echo $value;?>" />
 													<span class="lbl"> <?php echo $nilai;?></span>
 												</label><?php												
 											}

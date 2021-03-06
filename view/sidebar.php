@@ -94,11 +94,23 @@
   if(isset($_GET['op']) AND $_GET['op'] == "tracking_"){ $Tracking = 'active open'; }else{ $Tracking = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "statistik"){ $Statistik = 'active open'; }else{ $Statistik = ''; }
 
+  if(isset($_GET['op']) AND $_GET['op'] == "view_event" OR $_GET['op'] == "add_event" OR $_GET['op'] == "pekanan") {
+    $agenda = 'active';
+  }else {
+    $agenda = '';
+  }
   if(isset($_GET['op']) AND $_GET['op'] == "view_event"){ $ViewEvent = 'active open'; }else{ $ViewEvent = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "add_event"){ $AddEvent = 'active open'; }else{ $AddEvent = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "view_event"){ $ViewEvent = 'active open'; }else{ $ViewEvent = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "pekanan"){ $Pekanan = 'active open'; }else{ $Pekanan = ''; }
 
+  if(isset($_GET['op']) AND $_GET['op'] == "statistik" OR $_GET['op'] == "statistik_unit") {
+    $statistik = 'active';
+  }else {
+    $statistik = '';
+  }
+  if(isset($_GET['op']) AND $_GET['op'] == "statistik"){ $ViewStatistik = 'active'; }else{ $ViewStatistik = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "statistik_unit"){ $ViewStatistikUnit = 'active'; }else{ $ViewStatistikUnit = ''; }
 
   if(isset($_GET['op']) AND $_GET['op'] == "info"){ $StatInfo = 'active open'; }else{ $StatInfo = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "info"){ $StatInfo = 'active open'; }else{ $StatInfo = ''; }
@@ -143,14 +155,16 @@
         </a>
         <div class="collapse" id="surat">
           <ul class="nav sub-menu">
+          <?php if($HakAkses->template_sk == "Y") { ?>
             <li class="nav-item">
              <a href="index.php?op=entri_surat" class="nav-link <?php echo $StatEntriSurat;?>">Surat Baru</a>
             </li>
             <li class="nav-item">
-             <a href="index.php?op=memo" class="nav-link <?php echo $StatMemo;?>">Surat Masuk</a>
-            </li>
-            <li class="nav-item">
               <a href="index.php?op=surat_keluar" class="nav-link <?php echo $StatSuratKeluar;?>">Surat Keluar</a>
+            </li>
+          <?php } ?>
+            <li class="nav-item">
+             <a href="index.php?op=memo" class="nav-link <?php echo $StatMemo;?>">Surat Masuk</a>
             </li>
           </ul>
         </div>
@@ -252,9 +266,9 @@
               <li class="nav-item">
                 <a href="./index.php?op=arsip_file" class="nav-link <?php echo $StatArsipFileView;?>">Data File Arsip</a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a href="./index.php?op=cari_arsip" class="nav-link <?php echo $StatCariFile;?>">Pencarian Arsip Surat</a>
-              </li>
+              </li> -->
             </ul>
           </div>
         </li>
@@ -294,8 +308,8 @@
       }
       ?>
 
-      <li class="nav-item {{ active_class(['agenda/*']) }}">
-        <a class="nav-link" data-toggle="collapse" href="#agenda" role="button" aria-expanded="{{ is_active_route(['agenda/*']) }}" aria-controls="agenda">
+      <li class="nav-item <?php echo $agenda; ?>">
+        <a class="nav-link " data-toggle="collapse" href="#agenda" role="button" aria-expanded="{{ is_active_route(['agenda/*']) }}" aria-controls="agenda">
           <i class="link-icon" data-feather="calendar"></i>
           <span class="link-title">Agenda</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
@@ -321,14 +335,16 @@
             <span class="link-title">Template Surat</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
-        <div class="collapse {{ show_class(['template/*']) }}" id="template">
+        <div class="collapse " id="template">
           <ul class="nav sub-menu">
+          <?php if($HakAkses->template_sk == "Y") { ?>
             <li class="nav-item">
               <a href="./index.php?op=add_template" class="nav-link <?php echo $StatEntriTemplate; ?>">Entri Baru</a>
             </li>
             <li class="nav-item">
              <a href="./index.php?op=template" class="nav-link <?php echo $StatTemplate; ?>">Daftar Template</a>
             </li>
+          <?php } ?>
             <li class="nav-item">
              <a href="./index.php?op=approval_template" class="nav-link <?php echo $StatApprovTemplate; ?>">Daftar Approval</a>
             </li>
@@ -343,19 +359,19 @@
         </a>
       </li>
 
-      <li class="nav-item {{ active_class(['statistik/*']) }}">
+      <li class="nav-item <?php echo $statistik; ?>">
         <a class="nav-link" data-toggle="collapse" href="#statistik" role="button" aria-expanded="{{ is_active_route(['statistik/*']) }}" aria-controls="statistik">
           <i class="link-icon" data-feather="trending-up"></i>
           <span class="link-title">Statistik</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
-        <div class="collapse {{ show_class(['statistik/*']) }}" id="statistik">
+        <div class="collapse" id="statistik">
           <ul class="nav sub-menu">
-            <li class="nav-item">
-             <a href="./index.php?op=statistik" class="nav-link {{ active_class(['statistik/inbox']) }}">Statistik Peredaran Surat</a>
+            <li class="nav-item <?php echo $ViewStatistik; ?>">
+             <a href="./index.php?op=statistik" class="nav-link <?php echo $ViewStatistik; ?>">Statistik Peredaran Surat</a>
             </li>
-            <li class="nav-item">
-              <a href="./index.php?op=statistik_unit" class="nav-link {{ active_class(['statistik/read']) }}">Statistik Unit</a>
+            <li class="nav-item <?php echo $ViewStatistikUnit; ?>">
+              <a href="./index.php?op=statistik_unit" class="nav-link <?php echo $ViewStatistikUnit; ?>">Statistik Unit</a>
             </li>
           </ul>
         </div>
@@ -369,7 +385,7 @@
             <span class="link-title">Pengaturan</span>
             <i class="link-arrow" data-feather="chevron-down"></i>
           </a>
-          <div class="collapse {{ show_class(['setting/*']) }}" id="setting">
+          <div class="collapse" id="setting">
             <ul class="nav sub-menu">
               <?php
               if($HakAkses->atur_layout == "Y"){?>
@@ -396,13 +412,13 @@
                 </li>
 							<?php
               }
-              if($HakAkses->atur_layout == "Y"){?>
+              if($HakAkses->atur_klasifikasi_sk == "Y"){?>
                 <li class="nav-item">
                   <a href="./index.php?op=karakteristik" class="nav-link <?php echo $StatKarakteristik;?>">Karakteristik Surat</a>
                 </li>
 							<?php
               }
-              if($HakAkses->atur_layout == "Y"){?>
+              if($HakAkses->atur_klasifikasi_sk == "Y"){?>
                 <li class="nav-item">
                   <a href="./index.php?op=derajat" class="nav-link <?php echo $StatDerajat;?>">Derajat Surat</a>
                 </li>

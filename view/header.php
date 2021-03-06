@@ -59,7 +59,33 @@
                     
     
     <ul class="navbar-nav">
-      
+      <?php
+        require_once 'db/db2.php';
+
+        $user = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$_SESSION[id_user]'");
+        while($userjab = $user->fetch_assoc()) {
+            $user_idjab = $userjab['jabatan'];
+        }
+
+        $read = 0;
+        // $id_user = $_SESSION['id_user'];
+        // echo $id_user;
+        $cekApproval = mysqli_query($conn, "SELECT * FROM template JOIN user_jabatan ON template.id_validator=user_jabatan.id_jab WHERE user_jabatan.id_jab='$user_idjab' AND template.read_validator='$read'");
+        $rowApproval = mysqli_num_rows($cekApproval);
+        // echo $rowApproval;
+        // $cekApproval = $this->model->selectprepare("template a", $field=null, $params=null, $where=null, "WHERE a.id_validator LIKE '%\"$_SESSION[id_user]\"%' AND a.read_validator=$read");
+          
+        // $cekSM2 = $this->model->selectprepare("arsip_sm a", $field=null, $params=null, $where=null, "WHERE a.tujuan_surat LIKE '%\"$_SESSION[id_user]\"%' AND a.id_sm NOT IN (SELECT b.id_sm FROM surat_read b WHERE b.id_user='$_SESSION[id_user]' AND b.kode='SM')", "ORDER BY a.tgl_terima DESC LIMIT 3");
+        // while($dataApproval= $cekApproval->fetch(PDO::FETCH_OBJ)){
+        //   $dumpApproval[]=$dataApproval;
+        // }
+        if ($rowApproval >= 1) {
+          $linkApproval="./index.php?op=approval_template";
+        } else {
+          $linkApproval="#";
+        }
+      ?>
+
       <?php
         $cekSM = $this->model->selectprepare("arsip_sm a", $field=null, $params=null, $where=null, "WHERE a.tujuan_surat LIKE '%\"$_SESSION[id_user]\"%' AND a.id_sm NOT IN (SELECT b.id_sm FROM surat_read b WHERE b.id_user='$_SESSION[id_user]' AND b.kode='SM')");
           
@@ -106,13 +132,13 @@
       ?>
 
       <?php 
-        if($cekSM->rowCount() >= 1 OR $cekDispo->rowCount() >= 1 OR $cekTembusan->rowCount() >= 1) { ?>
+        if($cekSM->rowCount() >= 1 OR $cekDispo->rowCount() >= 1 OR $cekTembusan->rowCount() >= 1 OR $rowApproval >= 1) { ?>
           <audio autoplay src="./view/notif.mp3"></audio> <?php
         } 
       ?>
 
       <?php 
-        if($cekSM->rowCount() >= 1 OR $cekDispo->rowCount() >= 1 OR $cekTembusan->rowCount() >= 1) {
+        if($cekSM->rowCount() >= 1 OR $cekDispo->rowCount() >= 1 OR $cekTembusan->rowCount() >= 1 OR $rowApproval >= 1) {
           $indicator = "indicator";
         } else {
           $indicator = "";
@@ -192,6 +218,29 @@
                   <div class="content">
                     <p>Tembusan</p>
                     <p class="sub-text text-muted">Tidak ada tembusan baru</p>
+                  </div>
+                <?php
+                }?>
+            </a>
+            <a href="<?php echo $linkApproval; ?>" class="dropdown-item">
+              <div class="icon">
+                <i data-feather="user-plus"></i>
+              </div>
+
+              <?php 
+                if ($rowApproval >= 1) {?>
+                  <div class="content">
+                    <p>Approval Template</p>
+                    <p class="sub-text text-warning">
+                      <?php echo $rowApproval; ?>
+                      Approval baru
+                    </p>
+                  </div>
+                <?php
+                } else {?>
+                  <div class="content">
+                    <p>Approval Template</p>
+                    <p class="sub-text text-muted">Tidak ada approval baru</p>
                   </div>
                 <?php
                 }?>

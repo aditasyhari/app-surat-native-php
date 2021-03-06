@@ -71,7 +71,9 @@ if($CekDisposisi->rowCount() >= 1){
 			<hr/>
 			<p>
 				<a href="./index.php?op=disposisi&smid=<?php echo $data_Disposisi->id_sm;?>&id_user=<?php echo $DataUser->id_user;?>&act=progres"><button class="btn btn-primary btn-minier ">ENTRI PROGRESS SURAT <i class="ace-icon fa fa-arrow-right align-center bigger-100 icon-on-right"></i></button></a>
-			</p><?php
+			</p>
+			<hr>
+			<?php
 			$params = array(':id_sm' => $data_Disposisi->id_sm);
 			$StatSurat = $this->model->selectprepare("status_surat a join user b on a.id_user=b.id_user", $field=null, $params, "a.id_sm=:id_sm", "ORDER BY a.id_status DESC");
 			if($StatSurat->rowCount() >= 1){?>
@@ -283,7 +285,7 @@ if($CekDisposisi->rowCount() >= 1){
 			}
 			/*End Feedback Surat*/
 			?>
-			<p></p>
+			<hr>
 			<p><b>RIWAYAT DISPOSISI</b></p>
 			<table id="simple-table" class="table table-striped table-bordered table-hover">
 				<thead>

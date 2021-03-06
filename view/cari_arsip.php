@@ -17,62 +17,36 @@
 									</div>
 								</div>
 
-								<!-- <div class="form-check form-check-flat form-check-primary mt-0">
+								<div class="form-check form-check-flat form-check-primary mt-0">
 									<label class="form-check-label">
-									<input name="filterNoArsip" type="checkbox" class="form-check-input">
-									</label>
-								</div> -->
-
-
-								<div class="col-xs-1 col-sm-1">
-									<label>
-										<input name="filterNoArsip" type="checkbox" class="ace" value="1"/>
-										<span class="lbl"> </span>
+									<input name="filterNoArsip" type="checkbox" class="form-check-input" value="1">
 									</label>
 								</div>
-
-
 							</div>
-						
 
-
-							
 							<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="id-date-range-picker-1">Filter Tanggal</label>
 							<div class="row">
 								<div class="col-sm-6">
 									<div class="form-group">
-										<input type="date" class="form-control date" name="rangetgl">
-									</div>
-														
+										<div class="input-group input-daterange" id="datePickerExample">
+											<input type="text" class="form-control" name="rangetgl1" value="">
+											<div class="input-group-addon"> to </div>
+											<input type="text" class="form-control" name="rangetgl2" value="">
+										</div>
 								
-<!-- 								
-									<div class="form-group">
-										<span class="input-group-addon">
-											<i class="fa fa-calendar bigger-110"></i>
-										</span>
-										<input class="form-control" type="text" name="rangetgl" id="id-date-range-picker-1" />
-									</div> -->
+									</div>
 								</div>
-<!-- 
+
 								<div class="form-check form-check-flat form-check-primary mt-0">
 									<label class="form-check-label">
-									<input name="filterTgl" type="checkbox" class="form-check-input">
+										<input name="filterTgl" type="checkbox" class="form-check-input" value="1">
 									</label>
-								</div> -->
-										<div class="col-xs-1 col-sm-1">
-											<label>
-												<input name="filterTgl" type="checkbox" class="ace" value="1"/>
-												<span class="lbl"> </span>
-											</label>
-										</div>	
+								</div>
 							</div>
 
-							<div class="row">
-							<div class="col-sm-6">
-							<div class="form-group">
 							<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Filter Klasifikasi</label>
 							<select class="js-example-basic-single w-100" name="klasifikasi" require data-placeholder="Pilih Klasifikasi...">
-							<option value="">Pilih klasifikasi...</option>
+									<option value="">Pilih klasifikasi...</option>
 									<?php 
 										$klasArsip = $this->model->selectprepare("klasifikasi_arsip", $field=null, $params=null, $where=null, "ORDER BY nama_klasifikasi ASC");
 										while($dataKlasArsip= $klasArsip->fetch(PDO::FETCH_OBJ)){?>
@@ -87,24 +61,25 @@
 
 							<!-- <label>Filter Klasifikasi</label><span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Pilih klasifikasi arsip." title="Filter Klasifikasi">?</span>
 							<div class="row">
-								<div class="col-xs-2 col-sm-2">
-									<select class="form-control" id="form-field-select-1" name="klasifikasi" data-placeholder="Pilih Klasifikasi...">
-										<option value="">Pilih klasifikasi...</option><?php 
-										$klasArsip = $this->model->selectprepare("klasifikasi_arsip", $field=null, $params=null, $where=null, "ORDER BY nama_klasifikasi ASC");
-										while($dataKlasArsip= $klasArsip->fetch(PDO::FETCH_OBJ)){?>
-											<option value="<?php echo $dataKlasArsip->id_klasifikasi;?>"><?php echo $dataKlasArsip->nama_klasifikasi;?></option><?php
-										}?>
-									</select>
+								<div class="col-sm-6">
+									<div class="form-group">
+										<select class="js-example-basic-single w-100" name="klasifikasi" require data-placeholder="Pilih Klasifikasi...">
+											<option value="">Pilih klasifikasi...</option>
+											<?php 
+											$klasArsip = $this->model->selectprepare("klasifikasi_arsip", $field=null, $params=null, $where=null, "ORDER BY nama_klasifikasi ASC");
+											while($dataKlasArsip= $klasArsip->fetch(PDO::FETCH_OBJ)){?>
+												<option value="<?php echo $dataKlasArsip->id_klasifikasi;?>"><?php echo $dataKlasArsip->nama_klasifikasi;?></option><?php
+											}?>
+											
+										</select>
+									</div>
 								</div>
-								<div class="col-xs-8 col-sm-1">
-									<label>
-										<input name="filterKlas" type="checkbox" class="ace" value="1"/>
-										<span class="lbl"> </span>
+								<div class="form-check form-check-flat form-check-primary mt-0">
+									<label class="form-check-label">
+										<input name="filterKlas" type="checkbox" class="form-check-input" value="1">
 									</label>
 								</div>
-							</div> -->
 							</div>
-
 
 							<div class="space-6"></div>
 							<div class="row">
@@ -131,9 +106,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 				<div class="card">
 					<div class="card-body"><?php
 						//print_r($_POST);
-						$from = explode("/", substr($_POST['rangetgl'],0,10));
+						$from = explode("/", substr($_POST['rangetgl1'],0,10));
 						$tglfrom = htmlspecialchars($from[2]."-".$from[0]."-".$from[1]);
-						$to = explode("/", substr($_POST['rangetgl'],-10));
+						$to = explode("/", substr($_POST['rangetgl2'],-10));
 						$tglto = htmlspecialchars($to[2]."-".$to[0]."-".$to[1]); 
 						$noarsip = htmlspecialchars($purifier->purify(intval(trim($_POST['noarsip']))), ENT_QUOTES);
 						$OtherWhere = "";

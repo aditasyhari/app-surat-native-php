@@ -11,7 +11,7 @@ if(isset($_GET['tpid'])){
         $user_idjab = $userjab['jabatan'];
     }
 
-    $template = mysqli_query($conn, "SELECT * FROM template JOIN user_jabatan ON template.id_validator=user_jabatan.id_jab WHERE user_jabatan.id_jab='$user_idjab'");
+    $template = mysqli_query($conn, "SELECT * FROM template JOIN user_jabatan ON template.id_validator=user_jabatan.id_jab WHERE user_jabatan.id_jab='$user_idjab' ORDER BY tgl_diupdate DESC");
     
     // echo $_SESSION['id_user'];
     // echo $user_idjab;
@@ -28,9 +28,14 @@ if(isset($_GET['tpid'])){
 			<?php
 			$no=1+$posisi;
 			while($data = $template->fetch_assoc()){ ?>
+                <?php if($data['read_validator'] == 1) {
+                    $read = 'text-secondary';
+                }else {
+                    $read = '';
+                } ?>
             <tr>
                 <td width="10"><?php echo $no;?></td>
-                <td><?php echo $data['nama_template'];?></td>
+                <td class="<?php echo $read; ?>"><?php echo $data['nama_template'];?></td>
                 <td>
                     <?php  
                         if($data['status_temp'] == 'pengajuan'){ ?>

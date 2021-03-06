@@ -63,7 +63,7 @@ if(isset($_GET['memoid'])){
 				$params2 = array(':id_sm' => $ViewSM->id_sm, ':id_user' => $_SESSION['id_user'], ':kode' => 'SM');
 				$CekRead = $this->model->selectprepare("surat_read", $field=null, $params2, "id_sm=:id_sm AND id_user=:id_user AND kode=:kode", $order=null);
 				if($CekRead->rowCount() <= 0){?>
-					<li class="list-group-item d-flex justify-content-between align-items-center disabled">
+					<li class="list-group-item d-flex justify-content-between align-items-center ">
 						<div>
 							<span><?php echo $no;?>. </span>
 							<span title="<?php echo $ViewSM->pengirim;?>"> <?php echo $ViewSM->pengirim;?></span>
@@ -79,7 +79,7 @@ if(isset($_GET['memoid'])){
 					</li>
 					<?php
 				}else{?>
-					<li class="list-group-item d-flex justify-content-between align-items-center">
+					<li class="list-group-item d-flex justify-content-between align-items-center text-secondary">
 						<div>
 							<span><?php echo $no;?>. </span>
 							<span title="<?php echo $ViewSM->pengirim;?>"><?php echo $ViewSM->pengirim;?></span>

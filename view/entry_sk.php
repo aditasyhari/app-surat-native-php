@@ -3,9 +3,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$noagenda = htmlspecialchars($purifier->purify(trim($_POST['noagenda'])), ENT_QUOTES);
 	$noagenda_custom = trim($_POST['noagenda_custom']);
 	$nosk = htmlspecialchars($purifier->purify(trim($_POST['nosk'])), ENT_QUOTES);
-	$tglsk = htmlspecialchars($purifier->purify(trim($_POST['tglsk'])), ENT_QUOTES);
-	$tglsk = explode("-",$tglsk);
-	$tglskdb = $tglsk[2]."-".$tglsk[1]."-".$tglsk[0];
+	$tglsk = $_POST['tglsk'];
+	// $tglsk = htmlspecialchars($purifier->purify(trim($_POST['tglsk'])), ENT_QUOTES);
+	// $tglsk = explode("-",$tglsk);
+	// $tglskdb = $tglsk[2]."-".$tglsk[1]."-".$tglsk[0];
 	$pengolah = htmlspecialchars($purifier->purify(trim($_POST['pengolah'])), ENT_QUOTES);
 	$klasifikasi = htmlspecialchars($purifier->purify(trim($_POST['id_klasifikasi'])), ENT_QUOTES);
 	$tujuan = htmlspecialchars($purifier->purify(trim($_POST['tujuan'])), ENT_QUOTES);
@@ -16,11 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$tipefile = pathinfo($fileName,PATHINFO_EXTENSION);
 	$extensionList = array("pdf","jpg","jpeg","png","PNG", "JPG", "JPEG","PDF");
 	$namaDir = 'berkas/';
-	$filesk = $namaDir."SK"."_".$tglskdb."_". slugify($perihal)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
+	$filesk = $namaDir."SK"."_".$tglsk."_". slugify($perihal)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
+	// $filesk = $namaDir."SK"."_".$tglskdb."_". slugify($perihal)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
 	if(empty($fileName)){
 		$filedb = "";
 	}else{
-		$filedb = "SK"."_".$tglskdb."_". slugify($perihal)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
+		$filedb = "SK"."_".$tglsk."_". slugify($perihal)."_". date("d-m-Y_H-i-s", time()) .".".$tipefile;
 	}
 	$tgl_upload = date("Y-m-d H:i:s", time());
 	
@@ -35,11 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			$idsk = $data_lihat_sk->id_sk;
 			if(empty($fileName)){
 				//echo "No Update File";
-				$field = array('no_sk' => $nosk, 'tgl_surat' => $tglskdb, 'pengolah' => $pengolah, 'tujuan_surat' => $tujuan, 'perihal' => $perihal, 'ket' => $ket);
+				$field = array('no_sk' => $nosk, 'tgl_surat' => $tglsk, 'pengolah' => $pengolah, 'tujuan_surat' => $tujuan, 'perihal' => $perihal, 'ket' => $ket);
 			}else{
 				//if(in_array($tipefile, $extensionList)){
 					@unlink($namaDir.$data_lihat_sk->file);
-					$field = array('no_sk' => $nosk, 'tgl_surat' => $tglskdb, 'pengolah' => $pengolah, 'tujuan_surat' => $tujuan, 'perihal' => $perihal, 'ket' => $ket, 'file' => $filedb);
+					$field = array('no_sk' => $nosk, 'tgl_surat' => $tglsk, 'pengolah' => $pengolah, 'tujuan_surat' => $tujuan, 'perihal' => $perihal, 'ket' => $ket, 'file' => $filedb);
 					move_uploaded_file($_FILES['filesk']['tmp_name'], $filesk);
 				/*}else{
 					echo "<script type=\"text/javascript\">alert('File gagal di Upload, Format file tidak di dukung!!!');window.location.href=\"./index.php?op=add_sk&skid=$idsk\";</script>";
@@ -57,8 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$params = array(':no_sk' => $nosk);
 		$cek_nosk = $this->model->selectprepare("arsip_sk", $field=null, $params, "no_sk=:no_sk");
 		if($cek_nosk->rowCount() <= 0){
-			$field = array('id_user' => $_SESSION['id_user'], 'no_sk'=>$nosk, 'klasifikasi' => $klasifikasi, 'tgl_surat'=>$tglskdb, 'pengolah'=>$pengolah, 'tujuan_surat'=>$tujuan, 'perihal'=>$perihal, 'no_agenda' => $noagenda, 'custom_noagenda' => $noagenda_custom, 'ket'=>$ket, 'file'=>$filedb, 'created'=>$tgl_upload);
-			$params = array(':id_user' => $_SESSION['id_user'], ':no_sk'=>$nosk, ':klasifikasi' => $klasifikasi, ':tgl_surat'=>$tglskdb, ':pengolah'=>$pengolah, ':tujuan_surat'=>$tujuan, ':perihal'=>$perihal, ':no_agenda' => $noagenda, ':custom_noagenda' => $noagenda_custom, ':ket'=>$ket, ':file'=>$filedb, ':created'=>$tgl_upload);
+			$field = array('id_user' => $_SESSION['id_user'], 'no_sk'=>$nosk, 'klasifikasi' => $klasifikasi, 'tgl_surat'=>$tglsk, 'pengolah'=>$pengolah, 'tujuan_surat'=>$tujuan, 'perihal'=>$perihal, 'no_agenda' => $noagenda, 'custom_noagenda' => $noagenda_custom, 'ket'=>$ket, 'file'=>$filedb, 'created'=>$tgl_upload);
+			$params = array(':id_user' => $_SESSION['id_user'], ':no_sk'=>$nosk, ':klasifikasi' => $klasifikasi, ':tgl_surat'=>$tglsk, ':pengolah'=>$pengolah, ':tujuan_surat'=>$tujuan, ':perihal'=>$perihal, ':no_agenda' => $noagenda, ':custom_noagenda' => $noagenda_custom, ':ket'=>$ket, ':file'=>$filedb, ':created'=>$tgl_upload);
 			if(empty($fileName)){
 				$insert = $this->model->insertprepare("arsip_sk", $field, $params);
 				if($insert->rowCount() >= 1){
@@ -122,19 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		$id_klasifikasi = htmlspecialchars($purifier->purify(trim($_GET['id_klasifikasi'])), ENT_QUOTES);
 	}
 
-		/*if(isset($_GET['id_klasifikasi']) && $_GET['id_klasifikasi'] != ''){ 
-		$kode_jenis_surat = htmlspecialchars($purifier->purify(trim($_GET['id_klasifikasi'])), ENT_QUOTES);
-		$kondisi = array(':klasifikasi' => $kode_jenis_surat);
-		$cek_noaagenda = $this->model->selectprepare("arsip_sk", $field=null, $kondisi,  "klasifikasi=:klasifikasi", "ORDER BY id_sk DESC LIMIT 1");
-
-		$kondisi1 = array(':id_klas' => $kode_jenis_surat);
-		$klasifikasi_surat = $this->model->selectprepare("klasifikasi", $field=null, $kondisi1,  "id_klas=:id_klas", $order=null);
-		if($klasifikasi_surat->rowCount() >= 1){
-			$data_klasifikasi_surat = $klasifikasi_surat->fetch(PDO::FETCH_OBJ);
-		}else{
-			echo "<script type=\"text/javascript\">alert('Klasifikasi surat tidak ditemukan, silahkan ulangi..!!');window.history.go(-1);</script>";
-		}*/
-	//}
 	
 	if(isset($data_sk->no_agenda)){
 		$noAgenda = sprintf("%04d", $data_sk->no_agenda);
@@ -295,19 +284,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 						<div class="card">
 						<div class="card-body">
 							<h6 class="card-title"><?php echo $ketfile;?></h6>
-							<p class="card-description">Pilih file yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .jpg, .png, .zip, .rarx</p>
-							<input type="file" name="filesk" id="myDropify" class="border" data-allowed-file-extensions="pdf doc docx ppt pptx xls xlsx jpg png zip rarx" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
+							<p class="card-description">Pilih file yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .jpeg, .jpg, .png</p>
+							<input type="file" name="filesk" id="myDropify" class="border" data-allowed-file-extensions="pdf jpeg jpg png" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
 						</div>
 						</div>
 						</div><br>
-
-						<!-- <div class="form-group">
-							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> <?php echo $ketfile;?></label>
-							<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih File surat keluar yang ingin di upload. Caranya klik menu Pilih File. Tipe file : .pdf, .jpg, .png" title="File surat keluar">?</span>
-							<div class="col-sm-6">
-								<input class="form-control" type="file" name="filesk" id="id-input-file-1" <?php if(isset($validasifile)){ echo $validasifile; }?>/>
-							</div>
-						</div> -->
 
 
 						<div class="clearfix form-actions">

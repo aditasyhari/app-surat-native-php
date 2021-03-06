@@ -12,11 +12,11 @@
 							<div class="row">
 								<div class="col-sm-6">
 									<div class="form-group">
-									<div class="input-group input-daterange" id="datePickerExample">
-									<input type="text" class="form-control" name="rangetgl" value="">
-										<div class="input-group-addon"> to </div>
-										<input type="text" class="form-control" name="rangetgl" value="">
-									</div>
+										<div class="input-group input-daterange" id="datePickerExample">
+											<input type="text" class="form-control" name="rangetgl1" value="">
+											<div class="input-group-addon"> to </div>
+											<input type="text" class="form-control" name="rangetgl2" value="">
+										</div>
 									</div>
 								</div>
 								<div class="form-check form-check-flat form-check-primary mt-0">
@@ -25,29 +25,6 @@
 									</label>
 								</div>
 							</div>
-
-
-						<!-- <div class="row">
-							<div class="col-xs-8 col-sm-8">
-								<div class="input-group">
-									<span class="input-group-addon">
-										<i class="fa fa-calendar bigger-110"></i>
-									</span>
-									<input class="form-control" type="text" name="rangetgl" id="id-date-range-picker-1" />
-								</div>
-							</div>
-							<div class="col-xs-8 col-sm-1">
-								<div class="input-group">
-									<label>
-										<input name="filterTgl" type="checkbox" class="ace" value="1"/>
-										<span class="lbl"> </span>
-									</label>
-								</div>
-							</div>
-						</div> -->
-
-
-
 
 						<label >Filter User Tujuan Disposisi</label>
 						<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Checklist pada tombol yang tersedia untuk mengaktifkan filter ini. Tentukan user tujuan disposisi yg ingin di filter." title="Filter User">?</span>
@@ -97,10 +74,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 					<div class="widget-main"><?php
 						$wherekCon = '';
 						if(isset($_POST['filterTgl'])){
+							// echo $_POST['rangetgl'];
 							$filterTgl = htmlspecialchars($purifier->purify(trim($_POST['filterTgl'])), ENT_QUOTES);
-							$from = explode("/", substr($_POST['rangetgl'],0,10));
+							$from = explode("/", substr($_POST['rangetgl1'],0,10));
 							$tglfrom = htmlspecialchars($from[2]."-".$from[0]."-".$from[1]);
-							$to = explode("/", substr($_POST['rangetgl'],-10));
+							$to = explode("/", substr($_POST['rangetgl2'],-10));
 							$tglto = htmlspecialchars($to[2]."-".$to[0]."-".$to[1]);
 							$wherekCon .= "WHERE a.tgl between '$tglfrom' AND '$tglto'";
 						}else{
@@ -188,7 +166,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){?>
 													<a href="./index.php?op=report_dispo_print&start=<?php echo $tglfrom;?>&to=<?php echo $tglto;?>&user=<?php echo $user;?>&filtertgl=<?php echo $_POST['filterTgl'];?>" target="_blank"><b>Print</b> <i class="ace-icon fa fa-print align-top bigger-125 icon-on-right"></i></a>
 												</span>
 												<span class="label label-xs label-danger label-white middle">
-												<a href="./index.php?op=report_dispo_print&start=<?php echo $tglfrom;?>&to=<?php echo $tglto;?>&user=<?php echo $user;?>&filtertgl=<?php echo $_POST['filterTgl'];?>&act=pdf" target="_blank"><b>Pdf</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
+													<a href="./index.php?op=report_dispo_print&start=<?php echo $tglfrom;?>&to=<?php echo $tglto;?>&user=<?php echo $user;?>&filtertgl=<?php echo $_POST['filterTgl'];?>&act=pdf" target="_blank"><b>Pdf</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
 												</span>
 											</td>
 										</tr>
