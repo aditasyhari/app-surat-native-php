@@ -3,7 +3,7 @@
 require_once '../db/db2.php';
 
 
-if(isset($_POST['submit_edit'])) {
+ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $nama = $_POST['nama'];
         $alamat = $_POST['alamat'];
         $email = $_POST['email'];
