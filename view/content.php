@@ -113,6 +113,10 @@
                         require_once "invalid_akses.php";
                     }
                 // ===============================
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "kontak"){
+                    require_once "kontak.php";
+                }elseif(isset($_GET['op']) AND $_GET['op'] == "add_kontak"){
+                    require_once "add_kontak.php";
                 }elseif(isset($_GET['op']) AND $_GET['op'] == "view_event"){
                             require_once "view_agenda.php";
 

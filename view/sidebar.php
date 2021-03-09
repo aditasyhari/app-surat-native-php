@@ -91,6 +91,7 @@
   if(isset($_GET['op']) AND $_GET['op'] == "surat_keluar"){ $StatSuratKeluar = 'active'; }else{ $StatSuratKeluar = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "disposisi"){ $StatDisposisi = 'active open'; }else{ $StatDisposisi = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "tembusan"){ $StatTembusan = 'active open'; }else{ $StatTembusan = ''; }
+  if(isset($_GET['op']) AND $_GET['op'] == "kontak"){ $Kontak = 'active open'; }else{ $Kontak = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "tracking_"){ $Tracking = 'active open'; }else{ $Tracking = ''; }
   if(isset($_GET['op']) AND $_GET['op'] == "statistik"){ $Statistik = 'active open'; }else{ $Statistik = ''; }
 
@@ -179,6 +180,12 @@
         <a href="index.php?op=tembusan" class="nav-link">
           <i class="link-icon" data-feather="user"></i>
           <span class="link-title">Tembusan</span>
+        </a>
+      </li>
+      <li class="nav-item <?php echo $Kontak;?>">
+        <a href="index.php?op=kontak" class="nav-link">
+          <i class="link-icon" data-feather="user"></i>
+          <span class="link-title">Kontak</span>
         </a>
       </li>
       <li class="nav-item <?php echo $StatInfo;?>">
