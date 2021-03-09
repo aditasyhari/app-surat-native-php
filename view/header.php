@@ -264,7 +264,8 @@
             </div> -->
             <div class="info text-center">
               <p class="name font-weight-bold mb-0">Welcome</p>
-              <p class="email text-muted mb-3"><?php echo $_SESSION['nama'];?></p>
+              <p class="email text-muted mb-1"><?php echo $_SESSION['nama'];?></p>
+              <p class="text-primary mb-3"><?php echo $_SESSION['email'];?></p>
             </div>
           </div>
           <div class="dropdown-body">

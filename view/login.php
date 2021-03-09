@@ -19,6 +19,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$_SESSION['atra_id'] = $data->uname;
 		$_SESSION['atra_pass'] = $data->upass;
 		$_SESSION['hakakses'] = $data->level;
+		$_SESSION['email'] = $data->email;
 		//$_SESSION['nsalt'] = $data->salt;
 		$_SESSION['picture'] = $data->picture;
 		echo "<script type=\"text/javascript\">window.location.href=\"./\";</script>";

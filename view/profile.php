@@ -5,17 +5,19 @@ if($user->rowCount() >= 1){
 	$data_user = $user->fetch(PDO::FETCH_OBJ);
 	$nama = 'value="'.$data_user->nama .'"';
 	$uname = 'value="'.$data_user->uname .'"';
+	$email = 'value="'.$data_user->email .'"';
 }
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 	//print_r($_POST);
 	$nama = htmlspecialchars($purifier->purify(trim($_POST['nama'])), ENT_QUOTES);
+	$email = htmlspecialchars($purifier->purify(trim($_POST['email'])), ENT_QUOTES);
 	$uname = htmlspecialchars($purifier->purify(trim($_POST['uname'])), ENT_QUOTES);
 	$upass = htmlspecialchars($purifier->purify(trim($_POST['upass'])), ENT_QUOTES);
 	if(empty($upass)){
-		$field = array('nama' => $nama, 'uname' => $uname);
+		$field = array('nama' => $nama, 'uname' => $uname, 'email' => $email);
 	}else{
 		$upass = md5($upass);
-		$field = array('nama' => $nama, 'uname' => $uname, 'upass' => $upass);
+		$field = array('nama' => $nama, 'uname' => $uname, 'upass' => $upass, 'email' => $email);
 	}
 	$params = array(':id_user' => $_SESSION['id_user']);
 	$update = $this->model->updateprepare("user", $field, $params, "id_user=:id_user");
@@ -45,7 +47,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 					<div class="card">
 						<div class="card-body">
 							<label for="id-date-range-picker-1">Nama Lengkap</label><br>
-							
 							<div class="row">
 								<div class=" col-sm-6">
 									<div class="input-group">
@@ -56,9 +57,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 									</div>
 								</div>
 							</div><br>
-							<div class="space-6"></div>
+
+							<label for="id-date-range-picker-1">Email</label><br>
+							<div class="row">
+								<div class=" col-sm-6">
+									<div class="input-group">
+										<span class="input-group-addon">
+											<i class="fa fa-user bigger-110"></i>
+										</span>
+										<input class="form-control" placeholder="Username" type="text" name="email" <?php if(isset($email)){ echo $email; }?> id="form-field-mask-1" required/>
+									</div>
+								</div>
+							</div><br>
+
 							<label for="id-date-range-picker-1">Username</label><br>
-							
 							<div class="row">
 								<div class=" col-sm-6">
 									<div class="input-group">
@@ -69,9 +81,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 									</div>
 								</div>
 							</div><br>
-							<div class="space-6"></div>
+
 							<label for="id-date-range-picker-1">Password</label><br>
-							
 							<div class="row">
 								<div class=" col-sm-6">
 									<div class="input-group">
