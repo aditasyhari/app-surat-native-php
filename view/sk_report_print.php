@@ -89,4 +89,5 @@ if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
 	}catch(HTML2PDF_exception $e){ 
 		echo "Terjadi Error kerena : ".$e; 
 	}
-}?>
+}
+?>

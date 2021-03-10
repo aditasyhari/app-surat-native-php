@@ -29,7 +29,7 @@ if (isset($_POST['submit_template'])){
     
     if($sql) {
         move_uploaded_file($tmp_file, $path);
-            echo "<script type=\"text/javascript\">alert('Data berhasil Tersimpan...!!');window.location.href=\"../index.php?op=template\";</script>";
+            echo "<script type=\"text/javascript\">alert('Data berhasil Tersimpan...!!');window.location.href=\"./index.php?op=template\";</script>";
             // header("location: ../index.php?op=template");
     } else {
 		die("<script>alert('Gagal menyimpan ke database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");

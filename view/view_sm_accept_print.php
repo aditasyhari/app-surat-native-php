@@ -20,8 +20,8 @@ if($memo->rowCount() >= 1){
 		$deskripsi = $data_pengaturan->deskripsi;
 	}else{
 		$kop = "default.jpg";
-		$title = "SI-NADIN - Sistem Naskah Dinas";
-		$deskripsi = "SI-NADIN merupakan aplikasi pengelolaan arsip surat Naskah";
+		$title = "E - Office";
+		$deskripsi = "E - Office merupakan aplikasi surat menyurat";
 	}
 	
 	$ListUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
@@ -44,6 +44,22 @@ if($memo->rowCount() >= 1){
 			$layout = $Rlayout;
 		}
 	}?>
+
+	<?php
+	if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
+		$filename="Letter-".$data_memo->id_sm.".pdf"; //ubah untuk menentukan nama file pdf yang dihasilkan nantinya
+		$content = ob_get_clean();
+		$content = '<page style="font-family: freeserif">'.nl2br($content).'</page>';
+		require_once 'html2pdf/html2pdf.class.php';
+		try{
+			$html2pdf = new HTML2PDF('P','A4','en', false, 'ISO-8859-15',array(0, 5, 0, 0));
+			$html2pdf->setDefaultFont('Arial');
+			$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
+			$html2pdf->Output($filename);
+		}catch(HTML2PDF_exception $e){ 
+			echo "Terjadi Error kerena : ".$e; 
+		}
+	}else { ?>
 	<html>
 		<head>
 			<title><?php echo $title;?></title>
@@ -107,24 +123,15 @@ if($memo->rowCount() >= 1){
 				</table><?php
 			}?>
 		</body>
-	</html><?php
+	</html>
+	<?php	
+	}
+	?>
+
+	
+<?php
 }else{
 	echo "Belum ada data";	
 }
 
-/*Cetak Direct PDF*/
-if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
-	$filename="Letter-".$data_memo->id_sm.".pdf"; //ubah untuk menentukan nama file pdf yang dihasilkan nantinya
-	$content = ob_get_clean();
-	$content = '<page style="font-family: freeserif">'.nl2br($content).'</page>';
-	require_once 'html2pdf/html2pdf.class.php';
-	try{
-		$html2pdf = new HTML2PDF('P','A4','en', false, 'ISO-8859-15',array(0, 5, 0, 0));
-		$html2pdf->setDefaultFont('Arial');
-		$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
-		$html2pdf->Output($filename);
-	}catch(HTML2PDF_exception $e){ 
-		echo "Terjadi Error kerena : ".$e; 
-	}
-}
 ?>

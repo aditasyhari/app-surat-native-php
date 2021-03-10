@@ -70,18 +70,18 @@ if($sm->rowCount() >= 1){
 			<hr/>
 			<p>
 				Bukti Terima Surat&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :
-				<span class="label label-xs label-primary label-white middle">
+				<!-- <span class="label label-xs label-primary label-white middle">
 					<a class="btn btn-primary" href="./index.php?op=smprint&smid=<?php echo $data_sm->id_sm;?>"target="_blank" ><b>Lihat</b> <i data-feather="eye"></i></a>
-				</span>
+				</span> -->
 				<span class="label label-xs label-danger label-white middle">
 					<a class="btn btn-info" href="./index.php?op=smprint&smid=<?php echo $data_sm->id_sm;?>&act=pdf" target="_blank"><b>Cetak</b> <i data-feather="printer"></i></a>
 				</span>
 			</p><br>
 			<p>
 				Detail Surat &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp :
-				<span class="label label-xs label-primary label-white middle">
+				<!-- <span class="label label-xs label-primary label-white middle">
 					<a class="btn btn-primary" href="./index.php?op=memoprint&memoid=<?php echo $data_sm->id_sm;?>" target="_blank"><b>Lihat</b> <i data-feather="eye"></i></a>
-				</span>
+				</span> -->
 				<span class="label label-xs label-danger label-white middle">
 					<a class="btn btn-info"  href="./index.php?op=memoprint&memoid=<?php echo $data_sm->id_sm;?>&act=pdf" target="_blank"><b>Cetak</b><i data-feather="printer"></i></a>
 				</span>
@@ -161,7 +161,7 @@ if($sm->rowCount() >= 1){
 										foreach($ListDisposisi2 as $listdispo){
 											$TampilUser = $this->model->selectprepare("user", $field=null, $params=null, $where=null, "WHERE id_user='$listdispo'")->fetch(PDO::FETCH_OBJ);
 											echo "- ".$TampilUser->nama;?>
-												<a href="./index.php?op=disposisiprint&smid=<?php echo $data_sm->id_sm;?>&iduser=<?php echo $TampilUser->id_user; ?>&dispo=<?php echo $dataDisposisi->id_user;?>" target="_blank"><i class="ace-icon fa fa-globe align-top bigger-125 icon-on-right"></i></a>
+												<!-- <a href="./index.php?op=disposisiprint&smid=<?php echo $data_sm->id_sm;?>&iduser=<?php echo $TampilUser->id_user; ?>&dispo=<?php echo $dataDisposisi->id_user;?>" target="_blank"><i class="ace-icon fa fa-globe align-top bigger-125 icon-on-right"></i></a> -->
 												<a href="./index.php?op=disposisiprint&smid=<?php echo $data_sm->id_sm;?>&iduser=<?php echo $TampilUser->id_user; ?>&dispo=<?php echo $dataDisposisi->id_user;?>&act=pdf" target="_blank"><i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a><br/><?php
 										}?>
 									</td>
@@ -173,7 +173,7 @@ if($sm->rowCount() >= 1){
 					</table>
 				</p><?php
 			}?>
-			<span class="row justify-content-center"><?php
+			<span class="row justify-content-center mt-3"><?php
 				if($data_sm->file != ''){?>
 				
 					<a href="./berkas/<?php echo $data_sm->file;?>" target="_blank" class="btn btn-primary">Lihat Surat <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp

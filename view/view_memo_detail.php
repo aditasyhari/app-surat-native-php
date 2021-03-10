@@ -1,4 +1,13 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once "library/PHPMailer.php";
+require_once "library/Exception.php";
+require_once "library/OAuth.php";
+require_once "library/POP3.php";
+require_once "library/SMTP.php";
+
 $params = array(':id_sm' => trim($_GET['memoid']));
 $userLike = "'%\"$_SESSION[id_user]\"%'";
 $memo = $this->model->selectprepare("arsip_sm", $field=null, $params, "id_sm=:id_sm", "AND tujuan_surat LIKE $userLike");
@@ -73,11 +82,11 @@ if($memo->rowCount() >= 1){
 			}?>
 			<p class="mt-2">
 				Detail Surat:<br/>
-				<span class="label label-xs label-primary label-white middle">
+				<!-- <span class="label label-xs label-primary label-white middle">
 					<a href="./index.php?op=memoprint&memoid=<?php echo $data_memo->id_sm;?>" target="_blank"><b>Lihat</b></a>
-				</span>
+				</span> -->
 				<span class="label label-xs label-danger label-white middle">
-					<a href="./index.php?op=memoprint&memoid=<?php echo $data_memo->id_sm;?>&act=pdf" target="_blank"><b>Cetak</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
+					<a href="./index.php?op=memoprint&memoid=<?php echo $data_memo->id_sm;?>&act=pdf" target="_blank"><b>Lihat / Cetak</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
 				</span>
 			</p>
 			<hr/>
@@ -415,29 +424,30 @@ if($memo->rowCount() >= 1){
 									$mail = new PHPMailer;
 									$mail->SMTPDebug = 0;                               
 									$mail->isSMTP();                                 
-									$mail->Host = "smtp.gmail.com";
+									$mail->Host = "tls://smtp.gmail.com";
 									$mail->SMTPAuth = true;  
 									$mail->Username = $dataEmailAccount->email;
-									$mail->Password = $dataEmailAccount->pass_email;                           
+									$mail->Password = $dataEmailAccount->pass_email;  
+									$mail->SMTPSecure = "tls";                           
 									$mail->Port = 587;                                   
 									$mail->From = $dataEmailAccount->email;
 									$mail->FromName = $_SESSION['nama'];
-									$mail->smtpConnect(
-										array(
-											"ssl" => array(
-												"verify_peer" => false,
-												"verify_peer_name" => false,
-												"allow_self_signed" => true
-											)
-										)
-									);
+									// $mail->smtpConnect(
+									// 	array(
+									// 		"ssl" => array(
+									// 			"verify_peer" => false,
+									// 			"verify_peer_name" => false,
+									// 			"allow_self_signed" => true
+									// 		)
+									// 	)
+									// );
 									$dataTujuan = json_decode($tujuan, true);
 									foreach($dataTujuan as $id_tujuan){
 										$params = array(':id_user' => $id_tujuan);
 										$user_tujuan = $this->model->selectprepare("user", $field=null, $params, "id_user=:id_user", $other=null);
 										$data_user_tujuan= $user_tujuan->fetch(PDO::FETCH_OBJ);
 										if($data_user_tujuan->email != ''){
-											$mail->AddAddress($data_user_tujuan->email, $data_user_tujuan->nama);
+											$mail->addAddress($data_user_tujuan->email, $data_user_tujuan->nama);
 										}
 									}
 									$mail->isHTML(true);
@@ -457,29 +467,30 @@ if($memo->rowCount() >= 1){
 											$mail = new PHPMailer;
 											$mail->SMTPDebug = 0;                               
 											$mail->isSMTP();                                 
-											$mail->Host = "smtp.gmail.com";
+											$mail->Host = "tls://smtp.gmail.com";
 											$mail->SMTPAuth = true;  
 											$mail->Username = $dataEmailAccount->email;
-											$mail->Password = $dataEmailAccount->pass_email;                           
+											$mail->Password = $dataEmailAccount->pass_email;
+											$mail->SMTPSecure = "tls";                           
 											$mail->Port = 587;                                   
 											$mail->From = $dataEmailAccount->email;
 											$mail->FromName = $_SESSION['nama'];
-											$mail->smtpConnect(
-												array(
-													"ssl" => array(
-														"verify_peer" => false,
-														"verify_peer_name" => false,
-														"allow_self_signed" => true
-													)
-												)
-											);
+											// $mail->smtpConnect(
+											// 	array(
+											// 		"ssl" => array(
+											// 			"verify_peer" => false,
+											// 			"verify_peer_name" => false,
+											// 			"allow_self_signed" => true
+											// 		)
+											// 	)
+											// );
 											$dataTembusan = json_decode($tembusan, true);
 											foreach($dataTembusan as $id_tembusan){
 												$params = array(':id_user' => $id_tembusan);
 												$user_tujuan = $this->model->selectprepare("user", $field=null, $params, "id_user=:id_user", $other=null);
 												$data_user_tujuan= $user_tujuan->fetch(PDO::FETCH_OBJ);
 												if($data_user_tujuan->email != ''){
-													$mail->AddAddress($data_user_tujuan->email, $data_user_tujuan->nama);
+													$mail->addAddress($data_user_tujuan->email, $data_user_tujuan->nama);
 												}
 											}
 											$mail->isHTML(true);
@@ -519,10 +530,11 @@ if($memo->rowCount() >= 1){
 							<div class="widget-main">
 								<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 									<div class="form-group mt-3">
-										<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Disposisikan ke *</label>
-										<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan pilihan user yang tersedia">?</span>
+										<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Disposisikan ke</label>
 										<div class="col-sm-6">
-											<select multiple="" class="chosen-select form-control" name="tujuan[]" id="form-field-select-3" data-placeholder="Pilih user..." required><?php
+											<select multiple="multiple" class="js-example-basic-multiple form-control" name="tujuan[]" id="form-field-mask-1" data-placeholder="Pilih user..." required>
+												<!-- <option value="">Pilih</option> -->
+											<?php
 											foreach($dumpListUser as $key => $object){
 												if(false !== array_search($object->id_user, $RuleDisposisi)){
 													if($cekDisposisi->rowCount() >= 1){
@@ -547,10 +559,9 @@ if($memo->rowCount() >= 1){
 									</div>
 									<div class="form-group">
 										<label class="col-sm-2 control-label no-padding-right" for="form-field-mask-1"> Tembusan</label>
-										<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Pilih tujuan tembusan surat (support multiple choise)." title="Ditembuskan ke ">?</span>
 										<div class="col-sm-8">
 											<div class="space-2"></div>
-											<select multiple="" class="chosen-select form-control" name="tembusan[]" id="form-field-select-3" data-placeholder="Pilih user..."><?php
+											<select multiple="multiple" class="js-example-basic-multiple form-control" name="tembusan[]" id="form-field-select-3" data-placeholder="Pilih user..."><?php
 												$Ditembuskan = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
 												if($Ditembuskan->rowCount() >= 1){
 													while($dataTembusan = $Ditembuskan->fetch(PDO::FETCH_OBJ)){
@@ -568,8 +579,7 @@ if($memo->rowCount() >= 1){
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Catatan *</label>
-										<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi berupa keterangan/catatan tambahan terhadap surat yang di disposisi." title="Catatan">?</span>
+										<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Catatan</label>
 										<div class="col-sm-7">
 											<textarea class="form-control limited" placeholder="Catatan/keterangan disposisi surat" name="note" id="form-field-9" maxlength="450" required><?php if(isset($dataDisposisi->note)){ echo $dataDisposisi->note; }?></textarea>
 										</div>

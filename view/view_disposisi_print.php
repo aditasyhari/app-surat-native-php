@@ -2,6 +2,14 @@
 ini_set('date.timezone', 'Asia/Jakarta');
 require_once "view/indo_tgl.php";
 require_once "htmlpurifier/library/HTMLPurifier.auto.php";
+
+require_once("dompdf/autoload.inc.php");
+use Dompdf\Dompdf;
+use Dompdf\Options;
+$options = new Options();
+$options->set('isRemoteEnabled', TRUE);
+$dompdf = new Dompdf($options);
+
 $config = HTMLPurifier_Config::createDefault();
 $purifier = new HTMLPurifier($config);
 $id_sm = htmlspecialchars($purifier->purify(trim($_GET['smid'])), ENT_QUOTES);
@@ -55,8 +63,8 @@ if($memo->rowCount() >= 1){
 		$deskripsi = $data_pengaturan->deskripsi;
 	}else{
 		$kop = "default.jpg";
-		$title = "SIAS - Sistem Informasi Arsip Surat";
-		$deskripsi = "SIAS merupakan aplikasi pengelolaan arsip surat";
+		$title = "E - Office";
+		$deskripsi = "E - Office merupakan aplikasi surat menyurat";
 	}
 	
 	$kopSet = $this->model->selectprepare("kop_setting", $field=null, $params=null, $where=null, "WHERE idkop='3'");
@@ -83,99 +91,137 @@ if($memo->rowCount() >= 1){
 			$Rlayout = str_replace($nama, $value, $layout);
 			$layout = $Rlayout;
 		}
-	}?>
-	<html>
-		<head>
-			<meta http-equiv="Content-Language" content="en-us">
-			<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-			<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
-			<meta name="ProgId" content="FrontPage.Editor.Document">
-			
-		</head>
-		<body><?php
-			if($dataKopSet->status == "Y"){
-				if($dataKopSet->kopdefault == "Y"){?>
-					<p style="text-align:center;"><img src="./<?php echo "foto/$kop";?>" width="795"></p><?php
-				}
-				echo $Rlayout;
-			}else{
-				if($dataKopSet->kopdefault == "Y"){?>
-					<p style="text-align:center;"><img src="./<?php echo "foto/$kop";?>" width="795"></p><?php
-				}?>
+	}
+	
+	if($dataKopSet->status == "Y") {
+		if($dataKopSet->kopdefault == "Y"){?>
+			<?php $kopD = '<p style="text-align:center;"><img src="http://localhost/app-surat/foto/'.$kop.'" width="795"></p>' ?>
+		<?php
+		}
+		$html = '
+		<html>
+			<head>
+				<meta http-equiv="Content-Language" content="en-us">
+				<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+				<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+				<meta name="ProgId" content="FrontPage.Editor.Document">
+				
+			</head>
+			<body>
+				'.$kopD.'
+				'.$Rlayout.'
+			</body>
+		</html>
+		';
+	}else {
+		if($dataKopSet->kopdefault == "Y"){?>
+			<?php $kopD = '<p style="text-align:center;"><img src="http://localhost/app-surat/foto/'.$kop.'" width="795"></p>' ?>
+		<?php
+		}
+		$html = '
+		<html>
+			<head>
+				<meta http-equiv="Content-Language" content="en-us">
+				<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+				<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+				<meta name="ProgId" content="FrontPage.Editor.Document">
+				
+			</head>
+			<body>
+				'.$kopD.'
 				<div id="container">
 					<div id="row">
 						<h3 style="text-align:center;">DISPOSISI SURAT</h3>
-						<table width=700 border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;' align="center">
+						<table width=500 border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;" align="center">
 							<tr align=left>
-								<td nowrap style="padding: 5px; vertical-align: top;">Surat Dari</td>
-								<td nowrap style="padding: 5px; vertical-align: top; width:250"><?php echo $data_memo->pengirim;?></td>
-								<td nowrap style="padding: 5px; vertical-align: top;">Diterima Tanggal </td>
-								<td nowrap style="padding: 5px; vertical-align: top; width:225"><?php echo tgl_indo($data_memo->tgl_terima);?></td>
+								<td nowrap>Surat Dari</td>
+								<td nowrap>'.$data_memo->pengirim.'</td>
+								<td nowrap>Diterima Tanggal </td>
+								<td nowrap>'.tgl_indo($data_memo->tgl_terima).'</td>
 							</tr>
 							<tr align=left>
-								<td nowrap style="padding: 5px; vertical-align: top;">Tanggal Surat</td>
-								<td style="padding: 5px; vertical-align: top;"><?php echo tgl_indo($data_memo->tgl_surat);?></td>
-								<td nowrap style="padding: 5px; vertical-align: top;">Nomor Agenda</td>
-								<td nowrap style="padding: 5px; vertical-align: top;" ><?php echo $data_memo->custom_noagenda;?></td>
+								<td nowrap>Tanggal Surat</td>
+								<td>'.tgl_indo($data_memo->tgl_surat).'</td>
+								<td nowrap>Nomor Agenda</td>
+								<td nowrap >'.$data_memo->custom_noagenda.'</td>
 							</tr> 
 							<tr align=left>
-								<td nowrap style="padding: 5px; vertical-align: top;">Nomor Surat </td>
-								<td style="padding: 5px;"><?php echo $data_memo->no_sm;?></td>
-								<td nowrap style="padding: 5px; vertical-align: top;">Disposisi dari/ke </td>
-								<td nowrap style="padding: 5px; vertical-align: top;"><?php echo "<b>".$DataUser->nama ."</b> ke:<br/>".$TargetDisposisi;?></td>
+								<td nowrap>Nomor Surat </td>
+								<td>'.$data_memo->no_sm.'</td>
+								<td nowrap>Disposisi dari/ke </td>
+								<td nowrap>'."<b>".$DataUser->nama."</b> ke:<br/>".$TargetDisposisi.'</td>
 							</tr>
 							<tr align=left>
-								<td nowrap style="padding: 5px; vertical-align: top;">Tujuan Surat</td>
-								<td nowrap style="padding: 5px; vertical-align: top;" ><?php echo $TujuanSurat;?></td>
-								<td nowrap style="padding: 5px; vertical-align: top;">Tgl Disposisi</td>
-								<td nowrap style="padding: 5px; vertical-align: top;" ><?php echo tgl_indo($data_memo->tgl);?></td>
+								<td nowrap>Tujuan Surat</td>
+								<td nowrap >'.$TujuanSurat.'</td>
+								<td nowrap>Tgl Disposisi</td>
+								<td nowrap >'.tgl_indo($data_memo->tgl).'</td>
 							</tr>
 							<tr align=left height="100">
-								<td nowrap style="padding: 5px; vertical-align: top;">Perihal </td>
-								<td style="padding: 5px; vertical-align: top;"><?php echo $data_memo->perihal;?></td>
-								<td nowrap style="padding: 5px; vertical-align: top;">Ket </td>
-								<td style="padding: 5px; vertical-align: top;"><?php echo $data_memo->ket;?></td>
+								<td nowrap>Perihal </td>
+								<td>'.$data_memo->perihal.'</td>
+								<td nowrap>Ket </td>
+								<td>'.$data_memo->ket.'</td>
 							</tr>
 						</table>
 						<p></p>
-						<table width=700 border="1" cellspacing="0" cellpadding="0" style='border-collapse:collapse;' align="center">
+						<table width=500 border="1" cellspacing="0" cellpadding="0" style="border-collapse:collapse;" align="center">
 							<tr align=left>
-								<td nowrap width="350" style="padding: 5px;">
+								<td nowrap>
 									Tembusan:
 								</td>
-								<td width="350" nowrap style="padding: 5px;">
+								<td nowrap>
 									Isi Disposisi:
 								</td>
 							</tr>
 							<tr>
-								<td style="padding: 5px;"><?php
-									echo $DataTembusanVer;?>
+								<td">
+									'.$DataTembusanVer.'
 								</td>
-								<td style="padding: 5px; vertical-align: top;">
-									<?php echo $data_memo->note;?>
+								<td>
+									'.$data_memo->note.'
 								</td>
 							</tr>
 						</table>
 					</div>
-				</div><?php
-			}?>
-		</body>
-	</html><?php
-}else{
+				</div>
+			</body>
+		</html>
+		';
+	}
+	?>
+
+<?php
+
+if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
+	$dompdf->loadHtml($html);
+	// Setting ukuran dan orientasi kertas
+	$dompdf->setPaper('A4', 'potrait');
+	// Rendering dari HTML Ke PDF
+	$dompdf->render();
+	ob_end_clean();
+	// Melakukan output file Pdf, 1 = download, 0 = preview
+	$dompdf->stream("DisposisiLetter-".$data_memo->id_sm.'.pdf', array("Attachment" => 0));
+	exit;
+}
+
+}else {
 	echo "Belum ada data";	
 }
 /*Cetak Direct PDF*/
-if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
-	$filename="DisposisiLetter-".$data_memo->id_sm.".pdf"; //ubah untuk menentukan nama file pdf yang dihasilkan nantinya
-	$content = ob_get_clean();
-	$content = '<page style="font-family: Verdana,Arial,Helvetica,sans-serif"">'.nl2br($content).'</page>';
-	require_once 'html2pdf/html2pdf.class.php';
-	try{
-		$html2pdf = new HTML2PDF('P','A4','en', false, 'ISO-8859-15',array(0, 5, 0, 0));
-		$html2pdf->setDefaultFont('Arial');
-		$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
-		$html2pdf->Output($filename);
-	}catch(HTML2PDF_exception $e){ 
-		echo "Terjadi Error kerena : ".$e; 
-	}
-}
+// if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
+
+// 	$filename="DisposisiLetter-".$data_memo->id_sm.".pdf"; //ubah untuk menentukan nama file pdf yang dihasilkan nantinya
+// 	$content = ob_get_clean();
+// 	$content = '<page style="font-family: Verdana,Arial,Helvetica,sans-serif"">'.nl2br($content).'</page>';
+// 	require_once 'html2pdf/html2pdf.class.php';
+// 	try{
+// 		$html2pdf = new HTML2PDF('P','A4','en', false, 'ISO-8859-15',array(0, 5, 0, 0));
+// 		$html2pdf->setDefaultFont('Arial');
+// 		$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
+// 		$html2pdf->Output($filename);
+// 	}catch(HTML2PDF_exception $e){ 
+// 		echo "Terjadi Error kerena : ".$e; 
+// 	}
+// }
+?>

@@ -1,4 +1,13 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once "library/PHPMailer.php";
+require_once "library/Exception.php";
+require_once "library/OAuth.php";
+require_once "library/POP3.php";
+require_once "library/SMTP.php";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$judul = htmlspecialchars($purifier->purify(trim($_POST['judul'])), ENT_QUOTES);
 	$isiMemo = htmlspecialchars($purifier->purify(trim($_POST['isi'])), ENT_QUOTES);
@@ -78,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	
 				$isi = $dataAktifEmail->layout;
 				$Rlayout = $isi;
-				$arr = array("=PerihalMemo=" => $judul, "=TujuanMemo=" => $TujuanSurat, "=TglMemo=" => date("d-m-Y H:i", time()), "=IsiMemo=" =>$isiMemo);
+				$arr = array("=PerihalMemo=" => $judul, "=TujuanMemo=" => $TujuanSurat, "=TglMemo=" => $tgl, "=IsiMemo=" =>$isiMemo);
 				foreach($arr as $nama => $value){
 					if(strpos($isi, $nama) !== false) {
 						$Rlayout = str_replace($nama, $value, $isi);
@@ -91,27 +100,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					$mail->isSMTP();
 					$mail->SMTPDebug = 0;
 					$mail->Debugoutput = 'html';
-					$mail->Host = 'localhost';
+					$mail->Host = 'tls://smtp.gmail.com';
 					$mail->SMTPAuth = true;
 					$mail->Username = $dataEmailAccount->email;
 					$mail->Password = $dataEmailAccount->pass_email;
+					$mail->SMTPSecure = "tls";                           
+					$mail->Port = 587;
 					$mail->From = $dataEmailAccount->email;
 					$mail->FromName = $_SESSION['nama'];
-					$mail->smtpConnect(
-						array(
-							"ssl" => array(
-								"verify_peer" => false,
-								"verify_peer_name" => false,
-								"allow_self_signed" => true
-							)
-						)
-					);
+					// $mail->smtpConnect(
+					// 	array(
+					// 		"ssl" => array(
+					// 			"verify_peer" => false,
+					// 			"verify_peer_name" => false,
+					// 			"allow_self_signed" => true
+					// 		)
+					// 	)
+					// );
 					foreach($dataTujuan as $id_tujuan){
 						$params = array(':id_user' => $id_tujuan);
 						$user_tujuan = $this->model->selectprepare("user", $field=null, $params, "id_user=:id_user", $other=null);
 						$data_user_tujuan= $user_tujuan->fetch(PDO::FETCH_OBJ);
 						if($data_user_tujuan->email != ''){
-							$mail->AddAddress($data_user_tujuan->email, $data_user_tujuan->nama);
+							$mail->addAddress($data_user_tujuan->email, $data_user_tujuan->nama);
 						}
 					}
 					$mail->isHTML(true);

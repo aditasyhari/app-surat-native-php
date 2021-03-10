@@ -60,11 +60,11 @@ if($CekDisposisi->rowCount() >= 1){
 				Keterangan: <br/><b><?php echo $data_Disposisi->ket;?></b>
 			</p>
 			<p>Detail Disposisi: <br/>
-				<span class="label label-xs label-primary label-white middle">
+				<!-- <span class="label label-xs label-primary label-white middle">
 					<a href="./index.php?op=disposisiprint&smid=<?php echo $data_Disposisi->id_sm;?>&iduser=<?php echo $_SESSION['id_user']; ?>&dispo=<?php echo $DataUser->id_user;?>" target="_blank"><b>Lihat</b></a>
-				</span>
+				</span> -->
 				<span class="label label-xs label-danger label-white middle">
-					<a href="./index.php?op=disposisiprint&smid=<?php echo $data_Disposisi->id_sm;?>&iduser=<?php echo $_SESSION['id_user']; ?>&dispo=<?php echo $DataUser->id_user;?>&act=pdf" target="_blank"><b>Cetak</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
+					<a href="./index.php?op=disposisiprint&smid=<?php echo $data_Disposisi->id_sm;?>&iduser=<?php echo $_SESSION['id_user']; ?>&dispo=<?php echo $DataUser->id_user;?>&act=pdf" target="_blank"><b>Lihat / Cetak</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
 				</span>
 			</p>
 			

@@ -42,9 +42,9 @@ if($sm->rowCount() >= 1){
 			</p>
 			<p>
 				Detail Surat:<br/>
-				<span class="label label-xs label-primary label-white middle">
+				<!-- <span class="label label-xs label-primary label-white middle">
 					<a href="./index.php?op=memoprint&memoid=<?php echo $data_sm->id_sm;?>" target="_blank"><b>Lihat</b></a>
-				</span>
+				</span> -->
 				<span class="label label-xs label-danger label-white middle">
 					<a href="./index.php?op=memoprint&memoid=<?php echo $data_sm->id_sm;?>&act=pdf" target="_blank"><b>Cetak</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
 				</span>
@@ -67,9 +67,9 @@ if($sm->rowCount() >= 1){
 			if($cek_memo->rowCount() >= 1){?>
 			<p>
 				Disposisi Surat:<br/>
-				<span class="label label-xs label-primary label-white middle">
+				<!-- <span class="label label-xs label-primary label-white middle">
 					<a href="./index.php?op=disposisiprint&smid=<?php echo $data_sm->id_sm;?>" target="_blank"><b>Lihat</b></a>
-				</span>
+				</span> -->
 				<span class="label label-xs label-danger label-white middle">
 					<a href="./index.php?op=disposisiprint&smid=<?php echo $data_sm->id_sm;?>&act=pdf" target="_blank"><b>Cetak</b> <i class="ace-icon fa fa-file-pdf-o align-top bigger-125 icon-on-right"></i></a>
 				</span>
@@ -144,8 +144,7 @@ if($sm->rowCount() >= 1){
 								<div class="widget-main">
 									<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
 										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Disposisikan ke *</label>
-											<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan pilihan bagian yang tersedia, jika bagian yang ingin dipilih belum ada di daftar, hub bagian pengelola aplikasi untuk menambah bagian menggunakan akun login dengan level akses administrator." title="Disposisikan">?</span>
+											<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Disposisikan ke</label>
 											<div class="col-sm-4">
 												<select class="chosen-select form-control" id="form-field-select-3" name="bagian" data-placeholder="Pilih bagian..." required>
 													<option value="">Pilih bagian...</option><?php
@@ -164,8 +163,7 @@ if($sm->rowCount() >= 1){
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Catatan *</label>
-											<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi berupa keterangan/catatan tambahan terhadap surat yang di disposisi." title="Catatan">?</span>
+											<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Catatan</label>
 											<div class="col-sm-9"><?php
 												if($cek_memo->rowCount() >= 1){?>
 													<textarea class="form-control limited" placeholder="Catatan/keterangan disposisi surat" name="note" id="form-field-9" maxlength="150" required><?php echo $data_cek->note;?></textarea><?php
@@ -175,8 +173,7 @@ if($sm->rowCount() >= 1){
 											</div>
 										</div>
 										<div class="form-group">
-											<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Tembusan ke </label>
-											<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi sesuai dengan pilihan bagian yang tersedia, jika bagian yang ingin dipilih belum ada di daftar, hub bagian pengelola aplikasi untuk menambah bagian menggunakan akun login dengan level akses administrator." title="Disposisikan">?</span>
+											<label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Tembusan ke</label>
 											<div class="col-sm-4">											
 												<select multiple="" class="chosen-select form-control" name="tembusan[]" id="form-field-select-3" data-placeholder="Pilih user..."><?php
 													$Tembusan = $this->model->selectprepare("bagian", $field=null, $params=null, $where=null, "ORDER BY nama_bagian ASC");

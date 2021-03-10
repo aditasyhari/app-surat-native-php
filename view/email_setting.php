@@ -51,7 +51,7 @@
 		</div>
 		<div class="card">
 			<div class="card-body"><?php?>
-				<script src="./tinymce/tinymce.min.js"></script>
+				<!-- <script src="./tinymce/tinymce.min.js"></script>
 				<script>
 					tinymce.init({
 					  selector: 'textarea',
@@ -71,7 +71,7 @@
 						{ title: 'Test template 2', content: 'Test 2' }
 					  ]
 					 });
-				</script>
+				</script> -->
 				<form class="form-horizontal" role="form" name="formku" method="GET">	
 					<input type="hidden" name="op" value="setting"/>
 					<input type="hidden" name="act" value="email_notif"/>
@@ -148,8 +148,8 @@
 							</div>
 							<div class="form-group">
 								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Format notif EMail </label>
-								<div class="col-sm-8">
-									<textarea class="form-control limited" name="layout"/><?php echo $dataKopEmail->layout;?></textarea>
+								<div class="col-sm-12">
+									<textarea class="form-control limited" name="layout"><?php echo $dataKopEmail->layout;?></textarea>
 								</div>
 							</div>
 							<div class="form-group">

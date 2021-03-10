@@ -5,7 +5,8 @@ require_once "view/indo_tgl.php";
 require_once "htmlpurifier/library/HTMLPurifier.auto.php";
 $config = HTMLPurifier_Config::createDefault();
 $purifier = new HTMLPurifier($config);
-require 'PHPMailer-master/PHPMailerAutoload.php';
+// require 'PHPMailer-master/PHPMailerAutoload.php';
+
 function slugify($text){
   // replace non letter or digits by -
   $text = preg_replace('~[^\pL\d]+~u', '-', $text);
@@ -138,12 +139,12 @@ if(isset($_SESSION['atra_id']) AND isset($_SESSION['atra_pass'])){
 			<script>
 				tinymce.init({
 					selector: 'textarea',
-					plugins: 'lineheight style fullpage print preview powerpaste casechange searchreplace autosave save directionality advcode visualblocks visualchars fullscreen table charmap hr nonbreaking toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter permanentpen charmap mentions',
+					plugins: 'table lineheight style fullpage print preview powerpaste casechange searchreplace autosave save directionality advcode visualblocks visualchars fullscreen table charmap hr nonbreaking toc insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker textpattern noneditable help formatpainter permanentpen charmap mentions',
 					height: 500,
 					theme: 'silver',
 					convert_fonts_to_spans : false,  
 					toolbar:
-						'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify lineheight | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | charmap | fullscreen  preview save print | a11ycheck',
+						'table undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify lineheight | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | charmap | fullscreen  preview save print | a11ycheck',
 					lineheight_formats: '1 1.1 1.2 1.3 1.4 1.5 2',
 					font_formats:
 						"Arial=arial,helvetica,sans-serif;Sans Serif=sans-serif;Courier New=courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings",

@@ -15,6 +15,8 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 		$no_agenda_sm = 'value="'.$dataCekSetting->no_agenda_sm .'"';
 		$no_agenda_sk_start = 'value="'.$dataCekSetting->no_agenda_sk_start .'"';
 		$no_agenda_sk = 'value="'.$dataCekSetting->no_agenda_sk .'"';
+		$no_surat_sk_start = 'value="'.$dataCekSetting->no_surat_sk_start .'"';
+		$no_surat_sk = 'value="'.$dataCekSetting->no_surat_sk .'"';
 	}
 	if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		if(isset($_GET['act']) AND isset($_GET['idkop'])){
@@ -44,6 +46,8 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 			$no_agenda_sm = htmlspecialchars($purifier->purify(trim($_POST['no_agenda_sm'])), ENT_QUOTES);
 			$no_agenda_sk_start = htmlspecialchars($purifier->purify(trim($_POST['no_agenda_sk_start'])), ENT_QUOTES);
 			$no_agenda_sk = htmlspecialchars($purifier->purify(trim($_POST['no_agenda_sk'])), ENT_QUOTES);
+			$no_surat_sk_start = htmlspecialchars($purifier->purify(trim($_POST['no_surat_sk_start'])), ENT_QUOTES);
+			$no_surat_sk = htmlspecialchars($purifier->purify(trim($_POST['no_surat_sk'])), ENT_QUOTES);
 
 			$fileName = htmlspecialchars($_FILES['filelogo']['name'], ENT_QUOTES);
 			$tipefile = pathinfo($fileName,PATHINFO_EXTENSION);
@@ -55,7 +59,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 			
 			/*update Konseptor*/
 			if(empty($fileName)){
-				$field = array('title' => $title, 'deskripsi' => $deskripsi, 'email' => $email, 'pass_email' => $pass_email, 'no_agenda_sm_start' => $no_agenda_sm_start, 'no_agenda_sm' => $no_agenda_sm, 'no_agenda_sk_start' => $no_agenda_sk_start, 'no_agenda_sk' => $no_agenda_sk);
+				$field = array('title' => $title, 'deskripsi' => $deskripsi, 'email' => $email, 'pass_email' => $pass_email, 'no_agenda_sm_start' => $no_agenda_sm_start, 'no_agenda_sm' => $no_agenda_sm, 'no_agenda_sk_start' => $no_agenda_sk_start, 'no_agenda_sk' => $no_agenda_sk, 'no_surat_sk_start' => $no_surat_sk_start, 'no_surat_sk' => $no_surat_sk);
 				$update = $this->model->updateprepare("pengaturan", $field, $params, "id=:id");
 				if($update){
 					echo "<script type=\"text/javascript\">alert('Data Berhasil diperbaharui...!!');window.location.href=\"./index.php?op=setting\";</script>";
@@ -67,7 +71,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 				if(in_array($tipefile, $extensionList)){
 					if(move_uploaded_file($_FILES['filelogo']['tmp_name'], $upfileLogo)){
 						@unlink($namaDir.$logo);
-						$field = array('title' => $title, 'deskripsi' => $deskripsi, 'logo' => $dbfileLogo, 'email' => $email, 'pass_email' => $pass_email, 'no_agenda_sm_start' => $no_agenda_sm_start, 'no_agenda_sm' => $no_agenda_sm, 'no_agenda_sk_start' => $no_agenda_sk_start, 'no_agenda_sk' => $no_agenda_sk);
+						$field = array('title' => $title, 'deskripsi' => $deskripsi, 'logo' => $dbfileLogo, 'email' => $email, 'pass_email' => $pass_email, 'no_agenda_sm_start' => $no_agenda_sm_start, 'no_agenda_sm' => $no_agenda_sm, 'no_agenda_sk_start' => $no_agenda_sk_start, 'no_agenda_sk' => $no_agenda_sk, 'no_surat_sk_start' => $no_surat_sk_start, 'no_surat_sk' => $no_surat_sk);
 						$update = $this->model->updateprepare("pengaturan", $field, $params, "id=:id");
 						if($update){
 							echo "<script type=\"text/javascript\">alert('Data Berhasil diperbaharui...!!');window.location.href=\"./index.php?op=setting\";</script>";
@@ -164,7 +168,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 									<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Format Kop Surat Terima*</label>
 									<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan deskripsi aplikasi/perusahaan" title="Deskripsi">?</span>
 									<div class="col-sm-12">
-										<textarea class="form-control limited" name="layout"/><?php echo $dataKopTerima->layout;?></textarea>
+										<textarea class="form-control limited" name="layout"><?php echo $dataKopTerima->layout;?></textarea>
 									</div>
 								</div>
 								<div class="form-group">
@@ -195,53 +199,30 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 					</div><?php
 				}
 			}else{?>
-				<div class="widget-header">
+				<div class="widget-header mb-3">
 					<h4 class="widget-title">Konfigurasi E-Office</h4>
-					<div class="widget-toolbar">
-						<a href="#" data-action="collapse">
-							<i class="ace-icon fa fa-chevron-up"></i>
-						</a>
-						<a href="#" data-action="close">
-							<i class="ace-icon fa fa-times"></i>
-						</a>
-					</div>
 				</div>
 				<div class="card">
 					<div class="card-body">
 						<form class="form-horizontal" role="form" method="POST" enctype="multipart/form-data" name="formku" action="<?php echo $_SESSION['url'];?>">
 							<div class="form-group">
-								<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Title*</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan nama aplikasi/perusahaan." title="Nama">?</span>
+								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Title</label>
 								<div class="col-sm-12">
 									<textarea id="maxlength-textarea" id="tinymceExample" name ="title" class="form-control" maxlength="150" rows="4"><?php if(isset($title)){ echo $title; }?></textarea>
 								</div>
 
-
-
-								<!-- <span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan nama aplikasi/perusahaan." title="Nama">?</span>
-								<div class="col-sm-6">
-									<textarea class="form-control limited" name="title" id="form-field-mask-1" required/><?php if(isset($title)){ echo $title; }?></textarea>
-								</div> -->
-
-
 							</div>
 						
 							<div class="form-group">
-								<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Deskripsi*</label>
-								<span class="help-button" data-rel="popover" data-trigger="hover" data-placement="left" data-content="Di isi dengan deskripsi aplikasi/perusahaan" title="Deskripsi">?</span>
+								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Deskripsi</label>
 
 								<div class="col-sm-12">
 									<textarea id="maxlength-textarea" name="deskripsi" class="form-control" maxlength="150" rows="4" ><?php if(isset($deskripsi)){ echo $deskripsi; }?></textarea>
 								</div>
-								
 
-								
-								<!-- <div class="col-sm-8">
-									<textarea class="form-control limited" name="deskripsi" required/><?php if(isset($deskripsi)){ echo $deskripsi; }?></textarea>
-								</div> -->
 							</div>
 							<div class="form-group">
-								<label class="tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Gambar Kop Surat </label>
+								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Gambar Kop Surat </label>
 
 								<input type="file" name="filelogo" class="file-upload-default">
 								<div class="input-group col-sm-6">
@@ -319,6 +300,22 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 									<span class="help-block">Note Variabel: <br/><b>=Tahun=</b> | untuk nilai tahun surat keluar otomatis <br/><b>=KodeSurat=</b> | untuk kode jenis surat keluar otomatis</span>
 								</div>
 							</div>
+
+							<div class="form-group">
+								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nilai awal nomor surat keluar</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" placeholder="Nomor surat keluar dimulai dari" name="no_surat_sk_start" <?php if(isset($no_surat_sk_start)){ echo $no_surat_sk_start; }?> id="form-field-mask-1"/>
+								</div>
+							</div>
+						
+							<div class="form-group">
+								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Kode tambahan nomor surat keluar</label>
+								<div class="col-sm-4">
+									<input type="text" class="form-control" placeholder="Kode tambahan untuk nomor surat keluar" name="no_surat_sk" <?php if(isset($no_surat_sk)){ echo $no_surat_sk; }?> id="form-field-mask-1"/> <br>
+									<span class="help-block">Note Variabel: <br/><b>=Tahun=</b> | untuk nilai tahun surat keluar otomatis <br/><b>=Bulan=</b> | untuk nilai bulan surat keluar otomatis <br/><b>=KodeSurat=</b> | untuk kode jenis surat keluar otomatis</span>
+								</div>
+							</div>
+
 							<div class="clearfix form-actions">
 								<div class="col-md-offset-4">
 									<div class="col-sm-2">
@@ -362,11 +359,11 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 					<i class="ace-icon fa fa-cog bigger-120 blue"></i>Kop Disposisi
 				</button>
 			</a>
-			<!-- <a href="./index.php?op=setting&act=email_notif" title="Pengaturan Email Notifikasi Surat">
+			<a href="./index.php?op=setting&act=email_notif" title="Pengaturan Email Notifikasi Surat">
 				<button class="btn btn-white btn-info btn-bold">
 					<i class="ace-icon fa fa-cog bigger-120 blue"></i>Email Notifikasi
 				</button>
-			</a> -->
+			</a>
 		</div><?php
 	}
 }?>

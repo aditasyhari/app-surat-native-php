@@ -1,12 +1,21 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once "library/PHPMailer.php";
+require_once "library/Exception.php";
+require_once "library/OAuth.php";
+require_once "library/POP3.php";
+require_once "library/SMTP.php";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$noagenda = htmlspecialchars($purifier->purify(trim($_POST['noagenda'])), ENT_QUOTES);
 	$noagenda_custom = trim($_POST['noagenda_custom']);
 	$nosm = htmlspecialchars($purifier->purify(trim($_POST['nosm'])), ENT_QUOTES);
 	$tglsm = $_POST['tglsm'];
-	// $tglsm = htmlspecialchars($purifier->purify(trim($_POST['tglsm'])), ENT_QUOTES);
-	// $tglsm = explode("-",$tglsm);
-	// $tglsmdb = $tglsm[2]."-".$tglsm[1]."-".$tglsm[0];
+	// $tglsm_mail = htmlspecialchars($purifier->purify(trim($_POST['tglsm'])), ENT_QUOTES);
+	// $tglsm_mail = explode("-",$tglsm_mail);
+	// $tglsmdb = $tglsm_mail[2]."-".$tglsm_mail[1]."-".$tglsm_mail[0];
 	$tgl_terima = $_POST['tgl_terima'];
 	// $tgl_terima = htmlspecialchars($purifier->purify(trim($_POST['tgl_terima'])), ENT_QUOTES);
 	// $tgl_terima = explode("-",$tgl_terima);
@@ -88,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			
 						$isi = $dataAktifEmail->layout;
 						$Rlayout = $isi;
-						$arr = array("=NoAgenda=" =>$noagenda_custom, "=NoSurat=" => $nosm, "=Perihal=" => $perihal, "=TujuanSurat=" => $TujuanSurat, "=TglSurat=" =>tgl_indo($tglsmdb), "=TglTerima=" => tgl_indo($tgl_terimadb), "=AsalSurat=" =>$pengirim, "=Keterangan=" => $ket, "=Penerima=" =>$_SESSION['nama']);
+						$arr = array("=NoAgenda=" =>$noagenda_custom, "=NoSurat=" => $nosm, "=Perihal=" => $perihal, "=TujuanSurat=" => $TujuanSurat, "=TglSurat=" => tgl_indo($tglsm), "=TglTerima=" => tgl_indo($tgl_terima), "=AsalSurat=" =>$pengirim, "=Keterangan=" => $ket, "=Penerima=" =>$_SESSION['nama']);
 						foreach($arr as $nama => $value){
 							if(strpos($isi, $nama) !== false) {
 								$Rlayout = str_replace($nama, $value, $isi);
@@ -97,41 +106,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 						}
 						
 						if($tujuan != '' OR $tujuan != 'null'){
+							
 							$mail = new PHPMailer;
 							$mail->isSMTP();
 							$mail->SMTPDebug = 0;
 							$mail->Debugoutput = 'html';
-							$mail->Host = 'localhost';
+							$mail->Host = 'tls://smtp.gmail.com';
 							$mail->SMTPAuth = true;
 							$mail->Username = $dataEmailAccount->email;
 							$mail->Password = $dataEmailAccount->pass_email;
-							
+							$mail->SMTPSecure = "tls";                           
+							$mail->Port = 587;
 							$mail->From = $dataEmailAccount->email;
 							$mail->FromName = $_SESSION['nama'];
-							$mail->smtpConnect(
-								array(
-									"ssl" => array(
-										"verify_peer" => false,
-										"verify_peer_name" => false,
-										"allow_self_signed" => true
-									)
-								)
-							);
+							// $mail->smtpConnect(
+							// 	array(
+							// 		"ssl" => array(
+							// 			"verify_peer" => false,
+							// 			"verify_peer_name" => false,
+							// 			"allow_self_signed" => true
+							// 		)
+							// 	)
+							// );
 							foreach($dataTujuan as $id_tujuan){
 								$params = array(':id_user' => $id_tujuan);
 								$user_tujuan = $this->model->selectprepare("user", $field=null, $params, "id_user=:id_user", $other=null);
 								$data_user_tujuan= $user_tujuan->fetch(PDO::FETCH_OBJ);
 								if($data_user_tujuan->email != ''){
-									$mail->AddAddress($data_user_tujuan->email, $data_user_tujuan->nama);
+									$mail->addAddress($data_user_tujuan->email, $data_user_tujuan->nama);
 								}
 							}
+
 							$mail->isHTML(true);
 							$topik = "Surat Masuk: ".$perihal;
 							$mail->Subject = $topik;
 							$mail->Body = $isi;
 							$mail->AltBody = $perihal;
 							if(!$mail->send()) {
-								//echo "Mailer Error: " . $mail->ErrorInfo;
+								// echo $isi;
+								// echo "Mailer Error: " . $mail->ErrorInfo;
 								echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan. Email notifikasi gagal dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
 							}else{
 								echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=add_sm\";</script>";
@@ -170,7 +183,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					
 								$isi = $dataAktifEmail->layout;
 								$Rlayout = $isi;
-								$arr = array("=NoAgenda=" =>$noagenda_custom, "=NoSurat=" => $nosm, "=Perihal=" => $perihal, "=TujuanSurat=" => $TujuanSurat, "=TglSurat=" =>tgl_indo($tglsmdb), "=TglTerima=" => tgl_indo($tgl_terimadb), "=AsalSurat=" =>$pengirim, "=Keterangan=" => $ket, "=Penerima=" =>$_SESSION['nama']);
+								$arr = array("=NoAgenda=" =>$noagenda_custom, "=NoSurat=" => $nosm, "=Perihal=" => $perihal, "=TujuanSurat=" => $TujuanSurat, "=TglSurat=" =>tgl_indo($tglsm), "=TglTerima=" => tgl_indo($tgl_terima), "=AsalSurat=" =>$pengirim, "=Keterangan=" => $ket, "=Penerima=" =>$_SESSION['nama']);
 								foreach($arr as $nama => $value){
 									if(strpos($isi, $nama) !== false) {
 										$Rlayout = str_replace($nama, $value, $isi);
@@ -183,28 +196,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 									$mail->isSMTP();
 									$mail->SMTPDebug = 0;
 									$mail->Debugoutput = 'html';
-									$mail->Host = 'localhost';
+									$mail->Host = 'tls://smtp.gmail.com';
 									$mail->SMTPAuth = true;
 									$mail->Username = $dataEmailAccount->email;
 									$mail->Password = $dataEmailAccount->pass_email;
-									
+									$mail->SMTPSecure = "tls";                           
+									$mail->Port = 587;   
 									$mail->From = $dataEmailAccount->email;
 									$mail->FromName = $_SESSION['nama'];
-									$mail->smtpConnect(
-										array(
-											"ssl" => array(
-												"verify_peer" => false,
-												"verify_peer_name" => false,
-												"allow_self_signed" => true
-											)
-										)
-									);
+									// $mail->smtpConnect(
+									// 	array(
+									// 		"ssl" => array(
+									// 			"verify_peer" => false,
+									// 			"verify_peer_name" => false,
+									// 			"allow_self_signed" => true
+									// 		)
+									// 	)
+									// );
 									foreach($dataTujuan as $id_tujuan){
 										$params = array(':id_user' => $id_tujuan);
 										$user_tujuan = $this->model->selectprepare("user", $field=null, $params, "id_user=:id_user", $other=null);
 										$data_user_tujuan= $user_tujuan->fetch(PDO::FETCH_OBJ);
 										if($data_user_tujuan->email != ''){
-											$mail->AddAddress($data_user_tujuan->email, $data_user_tujuan->nama);
+											$mail->addAddress($data_user_tujuan->email, $data_user_tujuan->nama);
 										}
 									}
 									$mail->isHTML(true);
@@ -217,7 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 										$mail->addAttachment($lokasi);
 									}
 									if(!$mail->send()) {
-										//echo "Mailer Error: " . $mail->ErrorInfo;
+										// echo "Mailer Error: " . $mail->ErrorInfo;
 										echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan. Email notifikasi gagal dikirim!');window.location.href=\"$_SESSION[url]\";</script>";
 									}else{
 										echo "<script type=\"text/javascript\">alert('Data Berhasil diSimpan, Email notifikasi dikirim!');window.location.href=\"$_SESSION[url]\";</script>";

@@ -41,14 +41,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $nama_der = $rowDer['nama'];
     }
 
-    // $max_kode = mysqli_query($conn, "SELECT * FROM surat_keluar WHERE jenis_surat='$jenis_surat'");
+    $params = array(':id' => 1);
+    $CekSetting = $this->model->selectprepare("pengaturan", $field=null, $params, "id=:id");
+    if($CekSetting->rowCount() >= 1){
+		$dataCekSetting = $CekSetting->fetch(PDO::FETCH_OBJ);
+		$no_surat_sk_start = $dataCekSetting->no_surat_sk_start;
+		$no_surat_sk = $dataCekSetting->no_surat_sk;
+	}
+
+    $p = array(':jenis_surat' => $jenis_surat);
+    $CekSurat = $this->model->selectprepare("surat_keluar", $field=null, $p, "jenis_surat=:jenis_surat");
+
     $max_kode = mysqli_query($conn, "SELECT max(nomor_surat) as maxKode FROM surat_keluar WHERE jenis_surat='$jenis_surat'");
     $data_max  = mysqli_fetch_array($max_kode);
-    // $data_max  = mysqli_num_rows($max_kode);
     $max = $data_max['maxKode'];
-    $noUrut = (int) substr($max, 0, 3);
-    $noUrut++;
-    // $max++;
+    $noUrut = (int) substr($max, 0, 4);
+    if($noUrut >= $no_surat_sk_start) {
+        $noUrut++;
+    }else {
+        $noUrut = $no_surat_sk_start;
+    }
 
     function getRomawi($bln){
         switch ($bln){
@@ -94,8 +106,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $bulan = date('n');
     $bulanRomawi = getRomawi($bulan);
     // echo $bulanRomawi;
+
+    $bulan = date('n');
+    $bulanRomawi = getRomawi($bulan);
+
+    $noSurat = sprintf("%04s", $noUrut).'/'.$no_surat_sk;
+
+    $var = array('=KodeSurat=', '=Bulan=', '=Tahun=');
+    $rep = array($kode, $bulanRomawi, date('Y'));
+    $nomor_surat = str_replace($var, $rep, $noSurat);
     
-    $nomor_surat = sprintf("%03s", $noUrut).'/'.$kode.'/'.$bulanRomawi.'/'.date('Y');
+    // $nomor_surat = sprintf("%03s", $noUrut).'/'.$kode.'/'.$bulanRomawi.'/'.date('Y');
     // echo $nomor_surat;
 
     $variabel = array('=NoSurat=', '=Nama=', '=Email=', '=Perihal=', '=TglSurat=', '=Tujuan=', '=Karakteristik=', '=Derajat=');
