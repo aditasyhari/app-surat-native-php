@@ -18,6 +18,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $logo_kop = $rowTemplate['logo_kop'];
         $layout_kop = $rowTemplate['layout_kop'];
         $jenis_surat = $rowTemplate['id_klasifikasi'];
+        // $id_ttd = $rowTemplate['id_ttd'];
+        $id_ttd = json_decode($rowTemplate['id_ttd'], true);
+    }
+
+    if(is_array($id_ttd)){
+        $varttd = array();
+        $repttd = array();
+        foreach($id_ttd as $field => $value){
+            // TTD
+            $dataTTD = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$value'"); 
+            while($rowTTD = $dataTTD->fetch_assoc()) {
+                $img_ttd = $rowTTD['ttd'];
+            }
+
+            array_push($varttd, '=TTD:'.$value.'=');
+            array_push($repttd,'<img style="max-width:222px"'." src=http://$_SERVER[HTTP_HOST]/app-surat/foto/ttd/$img_ttd>");
+
+        }
+        $konten_surat = str_replace($varttd, $repttd, $layout_konten);
+        // print_r($varttd);
+        // print_r($repttd);
+    }else{
+        $konten_surat = $layout_konten;
     }
 
     $users = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$pembuat'");
@@ -119,10 +142,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     // $nomor_surat = sprintf("%03s", $noUrut).'/'.$kode.'/'.$bulanRomawi.'/'.date('Y');
     // echo $nomor_surat;
 
+    
+
     $variabel = array('=NoSurat=', '=Nama=', '=Email=', '=Perihal=', '=TglSurat=', '=Tujuan=', '=Karakteristik=', '=Derajat=');
     $replace = array($nomor_surat, $nama_pembuat, $email_pembuat, $perihal, tgl_indo($tgl_fisik), $tujuan, $nama_kar, $nama_der);
 
-    $konten_surat = str_replace($variabel, $replace, $layout_konten);
+    $konten_surat = str_replace($variabel, $replace, $konten_surat);
     
 
     // echo $logo_kop;

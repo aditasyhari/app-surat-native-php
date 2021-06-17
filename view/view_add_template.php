@@ -47,8 +47,7 @@ require_once "db/db2.php";
                     <input type="text" class="form-control" name="nama_template" required>
                 </div>
                 <div class="form-group">
-                    <label>Logo Kop Surat</label><br>
-                    <input type="file" name="logo_kop" class="" accept=".jpg,.jpeg,.png" required>
+                    <div class="card-description text-primary">*Pastikan total size image yang digunakan pada kop surat kurang dari 1 mb.</div>
                 </div>
             </div>
 
@@ -156,12 +155,38 @@ require_once "db/db2.php";
                             <div class="btn btn-light m-2" id="derajat" onclick="variabel('derajat')">Derajat</div>
                         </div>
                     </li>
+                    <li class="list-group-item">
+                        <p class="card-description">Klik tombol dibawah untuk memilih Tanda Tangan.</p>
+                        <select class="js-example-basic-multiple w-100"  name="ttd_user" id="ttd_user" data-placeholder="Pilih TTD" onchange="addTtd(this.value)">
+                            <option selected disabled>Pilih TTD</option>
+							<?php
+                                $GetUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
+                                if($GetUser->rowCount() >= 1){
+                                    while($dataUser = $GetUser->fetch(PDO::FETCH_OBJ)){
+                                        $NamaUser = $dataUser->nama ." (".$dataUser->nama_jabatan .")";
+                                        if(false !== array_search($dataUser->id_user, $cekDisposisi)){?>
+                                            <option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+                                        }else{?>
+                                            <option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+                                        }
+                                    }								
+                                }else{?>
+                                    <option value="">Not Found</option><?php
+                                }?>
+                        </select>
+                        <div id="hiden"></div>
+                        <div id="tanda"></div>
+                    </li>
                 </div>
             </div>
         </div>
 
         <script>
-            function variabel(a){
+            function variabel(a, b){
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.value = b;
+                input.name = 'id_ttd[]';
                 
                 switch(a) {
                     case 'nama': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Nama=');
@@ -180,9 +205,20 @@ require_once "db/db2.php";
                         break;
                     case 'derajat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Derajat=');
                         break;
+                    case 'ttd': 
+                        tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=TTD:'+b+'=');
+                        document.getElementById('hiden').appendChild(input);
+                        break;
                     default:
                         break;
                 }
+            }
+
+            function addTtd(x) {
+                document.getElementById("tanda").innerHTML = `
+                <div class="btn btn-light m-2" id="ttd" onclick="variabel('ttd',`+x+`)">TTD</div>
+                `;
+                // console.log(x);
             }
         </script>
 

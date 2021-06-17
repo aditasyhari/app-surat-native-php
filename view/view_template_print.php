@@ -60,23 +60,15 @@ if($row > 0) {
         </style>
     ";
 
-
+//     <td>
+//     <img src="http://www.'.$_SERVER[HTTP_HOST].'/app-surat/foto/kop/'.$logo_kop.'" style="max-width:100px; max-height:100px">
+// </td>
     $html .= '
-        <table>
-            <tr>
-                <td>
-                    <img src="http://localhost/app-surat/foto/kop/'.$logo_kop.'" style="max-width:100px; max-height:100px">
-                </td>
-                <td>
-                    '.$layout_kop.'
-                </td>
-            </tr>
-        </table>
-        <hr>
+        <div>
+            '.$layout_kop.'
+        </div>
 
         '.$layout_konten.'
-
-
     ';
 
 

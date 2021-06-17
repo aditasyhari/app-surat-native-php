@@ -6,6 +6,7 @@ if($user->rowCount() >= 1){
 	$nama = 'value="'.$data_user->nama .'"';
 	$uname = 'value="'.$data_user->uname .'"';
 	$email = 'value="'.$data_user->email .'"';
+	$ttd = $data_user->ttd;
 }
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 	//print_r($_POST);
@@ -13,11 +14,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	$email = htmlspecialchars($purifier->purify(trim($_POST['email'])), ENT_QUOTES);
 	$uname = htmlspecialchars($purifier->purify(trim($_POST['uname'])), ENT_QUOTES);
 	$upass = htmlspecialchars($purifier->purify(trim($_POST['upass'])), ENT_QUOTES);
+	$nama_ttd = $_FILES['ttd_image']['name'];
+	$ukuran_ttd = $_FILES['ttd_image']['size'];
+	$tipe_ttd = $_FILES['ttd_image']['type'];
+	$tmp_ttd = $_FILES['ttd_image']['tmp_name'];
+
+	$scan_ttd = "TTD"."_".date("d-m-Y_H-i-s", time())."_".$nama_ttd;
+
+	$path = 'foto/ttd/'.$scan_ttd;
+
 	if(empty($upass)){
-		$field = array('nama' => $nama, 'uname' => $uname, 'email' => $email);
+		if(empty($nama_ttd)){
+			$field = array('nama' => $nama, 'uname' => $uname, 'email' => $email);
+		}else{
+			$field = array('nama' => $nama, 'uname' => $uname, 'email' => $email, 'ttd' => $scan_ttd);
+			move_uploaded_file($tmp_ttd, $path);
+		}
 	}else{
 		$upass = md5($upass);
-		$field = array('nama' => $nama, 'uname' => $uname, 'upass' => $upass, 'email' => $email);
+		if(empty($nama_ttd)) {
+			$field = array('nama' => $nama, 'uname' => $uname, 'upass' => $upass, 'email' => $email);
+		} else {
+			$field = array('nama' => $nama, 'uname' => $uname, 'upass' => $upass, 'email' => $email, 'ttd' => $scan_ttd);
+			move_uploaded_file($tmp_ttd, $path);
+		}
 	}
 	$params = array(':id_user' => $_SESSION['id_user']);
 	$update = $this->model->updateprepare("user", $field, $params, "id_user=:id_user");
@@ -37,7 +57,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
 }else{?>
 	<!-- PAGE CONTENT BEGINS -->
-	<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
+	<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="widget">
@@ -92,8 +112,16 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 										<input class="form-control" placeholder="Password" type="text" name="upass"  id="form-field-mask-1"/>
 									</div>
 								</div>
+							</div><br>
+
+							<div class="form-group">
+								<label for="">Scan Tanda Tangan</label><br>
+								<img src="foto/ttd/<?= $ttd; ?>" class="mb-2 img-fluid" style="max-width: 300px;">
+								<p class="card-description">*Abaikan form ini jika tidak mengganti tanda tangan.</p>
+								<input type="file" name="ttd_image" class="" accept=".jpg,.jpeg,.png">
 							</div>
-							<div class="space-6"></div><br>
+
+							<br>
 							<div class="row">
 								<div class=" col-sm-6">
 									<div class="input-group">

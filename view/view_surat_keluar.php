@@ -58,11 +58,11 @@ if(isset($_GET['idsk']) && (isset($_GET['act']) && $_GET['act'] == "edit")) {
                                         <i class="fa fa-eye"></i>
                                     </button>
                                 </a>
-                                <a href="./index.php?op=surat_keluar&idsk=<?php echo $object->id_skeluar;?>&act=edit" title="Edit">								
+                                <!-- <a href="./index.php?op=surat_keluar&idsk=<?php echo $object->id_skeluar;?>&act=edit" title="Edit">								
                                     <button class="btn btn-secondary btn-icon mr-1">
                                         <i class="fa fa-pencil"></i>
                                     </button>
-                                </a>
+                                </a> -->
                                 <a href="./index.php?op=surat_keluar&idsk=<?php echo $object->id_skeluar;?>&act=del" title="Hapus" onclick="return confirm('Anda yakin akan menghapus data ini??')">
                                     <button class="btn btn-danger btn-icon">
                                         <i class="fa fa-trash-o"></i>

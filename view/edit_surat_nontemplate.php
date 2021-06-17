@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $layout_konten = $_POST['layout_konten'];
     $created = date("Y-m-d H:i:s", time());
     $updated = date("Y-m-d H:i:s", time());
+    $id_ttd = $_POST['id_ttd'];
 
     $query = mysqli_query($conn, "SELECT * FROM surat_keluar WHERE id_skeluar='$idsk'"); 
     while($datatp = $query->fetch_assoc()) {
@@ -84,8 +85,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $bulanRomawi = getRomawi($bulan);
     // echo $bulanRomawi;
 
-    $variabel = array('=NoSurat=', '=Nama=', '=Email=', '=Perihal=', '=TglSurat=', '=Tujuan=', '=Karakteristik=', '=Derajat=');
-    $replace = array($nomor_surat, $nama_pembuat, $email_pembuat, $perihal, tgl_indo($tgl_fisik), $tujuan, $nama_kar, $nama_der);
+    // TTD
+    $dataTTD = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$id_ttd'"); 
+    while($rowTTD = $dataTTD->fetch_assoc()) {
+        $img_ttd = $rowTTD['ttd'];
+    }
+    
+    $var_ttd = '=TTD:'.$id_ttd.'=';
+    $rep_ttd = '<img style="max-width:222px" '."src=http://www.$_SERVER[HTTP_HOST]/app-surat/foto/ttd/$img_ttd>";
+    // end TTD
+
+    $variabel = array('=NoSurat=', '=Nama=', '=Email=', '=Perihal=', '=TglSurat=', '=Tujuan=', '=Karakteristik=', '=Derajat=', $var_ttd);
+    $replace = array($nomor_surat, $nama_pembuat, $email_pembuat, $perihal, tgl_indo($tgl_fisik), $tujuan, $nama_kar, $nama_der, $rep_ttd);
 
     $konten_surat = str_replace($variabel, $replace, $layout_konten);
     
@@ -258,6 +269,15 @@ while($sk = $querySK->fetch_assoc()) { ?>
             <div class="row">
                 <div class="col-8">
                     <textarea class="form-control" name="layout_konten" id="kontenTemplate" rows="15"><?php echo $sk['layout_konten']; ?></textarea>
+                    <div class="form-check form-check-flat form-check-primary mt-3">    
+                        <label class="form-check-label mt-4">
+                            <input type="checkbox" class="form-check-input" id="centang" onclick="cek()">
+                            Data yang saya inputkan diatas sudah benar
+                        </label>
+                    </div>
+                    <button class="btn btn-primary btn-icon-text mt-3" type="submit" name="sumbit_sk_non" id="btn-submit" disabled>
+                        <i class="btn-icon-prepend" data-feather="save"></i> Submit
+                    </button>
                 </div>
                 <div class="col-4">
                     <li class="list-group-item">
@@ -274,7 +294,29 @@ while($sk = $querySK->fetch_assoc()) { ?>
                         </div>
                     </li>
                     <li class="list-group-item">
-                        <p class="card-description mt-3">Untuk settingan surat default.</p>
+                        <p class="card-description">Klik tombol dibawah untuk memilih Tanda Tangan.</p>
+                        <select class="js-example-basic-multiple w-100"  name="ttd_user" id="ttd_user" data-placeholder="Pilih TTD" onchange="addTtd(this.value)">
+                            <option selected disabled>Pilih TTD</option>
+							<?php
+                                $GetUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
+                                if($GetUser->rowCount() >= 1){
+                                    while($dataUser = $GetUser->fetch(PDO::FETCH_OBJ)){
+                                        $NamaUser = $dataUser->nama ." (".$dataUser->nama_jabatan .")";
+                                        if(false !== array_search($dataUser->id_user, $cekDisposisi)){?>
+                                            <option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+                                        }else{?>
+                                            <option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+                                        }
+                                    }								
+                                }else{?>
+                                    <option value="">Not Found</option><?php
+                                }?>
+                        </select>
+                        <div id="hiden"></div>
+                        <div id="tanda"></div>
+                    </li>
+                    <li class="list-group-item">
+                        <p class="card-description">Untuk settingan surat default.</p>
                         <table class="card-description w-100 table">
                             <tr>
                                 <td>1.</td>
@@ -299,7 +341,7 @@ while($sk = $querySK->fetch_assoc()) { ?>
         </div>
 
         <script>
-            function variabel(a){
+            function variabel(a, b){
                 
                 switch(a) {
                     case 'nama': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Nama=');
@@ -318,21 +360,24 @@ while($sk = $querySK->fetch_assoc()) { ?>
                         break;
                     case 'derajat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Derajat=');
                         break;
+                    case 'ttd': 
+                        tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=TTD:'+b+'=');
+                        document.getElementById('hiden').innerHTML = `
+                        <input type="hidden" value=`+b+` name="id_ttd">
+                        `;
+                        break;
                     default:
                         break;
                 }
             }
-        </script>
 
-        <div class="form-check form-check-flat form-check-primary mt-3">    
-            <label class="form-check-label mt-4">
-                <input type="checkbox" class="form-check-input" id="centang" onclick="cek()">
-                Data yang saya inputkan diatas sudah benar
-            </label>
-        </div>
-        <button class="btn btn-primary btn-icon-text mt-3" type="submit" name="sumbit_sk_non" id="btn-submit" disabled>
-            <i class="btn-icon-prepend" data-feather="save"></i> Submit
-        </button>
+            function addTtd(x) {
+                document.getElementById("tanda").innerHTML = `
+                <div class="btn btn-light m-2" id="ttd" onclick="variabel('ttd',`+x+`)">TTD</div>
+                `;
+                // console.log(x);
+            }
+        </script>
 
         <script>
             var btn = document.getElementById('btn-submit');

@@ -11,7 +11,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $tgl_fisik = $_POST['tgl_surat_fisik'];
     $layout_konten = $_POST['layout_konten'];
     $created = date("Y-m-d H:i:s", time());
+    $id_ttd = $_POST['id_ttd'];
 
+    if(is_array($id_ttd)){
+        $varttd = array();
+        $repttd = array();
+        foreach($id_ttd as $field => $value){
+            // TTD
+            $dataTTD = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$value'"); 
+            while($rowTTD = $dataTTD->fetch_assoc()) {
+                $img_ttd = $rowTTD['ttd'];
+            }
+
+            array_push($varttd, '=TTD:'.$value.'=');
+            array_push($repttd,'<img style="max-width:222px"'." src=http://$_SERVER[HTTP_HOST]/app-surat/foto/ttd/$img_ttd>");
+
+        }
+        $konten_surat = str_replace($varttd, $repttd, $layout_konten);
+        // print_r($varttd);
+        // print_r($repttd);
+    }
 
     $users = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$pembuat'");
     while($rowUser = $users->fetch_assoc()) {
@@ -102,16 +121,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     $noSurat = sprintf("%04s", $noUrut).'/'.$no_surat_sk;
 
+    
     $var = array('=KodeSurat=', '=Bulan=', '=Tahun=');
     $rep = array($kode, $bulanRomawi, date('Y'));
     $nomor_surat = str_replace($var, $rep, $noSurat);
     
     // $nomor_surat = sprintf("%03s", $noUrut).'/'.$kode.'/'.$bulanRomawi.'/'.date('Y');
 
+
     $variabel = array('=NoSurat=', '=Nama=', '=Email=', '=Perihal=', '=TglSurat=', '=Tujuan=', '=Karakteristik=', '=Derajat=');
     $replace = array($nomor_surat, $nama_pembuat, $email_pembuat, $perihal, tgl_indo($tgl_fisik), $tujuan, $nama_kar, $nama_der);
 
-    $konten_surat = str_replace($variabel, $replace, $layout_konten);
+    $konten_surat = str_replace($variabel, $replace, $konten_surat);
     
     $field = array('nomor_surat'=>$nomor_surat, 'jenis_surat'=>$jenis_surat, 'pembuat'=>$pembuat, 'tujuan'=>$tujuan, 'tgl_surat_fisik'=>$tgl_fisik, 'perihal'=>$perihal, 'karakteristik'=>$karakteristik, 'derajat'=>$derajat, 'layout_konten'=>$konten_surat, 'created'=>$created);
     $params = array(':nomor_surat'=>$nomor_surat, ':jenis_surat'=>$jenis_surat, ':pembuat'=>$pembuat, ':tujuan'=>$tujuan, ':tgl_surat_fisik'=>$tgl_fisik, ':perihal'=>$perihal, ':karakteristik'=>$karakteristik, ':derajat'=>$derajat, ':layout_konten'=>$konten_surat, ':created'=>$created);
@@ -257,6 +278,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="row">
                 <div class="col-8">
                     <textarea class="form-control" name="layout_konten" id="kontenTemplate" rows="15"></textarea>
+                    <div class="form-check form-check-flat form-check-primary mt-3">    
+                        <label class="form-check-label mt-4">
+                            <input type="checkbox" class="form-check-input" id="centang" onclick="cek()">
+                            Data yang saya inputkan diatas sudah benar
+                        </label>
+                    </div>
+                    <button class="btn btn-primary btn-icon-text mt-3" type="submit" name="sumbit_sk_non" id="btn-submit" disabled>
+                        <i class="btn-icon-prepend" data-feather="save"></i> Submit
+                    </button>
                 </div>
                 <div class="col-4">
                     <li class="list-group-item">
@@ -273,7 +303,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                     </li>
                     <li class="list-group-item">
-                        <p class="card-description mt-3">Untuk settingan surat default.</p>
+                        <p class="card-description">Klik tombol dibawah untuk memilih Tanda Tangan.</p>
+                        <select class="js-example-basic-multiple w-100"  name="ttd_user" id="ttd_user" data-placeholder="Pilih TTD" onchange="addTtd(this.value)">
+                            <option selected disabled>Pilih TTD</option>
+							<?php
+                                $GetUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
+                                if($GetUser->rowCount() >= 1){
+                                    while($dataUser = $GetUser->fetch(PDO::FETCH_OBJ)){
+                                        $NamaUser = $dataUser->nama ." (".$dataUser->nama_jabatan .")";
+                                        if(false !== array_search($dataUser->id_user, $cekDisposisi)){?>
+                                            <option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+                                        }else{?>
+                                            <option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+                                        }
+                                    }								
+                                }else{?>
+                                    <option value="">Not Found</option><?php
+                                }?>
+                        </select>
+                        <div id="hiden"></div>
+                        <div id="tanda"></div>
+                    </li>
+                    <li class="list-group-item">
+                        <p class="card-description ">Untuk settingan surat default.</p>
                         <table class="card-description w-100 table">
                             <tr>
                                 <td>1.</td>
@@ -298,7 +350,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         </div>
 
         <script>
-            function variabel(a){
+            function variabel(a, b){
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.value = b;
+                input.name = 'id_ttd[]';
                 
                 switch(a) {
                     case 'nama': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Nama=');
@@ -317,21 +373,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                         break;
                     case 'derajat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Derajat=');
                         break;
+                    case 'ttd': 
+                        tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=TTD:'+b+'=');
+                        document.getElementById('hiden').appendChild(input);
+                        break;
                     default:
                         break;
                 }
             }
-        </script>
 
-        <div class="form-check form-check-flat form-check-primary mt-3">    
-            <label class="form-check-label mt-4">
-                <input type="checkbox" class="form-check-input" id="centang" onclick="cek()">
-                Data yang saya inputkan diatas sudah benar
-            </label>
-        </div>
-        <button class="btn btn-primary btn-icon-text mt-3" type="submit" name="sumbit_sk_non" id="btn-submit" disabled>
-            <i class="btn-icon-prepend" data-feather="save"></i> Submit
-        </button>
+            function addTtd(x) {
+                document.getElementById("tanda").innerHTML = `
+                <div class="btn btn-light m-2" id="ttd" onclick="variabel('ttd',`+x+`)">TTD</div>
+                `;
+                // console.log(x);
+            }
+        </script>
 
         <script>
             var btn = document.getElementById('btn-submit');

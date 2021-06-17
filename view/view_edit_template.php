@@ -82,9 +82,7 @@ while($row = $sql->fetch_assoc()) {
                     <input type="text" class="form-control" value="<?php echo $nama_template; ?>" name="nama_template" required>
                 </div>
                 <div class="form-group">
-                    <label>Logo Kop Surat</label>
-                    <p class="card-description ">*Abaikan form ini jika tidak mengganti logo kop.</p>
-                    <input type="file" name="logo_kop" class="" accept=".jpg,.jpeg,.png">
+                    <div class="card-description text-primary">*Pastikan total size image yang digunakan pada kop surat kurang dari 1 mb.</div>
                 </div>
             </div>
 
@@ -212,13 +210,51 @@ while($row = $sql->fetch_assoc()) {
                             <div class="btn btn-light m-2" id="derajat" onclick="variabel('derajat')">Derajat</div>
                         </div>
                     </li>
+                    <li class="list-group-item">
+                        <p class="card-description">Hapus variabel TTD yang lama dan klik tombol dibawah ini untuk memperbarui variabel.</p>
+                        <select class="js-example-basic-multiple w-100"  name="ttd_user" id="ttd_user" data-placeholder="Pilih TTD" onchange="addTtd(this.value)">
+                            <option selected disabled>Pilih TTD</option>
+							<?php
+                                $GetUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
+                                if($GetUser->rowCount() >= 1){
+                                    while($dataUser = $GetUser->fetch(PDO::FETCH_OBJ)){
+                                        $NamaUser = $dataUser->nama ." (".$dataUser->nama_jabatan .")";
+                                        if(false !== array_search($dataUser->id_user, $cekDisposisi)){?>
+                                            <option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+                                        }else{?>
+                                            <option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+                                        }
+                                    }								
+                                }else{?>
+                                    <option value="">Not Found</option><?php
+                                }?>
+                        </select>
+                        <div id="hiden">
+                            <!-- <?php 
+                                $template = $this->model->selectprepare("template", $field=null, $params=null, $where=null);
+                                while($data_template = $template->fetch(PDO::FETCH_OBJ)){									
+                                    $id_ttd = json_decode($data_template->id_ttd, true);
+                                    if(is_array($id_ttd)){
+                                        foreach($id_ttd as $field => $value){ ?>
+                                           <input type="hidden" name='id_ttd[]' value='<?= $value; ?>'> 
+                                        <?php }
+                                    }
+                                }
+                            ?> -->
+                        </div>
+                        <div id="tanda"></div>
+                    </li>
                 </div>
             </div>
         </div>
 
         <script>
-            function variabel(a){
-                
+            function variabel(a, b){
+                var input = document.createElement('input');
+                input.type = 'hidden';
+                input.value = b;
+                input.name = 'id_ttd[]';
+
                 switch(a) {
                     case 'nama': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Nama=');
                         break;
@@ -236,9 +272,20 @@ while($row = $sql->fetch_assoc()) {
                         break;
                     case 'derajat': tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=Derajat=');
                         break;
+                    case 'ttd': 
+                        tinymce.get("kontenTemplate").execCommand('mceInsertContent', false, '=TTD:'+b+'=');
+                        document.getElementById('hiden').appendChild(input);
+                        break;
                     default:
                         break;
                 }
+            }
+
+            function addTtd(x) {
+                document.getElementById("tanda").innerHTML = `
+                <div class="btn btn-light m-2" id="ttd" onclick="variabel('ttd',`+x+`)">TTD</div>
+                `;
+                // console.log(x);
             }
         </script>
 

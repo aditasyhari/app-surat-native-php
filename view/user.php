@@ -226,6 +226,16 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 		$akses_atur_klasifikasi_arsip = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_klas_arsip'])), ENT_QUOTES);
 		$akses_atur_user = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_user'])), ENT_QUOTES);
 		//$akses_atur_infoapp = htmlspecialchars($purifier->purify(trim($_POST['akses_atur_infoapp'])), ENT_QUOTES);
+
+		$nama_ttd = $_FILES['ttd_image']['name'];
+		$ukuran_ttd = $_FILES['ttd_image']['size'];
+		$tipe_ttd = $_FILES['ttd_image']['type'];
+		$tmp_ttd = $_FILES['ttd_image']['tmp_name'];
+
+		$scan_ttd = "TTD"."_".date("d-m-Y_H-i-s", time())."_".$nama_ttd;
+
+		$path = 'foto/ttd/'.$scan_ttd;
+
 		$picture = "sekretaris.png";
 		if(isset($_GET['userid'])){
 			$id_user = htmlspecialchars($purifier->purify(trim($_GET['userid'])), ENT_QUOTES);
@@ -261,9 +271,10 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 			}
 		}else{
 			$upass = md5($upass);
-			$field = array('nama' => $nama, 'nik' => $nik, 'uname' => $uname,  'upass' => $upass, 'email' => $email, 'jabatan' => $jabatan, 'rule_disposisi' => $disposisi, 'picture' => $picture);
-			$params = array(':nama' => $nama, ':nik' => $nik, ':uname'=>$uname, ':upass' => $upass, ':email' => $email, ':jabatan' => $jabatan, 'rule_disposisi' => $disposisi,  ':picture' => $picture);
+			$field = array('nama' => $nama, 'nik' => $nik, 'uname' => $uname,  'upass' => $upass, 'email' => $email, 'jabatan' => $jabatan, 'rule_disposisi' => $disposisi, 'picture' => $picture, 'ttd' => $scan_ttd);
+			$params = array(':nama' => $nama, ':nik' => $nik, ':uname'=>$uname, ':upass' => $upass, ':email' => $email, ':jabatan' => $jabatan, 'rule_disposisi' => $disposisi,  ':picture' => $picture, 'ttd' => $scan_ttd);
 			$insert = $this->model->insertprepare("user", $field, $params);
+			move_uploaded_file($tmp_ttd, 'foto/ttd/'.$scan_ttd);
 			if($insert->rowCount() >= 1){
 				$CekIdUser = $this->model->selectprepare("user", $field=null, $params=null, $where=null, "ORDER BY id_user DESC LIMIT 1");
 				$dataCekIdUser = $CekIdUser->fetch(PDO::FETCH_OBJ);
@@ -386,7 +397,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 							</div>
 						</form><?php
 						*/?>
-						<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>">
+						<form class="form-horizontal" role="form" method="POST" name="formku" action="<?php echo $_SESSION['url'];?>" enctype="multipart/form-data">
 							<?php /*<div class="form-group">
 								<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Level Akses</label>
 								<div class="col-sm-6">
@@ -497,26 +508,33 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 
 
 							 <div class="form-group">
-							 <div class="col-sm-6">
 							 <label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Dapat melakukan Disposisi ke</label>
+							 <div class="col-sm-6">
 							<select class="js-example-basic-multiple w-100"  name="disposisi[]" id="form-field-select-3" data-placeholder="Pilih user..."  multiple="multiple">
 							<?php
-										$GetUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
-										if($GetUser->rowCount() >= 1){
-											while($dataUser = $GetUser->fetch(PDO::FETCH_OBJ)){
-												$NamaUser = $dataUser->nama ." (".$dataUser->nama_jabatan .")";
-												if(false !== array_search($dataUser->id_user, $cekDisposisi)){?>
-													<option value="<?php echo $dataUser->id_user;?>" selected><?php echo $NamaUser;?></option><?php
-												}else{?>
-													<option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
-												}
-											}								
-										}else{?>
-											<option value="">Not Found</option><?php
-										}?>
+									$GetUser = $this->model->selectprepare("user a join user_jabatan b on a.jabatan=b.id_jab", $field=null, $params=null, $where=null, "ORDER BY a.nama ASC");
+									if($GetUser->rowCount() >= 1){
+										while($dataUser = $GetUser->fetch(PDO::FETCH_OBJ)){
+											$NamaUser = $dataUser->nama ." (".$dataUser->nama_jabatan .")";
+											if(false !== array_search($dataUser->id_user, $cekDisposisi)){?>
+												<option value="<?php echo $dataUser->id_user;?>" selected><?php echo $NamaUser;?></option><?php
+											}else{?>
+												<option value="<?php echo $dataUser->id_user;?>"><?php echo $NamaUser;?></option><?php
+											}
+										}								
+									}else{?>
+										<option value="">Not Found</option><?php
+									}?>
 							</select>
 							</div>
 							</div>
+
+							<?php if(!isset($_GET['userid'])){ ?>
+								<div class="form-group">
+									<label class="font-weight-bold mb-0 text-uppercase">Scan Tanda Tangan</label><br>
+									<input type="file" name="ttd_image" accept=".jpg, .jpeg, .png" required>
+								</div>
+							<?php } ?>
 
 
 
