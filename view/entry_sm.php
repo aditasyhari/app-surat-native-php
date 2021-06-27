@@ -105,13 +105,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 							}
 						}
 						
-						if($tujuan != '' OR $tujuan != 'null'){
-							
+						if(is_array($_POST['tujuan'])){
 							$mail = new PHPMailer;
 							$mail->isSMTP();
 							$mail->SMTPDebug = 0;
 							$mail->Debugoutput = 'html';
-							$mail->Host = 'tls://smtp.gmail.com';
+							$mail->Host = 'smtp.gmail.com';
 							$mail->SMTPAuth = true;
 							$mail->Username = $dataEmailAccount->email;
 							$mail->Password = $dataEmailAccount->pass_email;
@@ -191,12 +190,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 									}
 								}
 								
-								if($tujuan != '' OR $tujuan != 'null'){
+								if(is_array($_POST['tujuan'])){
 									$mail = new PHPMailer;
 									$mail->isSMTP();
 									$mail->SMTPDebug = 0;
 									$mail->Debugoutput = 'html';
-									$mail->Host = 'tls://smtp.gmail.com';
+									$mail->Host = 'smtp.gmail.com';
 									$mail->SMTPAuth = true;
 									$mail->Username = $dataEmailAccount->email;
 									$mail->Password = $dataEmailAccount->pass_email;

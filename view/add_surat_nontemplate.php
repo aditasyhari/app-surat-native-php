@@ -30,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $konten_surat = str_replace($varttd, $repttd, $layout_konten);
         // print_r($varttd);
         // print_r($repttd);
+    }else {
+        $konten_surat = $layout_konten;
     }
 
     $users = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$pembuat'");

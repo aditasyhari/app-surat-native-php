@@ -189,7 +189,7 @@
         </a>
       </li>
       <li class="nav-item <?php echo $StatInfo;?>">
-        <a class="nav-link" href="index.php?op=info" role="button" aria-expanded="{{ is_active_route(['perihal-surat/*']) }}" aria-controls="perihal-surat">
+        <a class="nav-link" href="index.php?op=info" role="button">
           <i class="link-icon" data-feather="copy"></i>
           <span class="link-title">Pengingat Masuk</span>
         </a>
@@ -198,7 +198,7 @@
       <?php 
       if($HakAkses->sm == "W") {?>
         <li class="nav-item <?php echo $StatSM;?>">
-          <a class="nav-link" data-toggle="collapse" href="#arsip-sm" role="button" aria-expanded="{{ is_active_route(['arsip/*']) }}" aria-controls="arsip">
+          <a class="nav-link" data-toggle="collapse" href="#arsip-sm" role="button">
             <i class="link-icon" data-feather="folder"></i>
             <span class="link-title">Arsip Surat Masuk</span>
             <i class="link-arrow" data-feather="chevron-down"></i>

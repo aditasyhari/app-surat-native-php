@@ -15,18 +15,18 @@ $row = mysqli_num_rows($query);
 while($data = mysqli_fetch_array($query))
 {
     $layout_konten = $data['layout_konten'];
-    $layout_kop = $data['layout_kop'];
-    $logo_kop = $data['logo_kop'];
     $tujuan = $data['tujuan'];
     $id_template = $data['id_template'];
     $tgl = tgl_indo($data['tgl_surat_fisik']);
-
+    
     if($id_template == '') {
         $m_atas = 10;
         $m_bawah = 10;
         $m_kiri = 15;
         $m_kanan = 10;
     }else {
+        $layout_kop = $data['layout_kop'];
+        $logo_kop = $data['logo_kop'];
         $querytp = mysqli_query($conn, "SELECT * FROM template WHERE id_template='$id_template'");
         while($datatp = $querytp->fetch_assoc()) {
             $m_atas = $datatp['m_atas'];
@@ -66,7 +66,7 @@ if($row > 0) {
 
     if($id_template == '') {
         $html .= '
-            <div class="konten">
+            <div>
                 '.$layout_konten.'
             </div>
         ';
@@ -82,18 +82,37 @@ if($row > 0) {
     $html .= "</html>";
 
     if(isset($_GET['act']) AND $_GET['act'] == "pdf"){
+
         $dompdf->loadHtml($html);
         // Setting ukuran dan orientasi kertas
         $dompdf->setPaper($orientasi, $ukuran);
         // Rendering dari HTML Ke PDF
         $dompdf->render();
+
+        // $pageTotal = $dompdf->getCanvas()->get_page_count();
+
+        // unset($dompdf);
+        
+        // $dompdf = new Dompdf();
+
+        // $html = str_replace('=JmlhLampiran=', $pageTotal, $html);
+
+        // $dompdf->loadHtml($html);
+        // // Setting ukuran dan orientasi kertas
+        // $dompdf->setPaper($orientasi, $ukuran);
+        // // Rendering dari HTML Ke PDF
+        // $dompdf->render();
+
+
         ob_end_clean();
+        
         // Melakukan output file Pdf, 1 = download, 0 = preview
         $dompdf->stream('SuratKeluar_'.$tujuan.'_'.$tgl.'.pdf', array("Attachment" => 0));
         exit;
     }
-
+    
 }else {
     echo 'Belum ada data';
 }
+
 ?>

@@ -131,14 +131,33 @@
         }
       ?>
 
+      <?php
+        $CekInfo = $this->model->selectprepare("info a join user c on a.pengirim_info=c.id_user", $field=null, $params=null, $where=null, "WHERE a.tujuan_info LIKE '%\"$_SESSION[id_user]\"%' order by a.tgl_info DESC");
+        
+        $jmlMemo = 0;
+				while($DataInfo = $CekInfo->fetch(PDO::FETCH_OBJ)){
+          $params2 = array(':id_sm' => $DataInfo->id_info, ':id_user' => $_SESSION['id_user'], ':kode' => 'INFO');
+          $CekRead = $this->model->selectprepare("surat_read", $field=null, $params2, "id_sm=:id_sm AND id_user=:id_user AND kode=:kode", $order=null);
+          if($CekRead->rowCount() <= 0){
+            $jmlMemo++;
+          }
+        }
+
+        if($jmlMemo >= 1){
+          $linkMemo="./index.php?op=info";
+        }else{
+          $linkMemo="#";
+        }
+      ?>
+
       <?php 
-        if($cekSM->rowCount() >= 1 OR $cekDispo->rowCount() >= 1 OR $cekTembusan->rowCount() >= 1 OR $rowApproval >= 1) { ?>
+        if($cekSM->rowCount() >= 1 OR $cekDispo->rowCount() >= 1 OR $cekTembusan->rowCount() >= 1 OR $rowApproval >= 1 OR $jmlMemo >= 1) { ?>
           <audio autoplay src="./view/notif.mp3"></audio> <?php
         } 
       ?>
 
       <?php 
-        if($cekSM->rowCount() >= 1 OR $cekDispo->rowCount() >= 1 OR $cekTembusan->rowCount() >= 1 OR $rowApproval >= 1) {
+        if($cekSM->rowCount() >= 1 OR $cekDispo->rowCount() >= 1 OR $cekTembusan->rowCount() >= 1 OR $rowApproval >= 1 OR $jmlMemo >= 1) {
           $indicator = "indicator";
         } else {
           $indicator = "";
@@ -177,6 +196,7 @@
                   <?php
                 }?>
             </a>
+            
             <a href="<?php echo $linkDispo; ?>" class="dropdown-item">
               <div class="icon">
                 <i data-feather="message-square"></i>
@@ -199,6 +219,30 @@
               <?php
               }?>
             </a>
+
+            <a href="<?php echo $linkMemo; ?>" class="dropdown-item">
+              <div class="icon">
+                <i data-feather="copy"></i>
+              </div>
+              <?php 
+              if($jmlMemo >= 1) { ?>
+                <div class="content">
+                  <p>Pengingat Masuk / Memo</p>
+                  <p class="sub-text text-warning">
+                    <?php echo $jmlMemo; ?>
+                     Memo baru
+                  </p>
+                </div>
+              <?php
+              } else {?>
+                <div class="content">
+                  <p>Pengingat Masuk / Memo</p>
+                  <p class="sub-text text-muted">Tidak ada Memo baru</p>
+                </div>
+              <?php
+              }?>
+            </a>
+
             <a href="<?php echo $linkTembusan; ?>" class="dropdown-item">
               <div class="icon">
                 <i data-feather="user-plus"></i>

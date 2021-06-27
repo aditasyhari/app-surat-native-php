@@ -52,8 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 		}
 	}else{
 		if(empty($fileName)){
-			$field = array('pengirim_info' => $_SESSION['id_user'], 'tujuan_info' => $tujuan, 'judul_info' => $judul, 'ket_info' => $isiMemo, 'tgl_info' => $tgl);
-			$params = array(':pengirim_info' => $_SESSION['id_user'], ':tujuan_info'=>$tujuan, ':judul_info' => $judul, ':ket_info'=>$isiMemo, ':tgl_info'=>$tgl);
+			$field = array('pengirim_info' => $_SESSION['id_user'], 'tujuan_info' => $tujuan, 'judul_info' => $judul, 'ket_info' => $isiMemo, 'tgl_info' => $tgl, 'file'=>null);
+			$params = array(':pengirim_info' => $_SESSION['id_user'], ':tujuan_info'=>$tujuan, ':judul_info' => $judul, ':ket_info'=>$isiMemo, ':tgl_info'=>$tgl, ':file'=>null);
 		}else{
 			//if(in_array($tipefile, $extensionList)){
 				if(move_uploaded_file($_FILES['file_info']['tmp_name'], $file_info)){
@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					$mail->isSMTP();
 					$mail->SMTPDebug = 0;
 					$mail->Debugoutput = 'html';
-					$mail->Host = 'tls://smtp.gmail.com';
+					$mail->Host = 'smtp.gmail.com';
 					$mail->SMTPAuth = true;
 					$mail->Username = $dataEmailAccount->email;
 					$mail->Password = $dataEmailAccount->pass_email;

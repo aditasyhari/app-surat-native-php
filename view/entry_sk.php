@@ -1,4 +1,13 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require_once "library/PHPMailer.php";
+require_once "library/Exception.php";
+require_once "library/OAuth.php";
+require_once "library/POP3.php";
+require_once "library/SMTP.php";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$noagenda = htmlspecialchars($purifier->purify(trim($_POST['noagenda'])), ENT_QUOTES);
 	$noagenda_custom = trim($_POST['noagenda_custom']);
@@ -10,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 	$pengolah = htmlspecialchars($purifier->purify(trim($_POST['pengolah'])), ENT_QUOTES);
 	$klasifikasi = htmlspecialchars($purifier->purify(trim($_POST['id_klasifikasi'])), ENT_QUOTES);
 	$tujuan = htmlspecialchars($purifier->purify(trim($_POST['tujuan'])), ENT_QUOTES);
+	$email_tujuan = json_encode($_POST['email_tujuan']);
 	$perihal = htmlspecialchars($purifier->purify(trim($_POST['perihal'])), ENT_QUOTES);
 	$ket = htmlspecialchars($purifier->purify(trim($_POST['ket'])), ENT_QUOTES);
 	
@@ -63,8 +73,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 			$params = array(':id_user' => $_SESSION['id_user'], ':no_sk'=>$nosk, ':klasifikasi' => $klasifikasi, ':tgl_surat'=>$tglsk, ':pengolah'=>$pengolah, ':tujuan_surat'=>$tujuan, ':perihal'=>$perihal, ':no_agenda' => $noagenda, ':custom_noagenda' => $noagenda_custom, ':ket'=>$ket, ':file'=>$filedb, ':created'=>$tgl_upload);
 			if(empty($fileName)){
 				$insert = $this->model->insertprepare("arsip_sk", $field, $params);
+				
 				if($insert->rowCount() >= 1){
-					echo "<script type=\"text/javascript\">alert('Data Berhasil Tersimpan...!!');window.location.href=\"$_SESSION[url]\";</script>";
+					//Kirim Email
+					$EmailAccount = $this->model->selectprepare("pengaturan", $field=null, $params=null, $where=null, "WHERE id='1' AND email !='' AND pass_email !=''");
+					$AktifEmail = $this->model->selectprepare("email_setting", $field=null, $params=null, $where=null, "WHERE id_kop='2' AND status='Y'");
+					if($EmailAccount->rowCount() >= 1 AND $AktifEmail->rowCount() >= 1){
+						$dataEmailAccount = $EmailAccount->fetch(PDO::FETCH_OBJ);
+						$dataAktifEmail = $AktifEmail->fetch(PDO::FETCH_OBJ);
+						
+						$dataTujuan = json_decode($email_tujuan, true);
+
+						$isi = $dataAktifEmail->layout;
+						$Rlayout = $isi;
+						$arr = array("=NoAgenda=" =>$noagenda_custom, "=NoSurat=" => $nosk, "=Perihal=" => $perihal, "=TujuanSurat=" => $tujuan, "=TglSurat=" => tgl_indo($tglsk), "=TglTerima=" => '-', "=AsalSurat=" =>$_SESSION['nama'], "=Keterangan=" => $ket);
+						foreach($arr as $nama => $value){
+							if(strpos($isi, $nama) !== false) {
+								$Rlayout = str_replace($nama, $value, $isi);
+								$isi = $Rlayout;
+							}
+						}
+						
+						if(isset($_POST['email_tujuan'])){
+							$mail = new PHPMailer;
+							$mail->isSMTP();
+							$mail->SMTPDebug = 0;
+							$mail->Debugoutput = 'html';
+							$mail->Host = 'smtp.gmail.com';
+							$mail->SMTPAuth = true;
+							$mail->Username = $dataEmailAccount->email;
+							$mail->Password = $dataEmailAccount->pass_email;
+							$mail->SMTPSecure = "tls";                           
+							$mail->Port = 587;
+							$mail->From = $dataEmailAccount->email;
+							$mail->FromName = $_SESSION['nama'];
+							// $mail->smtpConnect(
+							// 	array(
+							// 		"ssl" => array(
+							// 			"verify_peer" => false,
+							// 			"verify_peer_name" => false,
+							// 			"allow_self_signed" => true
+							// 		)
+							// 	)
+							// );
+
+							while (list ($key, $val) = each ($dataTujuan)) {
+								$mail->addAddress($val);
+							}
+
+							$mail->isHTML(true);
+							$topik = "Kirim Surat: ".$perihal;
+							$mail->Subject = $topik;
+							$mail->Body = $isi;
+							$mail->AltBody = $perihal;
+							if(!$mail->send()) {
+								// echo $isi;
+								// echo "Mailer Error: " . $mail->ErrorInfo;
+								echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan. Email notifikasi gagal dikirim!');window.location.href=\"./index.php?op=add_sk\";</script>";
+							}else{
+								echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=add_sk\";</script>";
+							}
+						}else{
+							echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan!');window.location.href=\"./index.php?op=add_sk\";</script>";
+						}
+					}else{
+						echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan!');window.location.href=\"./index.php?op=add_sk\";</script>";
+					}
 				}else{
 					die("<script>alert('Data Gagal di simpan ke Database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
 				}
@@ -73,7 +147,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 					if(move_uploaded_file($_FILES['filesk']['tmp_name'], $filesk)){
 						$insert = $this->model->insertprepare("arsip_sk", $field, $params);
 						if($insert->rowCount() >= 1){
-							echo "<script type=\"text/javascript\">alert('Data Berhasil Tersimpan...!!');window.location.href=\"$_SESSION[url]\";</script>";
+							//Kirim Email
+							$EmailAccount = $this->model->selectprepare("pengaturan", $field=null, $params=null, $where=null, "WHERE id='1' AND email !='' AND pass_email !=''");
+							$AktifEmail = $this->model->selectprepare("email_setting", $field=null, $params=null, $where=null, "WHERE id_kop='2' AND status='Y'");
+							if($EmailAccount->rowCount() >= 1 AND $AktifEmail->rowCount() >= 1){
+								$dataEmailAccount = $EmailAccount->fetch(PDO::FETCH_OBJ);
+								$dataAktifEmail = $AktifEmail->fetch(PDO::FETCH_OBJ);
+								
+								$dataTujuan = json_decode($email_tujuan, true);
+		
+								$isi = $dataAktifEmail->layout;
+								$Rlayout = $isi;
+								$arr = array("=NoAgenda=" =>$noagenda_custom, "=NoSurat=" => $nosk, "=Perihal=" => $perihal, "=TujuanSurat=" => $tujuan, "=TglSurat=" => tgl_indo($tglsk), "=TglTerima=" => '-', "=AsalSurat=" =>$_SESSION['nama'], "=Keterangan=" => $ket);
+								foreach($arr as $nama => $value){
+									if(strpos($isi, $nama) !== false) {
+										$Rlayout = str_replace($nama, $value, $isi);
+										$isi = $Rlayout;
+									}
+								}
+								
+								if(isset($_POST['email_tujuan'])){
+									$mail = new PHPMailer;
+									$mail->isSMTP();
+									$mail->SMTPDebug = 0;
+									$mail->Debugoutput = 'html';
+									$mail->Host = 'smtp.gmail.com';
+									$mail->SMTPAuth = true;
+									$mail->Username = $dataEmailAccount->email;
+									$mail->Password = $dataEmailAccount->pass_email;
+									$mail->SMTPSecure = "tls";                           
+									$mail->Port = 587;
+									$mail->From = $dataEmailAccount->email;
+									$mail->FromName = $_SESSION['nama'];
+									// $mail->smtpConnect(
+									// 	array(
+									// 		"ssl" => array(
+									// 			"verify_peer" => false,
+									// 			"verify_peer_name" => false,
+									// 			"allow_self_signed" => true
+									// 		)
+									// 	)
+									// );
+		
+									while (list ($key, $val) = each ($dataTujuan)) {
+										$mail->addAddress($val);
+									}
+		
+									$mail->isHTML(true);
+									$topik = "Kirim Surat: ".$perihal;
+									$mail->Subject = $topik;
+									$mail->Body = $isi;
+									$mail->AltBody = $perihal;
+									$lokasi = "berkas/$filedb";
+									if(file_exists($lokasi)){
+										$mail->addAttachment($lokasi);
+									}
+									if(!$mail->send()) {
+										echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan. Email notifikasi gagal dikirim!');window.location.href=\"./index.php?op=add_sk\";</script>";
+									}else{
+										echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan, Email notifikasi dikirim!');window.location.href=\"./index.php?op=add_sk\";</script>";
+									}
+								}else{
+									echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan!');window.location.href=\"./index.php?op=add_sk\";</script>";
+								}
+							}else{
+								echo "<script type=\"text/javascript\">alert('Data Berhasil disimpan!');window.location.href=\"./index.php?op=add_sk\";</script>";
+							}
 						}else{
 							die("<script>alert('Data Gagal di simpan ke Database, Silahkan Coba Kembali..!!');window.history.go(-1);</script>");
 						}
@@ -262,6 +401,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Tujuan Surat </label>
 							<div class="col-sm-6">
 								<input class="form-control" placeholder="Nama lembaga / Perorangan" type="text" name="tujuan" <?php if(isset($tujuan_surat)){ echo $tujuan_surat; }?> id="form-field-mask-1" required/>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Dikirim ke </label>
+							<div class="col-sm-6">
+								<div class="space-2"></div>
+								<select multiple="" class="js-example-basic-multiple w-100 form-control" name="email_tujuan[]"  data-placeholder="Pilih kontak (optional)">
+									<?php
+									$id = $_SESSION['id_user'];
+									$users = mysqli_query($conn, "SELECT * FROM kontak WHERE id_user='$id'");
+									foreach($users as $user):?>
+										<option value="<?php echo $user['email'];?>">
+											<?php echo $user['nama'].' - '.$user['email']  ; ?>
+										</option>
+									<?php endforeach; ?>
+								</select>
 							</div>
 						</div>
 						<div class="space-4"></div>

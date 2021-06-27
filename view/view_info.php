@@ -45,7 +45,7 @@ if(isset($_GET['infoid'])){
 					$params2 = array(':id_sm' => $DataInfo->id_info, ':id_user' => $_SESSION['id_user'], ':kode' => 'INFO');
 					$CekRead = $this->model->selectprepare("surat_read", $field=null, $params2, "id_sm=:id_sm AND id_user=:id_user AND kode=:kode", $order=null);
 					if($CekRead->rowCount() <= 0){?>
-						<li class="list-group-item d-flex justify-content-between align-items-center disabled">
+						<li class="list-group-item d-flex justify-content-between align-items-center ">
 							<div>
 								<span><?php echo $no;?></span>
 								<span title="<?php echo $DataInfo->nama;?>"><?php echo $DataInfo->nama;?></span>
@@ -59,7 +59,7 @@ if(isset($_GET['infoid'])){
 						</li>
 						<?php
 					}else{?>
-						<li class="list-group-item d-flex justify-content-between align-items-center">
+						<li class="list-group-item d-flex justify-content-between align-items-center text-secondary">
 							<div>
 								<span><?php echo $no;?></span>
 								<span title="<?php echo $DataInfo->nama;?>"><?php echo $DataInfo->nama;?></span>
