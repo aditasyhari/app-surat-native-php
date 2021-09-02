@@ -47,6 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     while($rowUser = $users->fetch_assoc()) {
         $nama_pembuat = $rowUser['nama'];
         $email_pembuat = $rowUser['email'];
+        $id_jabatan = $rowUser['jabatan'];
+    }
+
+    $jabatan = mysqli_query($conn, "SELECT * FROM user_jabatan WHERE id_jab='$id_jabatan'");
+    while($rowJabatan = $jabatan->fetch_assoc()) {
+        $kode_jabatan = $rowJabatan['kode_jabatan'];
     }
 
     $jenisS = mysqli_query($conn, "SELECT * FROM klasifikasi_sk WHERE id_klas='$jenis_surat'");
@@ -75,88 +81,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $p = array(':jenis_surat' => $jenis_surat);
     $CekSurat = $this->model->selectprepare("surat_keluar", $field=null, $p, "jenis_surat=:jenis_surat");
 
-    $max_kode = mysqli_query($conn, "SELECT max(nomor_surat) as maxKode FROM surat_keluar WHERE jenis_surat='$jenis_surat'");
+    $max_kode = mysqli_query($conn, "SELECT max(urutan) as maxKode FROM surat_keluar WHERE jenis_surat='$jenis_surat' AND pembuat='$pembuat'");
     $data_max  = mysqli_fetch_array($max_kode);
     $max = $data_max['maxKode'];
-    $noUrut = (int) substr($max, 0, 4);
-    if($noUrut >= $no_surat_sk_start) {
-        $noUrut++;
+    // $noUrut = (int) substr($max, 0, 4);
+    if($max >= $no_surat_sk_start) {
+        $max++;
     }else {
-        $noUrut = $no_surat_sk_start;
+        $max = $no_surat_sk_start;
     }
 
-    function getRomawi($bln){
-        switch ($bln){
-            case 1: 
-                return "I";
-                break;
-            case 2:
-                return "II";
-                break;
-            case 3:
-                return "III";
-                break;
-            case 4:
-                return "IV";
-                break;
-            case 5:
-                return "V";
-                break;
-            case 6:
-                return "VI";
-                break;
-            case 7:
-                return "VII";
-                break;
-            case 8:
-                return "VIII";
-                break;
-            case 9:
-                return "IX";
-                break;
-            case 10:
-                return "X";
-                break;
-            case 11:
-                return "XI";
-                break;
-            case 12:
-                return "XII";
-                break;
-        }
-    }
-
-    $bulan = date('n');
-    $bulanRomawi = getRomawi($bulan);
-    // echo $bulanRomawi;
+    include_once('bulan-romawi.php');
 
     $bulan = date('n');
     $bulanRomawi = getRomawi($bulan);
 
-    $noSurat = sprintf("%04s", $noUrut).'/'.$no_surat_sk;
+    $noSurat = $max.'/'.$no_surat_sk;
 
-    $var = array('=KodeSurat=', '=Bulan=', '=Tahun=');
-    $rep = array($kode, $bulanRomawi, date('Y'));
-    $nomor_surat = str_replace($var, $rep, $noSurat);
     
-    // $nomor_surat = sprintf("%03s", $noUrut).'/'.$kode.'/'.$bulanRomawi.'/'.date('Y');
-    // echo $nomor_surat;
-
+    $var = array('=KodeJab=', '=KodeSurat=', '=Bulan=', '=Tahun=');
+    $rep = array($kode_jabatan, $kode, $bulanRomawi, date('Y'));
+    $nomor_surat = str_replace($var, $rep, $noSurat);
     
 
     $variabel = array('=NoSurat=', '=Nama=', '=Email=', '=Perihal=', '=TglSurat=', '=Tujuan=', '=Karakteristik=', '=Derajat=');
     $replace = array($nomor_surat, $nama_pembuat, $email_pembuat, $perihal, tgl_indo($tgl_fisik), $tujuan, $nama_kar, $nama_der);
 
     $konten_surat = str_replace($variabel, $replace, $konten_surat);
-    
 
-    // echo $logo_kop;
-    // echo $layout_kop;
-    // echo $konten_surat;
-    // echo $karakteristik;
-    // echo $derajat;
-    // echo $jenis_surat;
-    $field = array('nomor_surat'=>$nomor_surat, 'jenis_surat'=>$jenis_surat, 'pembuat'=>$pembuat, 'tujuan'=>$tujuan, 'tgl_surat_fisik'=>$tgl_fisik, 'perihal'=>$perihal, 'karakteristik'=>$karakteristik, 'derajat'=>$derajat, 'layout_konten'=>$konten_surat, 'layout_kop'=>$layout_kop, 'logo_kop'=>$logo_kop, 'id_template'=>$idTemplate, 'created'=>$created);
+    $field = array('urutan'=>$max,'nomor_surat'=>$nomor_surat, 'jenis_surat'=>$jenis_surat, 'pembuat'=>$pembuat, 'tujuan'=>$tujuan, 'tgl_surat_fisik'=>$tgl_fisik, 'perihal'=>$perihal, 'karakteristik'=>$karakteristik, 'derajat'=>$derajat, 'layout_konten'=>$konten_surat, 'layout_kop'=>$layout_kop, 'logo_kop'=>$logo_kop, 'id_template'=>$idTemplate, 'created'=>$created);
     $params = array(':nomor_surat'=>$nomor_surat, ':jenis_surat'=>$jenis_surat, ':pembuat'=>$pembuat, ':tujuan'=>$tujuan, ':tgl_surat_fisik'=>$tgl_fisik, ':perihal'=>$perihal, ':karakteristik'=>$karakteristik, ':derajat'=>$derajat, ':layout_konten'=>$konten_surat, ':layout_kop'=>$layout_kop, ':logo_kop'=>$logo_kop, ':id_template'=>$idTemplate, ':created'=>$created);
     $insert = $this->model->insertprepare("surat_keluar", $field, $params);
     if($insert->rowCount() >= 1){
@@ -182,6 +135,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $tp_kiri = $rowTP['m_kiri'];
             $tp_kanan = $rowTP['m_kanan'];
         }
+
+        $pembuat = $_SESSION['id_user'];
+
+        $params = array(':id' => 1);
+        $CekSetting = $this->model->selectprepare("pengaturan", $field=null, $params, "id=:id");
+        if($CekSetting->rowCount() >= 1){
+            $dataCekSetting = $CekSetting->fetch(PDO::FETCH_OBJ);
+            $no_surat_sk_start = $dataCekSetting->no_surat_sk_start;
+            $no_surat_sk = $dataCekSetting->no_surat_sk;
+        }
+
+        $users = mysqli_query($conn, "SELECT * FROM user WHERE id_user='$pembuat'");
+        while($rowUser = $users->fetch_assoc()) {
+            $id_jabatan = $rowUser['jabatan'];
+        }
+
+        $jabatan = mysqli_query($conn, "SELECT * FROM user_jabatan WHERE id_jab='$id_jabatan'");
+        while($rowJabatan = $jabatan->fetch_assoc()) {
+            $kode_jabatan = $rowJabatan['kode_jabatan'];
+        }
+
+        $jenisS = mysqli_query($conn, "SELECT * FROM klasifikasi_sk WHERE id_klas='$tp_jenis'");
+        while($rowSK = $jenisS->fetch_assoc()) {
+            $kode = $rowSK['kode'];
+        }
+
+        $p = array(':jenis_surat' => $jenis_surat);
+        $CekSurat = $this->model->selectprepare("surat_keluar", $field=null, $p, "jenis_surat=:jenis_surat");
+
+        $max_kode = mysqli_query($conn, "SELECT max(urutan) as maxKode FROM surat_keluar WHERE jenis_surat='$tp_jenis' AND pembuat='$pembuat'");
+        $data_max  = mysqli_fetch_array($max_kode);
+        $max = $data_max['maxKode'];
+        // $noUrut = (int) substr($max, 0, 4);
+        if($max >= $no_surat_sk_start) {
+            $max++;
+        }else {
+            $max = $no_surat_sk_start;
+        }
+
+        include_once('bulan-romawi.php');
+
+        $bulan = date('n');
+        $bulanRomawi = getRomawi($bulan);
+
+        $noSurat = $max.'/'.$no_surat_sk;
+        // $noSurat = sprintf("%04s", $noUrut).'/'.$no_surat_sk;
+
+        $var = array('=KodeJab=', '=KodeSurat=', '=Bulan=', '=Tahun=');
+        $rep = array($kode_jabatan, $kode, $bulanRomawi, date('Y'));
+        $nomor_surat = str_replace($var, $rep, $noSurat);
     ?>
 
     <div class="card-title">Entri Surat Keluar</div>
@@ -193,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 <label class="col-form-label">Nomor Surat</label>
             </div>
             <div class="col-lg-6">
-                <p class="card-description">Inputkan variabel =NoSurat= pada isi surat, jika ingin menambahkan Nomor Surat. Nomor Surat akan di generate secara otomatis.</p>
+                <input type="text" class="form-control" value="<?php echo $nomor_surat; ?>" disabled>
             </div>
         </div>
         <div class="form-group row">

@@ -1,34 +1,29 @@
 <?php
-include('db.php');
-if(isset($_POST['submit'])){	 
-			$nama = $_POST['nama'];
-			$alamat = $_POST['alamat'];
-            $email = $_POST['email'];
-            $perusahaan = $_POST['perusahaan'];
-            $telepon = $_POST['no_telp'];
-            $id_user = $_SESSION['id_user'];
-            $created = htmlentities(date("Y-m-d H:i:s"));
-			if(!empty($nama) and (!empty($email))){ 
-				$sql="INSERT INTO kontak (id_kt,id_user,nama,perusahaan,email,telepon,alamat,created) VALUES ('','$id_user','$nama','$perusahaan','$email','$telepon','$alamat','$created')";
-				echo '<script language="javascript">alert("Penambahan Kontak Berhasil!!!"); document.location="./index.php?op=kontak";</script>';
-				if($mysqli->query($sql) === false) { 
-				  trigger_error('Perintah SQL Salah: ' . $sql . ' Error: ' . $mysqli->error, E_USER_ERROR);
-				} else {
-					header('location:./index.php?op=kontak');
-				} // Jika berhasil alihkan ke halaman tampil.php
-				
-			}
-			}
+ require_once 'db.php';
+if($_SERVER["REQUEST_METHOD"] == "POST"){	 
+	$nama = $_POST['nama'];
+	$alamat = $_POST['alamat'];
+    $email = $_POST['email'];
+    $perusahaan = $_POST['perusahaan'];
+    $telepon = $_POST['no_telp'];
+    $id_user = $_SESSION['id_user'];
+    $created = htmlentities(date("Y-m-d H:i:s"));
+	if(!empty($nama) && !empty($email)){ 
+		$sql="INSERT INTO kontak (id_user, nama, perusahaan, email, telepon, alamat, created) VALUES ('$id_user', '$nama', '$perusahaan', '$email', '$telepon', '$alamat', '$created')";
+		if(mysqli_query($conn, $sql)) { 
+		    echo '<script language="javascript">alert("Penambahan Kontak Berhasil!!!"); document.location="./index.php?op=kontak";</script>';
+		} else {
+		    trigger_error('Perintah SQL Salah: ' . $sql . ' Error: ' . $mysqli->error, E_USER_ERROR);
+			header('location:./index.php?op=kontak');
+		} // Jika berhasil alihkan ke halaman tampil.php
+		
+	}
+}
 			
             // $created =  date('d-m-Y H:i:s');
 
 ?>
 	
-
-
-  
-	
-
 
 <div class="row justify-content-center ">
   <div class="col-md-8">
@@ -72,7 +67,7 @@ if(isset($_POST['submit'])){
                 <p class="text-muted"></p>
                 <input type="text" class="form-control" id="exampleInputText1" name="perusahaan">
               </div><br>
-              <button class="btn btn-primary" name ='submit' type="submit">Tambahkan Ke Kontak</button>
+              <button class="btn btn-danger" name='submit' type="submit">Tambahkan Ke Kontak</button>
         </form>
        </div>
       </div>

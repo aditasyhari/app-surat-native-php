@@ -2,6 +2,7 @@
 $created = date("Y-m-d H:i:s", time());
 if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 	$nama_jab = $purifier->purify(trim($_POST['jabatan']));
+	$kode_jab = $purifier->purify(trim($_POST['kode_jabatan']));
 	if(isset($_GET['id_jab'])){
 		$id_jab = htmlspecialchars($purifier->purify(trim($_GET['id_jab'])), ENT_QUOTES);
 		$params = array(':id_jab' => $id_jab);
@@ -10,12 +11,13 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 			$DataJab = $CekJab->fetch(PDO::FETCH_OBJ);
 			$title= "Edit Data Jabatan";
 			$valueNamaJab = 'value="'.$DataJab->nama_jabatan .'"';
+			$valueKodeJab = 'value="'.$DataJab->kode_jabatan .'"';
 			if($_SERVER["REQUEST_METHOD"] == "POST" AND !isset($_GET['act2'])){
 				if($nama_jab == ''){
 					die("<script>alert('Nama jabatan tidak boleh kosong..!!');window.history.go(-1);</script>");
 				}else{
-					$field = array('nama_jabatan' => $nama_jab);
-					$params = array(':id_jab' => $id_jab);
+					$field = array('nama_jabatan' => $nama_jab, 'kode_jabatan' => $kode_jab);
+					$params = array(':id_jab' => $id_jab, 'nama_jabatan' => $nama_jab, ':kode_jabatan' => $kode_jab);
 					$update = $this->model->updateprepare("user_jabatan", $field, $params, "id_jab=:id_jab");
 					if($update){
 						echo "<script type=\"text/javascript\">alert('Data Jabatan Berhasil diperbaharui...!!');window.location.href=\"./index.php?op=user&act=jabatan\";</script>";
@@ -33,8 +35,8 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 			if($nama_jab == ''){
 				die("<script>alert('Nama jabatan tidak boleh kosong..!!');window.history.go(-1);</script>");
 			}else{
-				$field = array('nama_jabatan' => $nama_jab, 'created' => $created);
-				$params = array(':nama_jabatan' => $nama_jab, ':created' => $created);
+				$field = array('nama_jabatan' => $nama_jab, 'kode_jabatan' => $kode_jab, 'created' => $created);
+				$params = array(':nama_jabatan' => $nama_jab, ':kode_jabatan' => $kode_jab, ':created' => $created);
 				$insert = $this->model->insertprepare("user_jabatan", $field, $params);
 				if($insert->rowCount() >= 1){
 					echo "<script type=\"text/javascript\">alert('Data Jabatan Berhasil Tersimpan...!!');window.location.href=\"./index.php?op=user&act=jabatan\";</script>";
@@ -71,6 +73,12 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Nama Jabatan </label>
 							<div class="col-sm-6">
 								<input class="form-control" placeholder="Nama Jabatan" type="text" name="jabatan" <?php if(isset($valueNamaJab)){ echo $valueNamaJab; }?> id="form-field-mask-1" required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Kode Jabatan </label>
+							<div class="col-sm-6">
+								<input class="form-control" placeholder="Kode Jabatan" type="text" name="kode_jabatan" <?php if(isset($valueKodeJab)){ echo $valueKodeJab; }?> id="form-field-mask-1" required />
 							</div>
 						</div>
 						<div class="space-4"></div>
@@ -122,6 +130,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 							<tr>
 							<th width=10>No</th>
 							<th width=150>Nama Jabatan</th>
+							<th width=150>Kode Jabatan</th>
 							<th width=10>ACT</th>
 							</tr>
 							</thead>
@@ -132,6 +141,7 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 									<tr>
 										<td><?php echo $no;?></td>
 										<td><?php echo $object->nama_jabatan;?></td>
+										<td><?php echo $object->kode_jabatan;?></td>
 										<td>
 											<div class="hidden-sm hidden-xs btn-group">
 												<a href="./index.php?op=user&act=jabatan&id_jab=<?php echo $object->id_jab;?>">						
@@ -504,8 +514,6 @@ if(isset($_GET['act']) && $_GET['act'] == "jabatan"){
 								</div>
 							</div>
 							 -->
-
-
 
 							 <div class="form-group">
 							 <label class="tx-11 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1">Dapat melakukan Disposisi ke</label>

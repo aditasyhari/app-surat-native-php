@@ -312,7 +312,7 @@ if(isset($_GET['act']) AND $_GET['act'] == "email_notif"){
 								<label class="col-sm-6 tx-14 font-weight-bold mb-0 text-uppercase" for="form-field-mask-1"> Kode tambahan nomor surat keluar</label>
 								<div class="col-sm-4">
 									<input type="text" class="form-control" placeholder="Kode tambahan untuk nomor surat keluar" name="no_surat_sk" <?php if(isset($no_surat_sk)){ echo $no_surat_sk; }?> id="form-field-mask-1"/> <br>
-									<span class="help-block">Note Variabel: <br/><b>=Tahun=</b> | untuk nilai tahun surat keluar otomatis <br/><b>=Bulan=</b> | untuk nilai bulan surat keluar otomatis <br/><b>=KodeSurat=</b> | untuk kode jenis surat keluar otomatis</span>
+									<span class="help-block">Note Variabel: <br/><b>=Tahun=</b> | untuk nilai tahun surat keluar otomatis <br/><b>=Bulan=</b> | untuk nilai bulan surat keluar otomatis <br/><b>=KodeSurat=</b> | untuk kode jenis/hal surat keluar otomatis<br><b>=KodeJab=</b> | untuk kode jabatan surat keluar otomatis<br></span>
 								</div>
 							</div>
 
