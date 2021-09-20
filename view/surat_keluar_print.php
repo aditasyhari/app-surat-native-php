@@ -89,20 +89,6 @@ if($row > 0) {
         // Rendering dari HTML Ke PDF
         $dompdf->render();
 
-        // $pageTotal = $dompdf->getCanvas()->get_page_count();
-
-        // unset($dompdf);
-        
-        // $dompdf = new Dompdf();
-
-        // $html = str_replace('=JmlhLampiran=', $pageTotal, $html);
-
-        // $dompdf->loadHtml($html);
-        // // Setting ukuran dan orientasi kertas
-        // $dompdf->setPaper($orientasi, $ukuran);
-        // // Rendering dari HTML Ke PDF
-        // $dompdf->render();
-
 
         ob_end_clean();
         

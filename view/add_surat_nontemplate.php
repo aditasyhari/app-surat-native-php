@@ -94,9 +94,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
     $rep = array($kode_jabatan, $kode, $bulanRomawi, date('Y'));
     $nomor_surat = str_replace($var, $rep, $noSurat);
     
-    // $nomor_surat = sprintf("%03s", $noUrut).'/'.$kode.'/'.$bulanRomawi.'/'.date('Y');
-
-
     $variabel = array('=NoSurat=', '=Nama=', '=Email=', '=Perihal=', '=TglSurat=', '=Tujuan=', '=Karakteristik=', '=Derajat=');
     $replace = array($nomor_surat, $nama_pembuat, $email_pembuat, $perihal, tgl_indo($tgl_fisik), $tujuan, $nama_kar, $nama_der);
 
@@ -177,8 +174,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 <label class="col-form-label">Nomor Surat</label>
             </div>
             <div class="col-lg-6">
-                <input type="text" class="form-control" value="<?php echo $nomor_surat ?>" disabled>
+                <input type="text" class="form-control" name="noSurat" value="<?php echo $nomor_surat ?>" disabled>
             </div>
+            <input type="hidden" class="form-control" name="id_user" value="<?php echo $_SESSION['id_user']; ?>">
         </div>
         <div class="form-group row">
             <div class="col-lg-2">
@@ -308,8 +306,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                             Data yang saya inputkan diatas sudah benar
                         </label>
                     </div>
-                    <button class="btn btn-primary btn-icon-text mt-3" type="submit" name="sumbit_sk_non" id="btn-submit" disabled>
+                    <button class="btn btn-primary btn-icon-text mt-3" type="button" onclick="windowSubmit()" name="sumbit_sk_non" id="btn-submit" disabled>
                         <i class="btn-icon-prepend" data-feather="save"></i> Submit
+                    </button>
+                    <button class="btn btn-warning btn-icon-text mt-3" type="button" onclick="windowPreview()">
+                        Preview
                     </button>
                 </div>
                 <div class="col-4">
@@ -435,6 +436,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
             function nomor_surat(id) {
                 window.location.href="./index.php?op=entri_surat&surat-non-template&id_surat="+id;
+            }
+
+            function windowSubmit() {
+                form_surat.action = "<?php echo $_SESSION['url'];?>";
+                form_surat.target = "";
+                form_surat.submit();
+            }
+
+            function windowPreview() {
+                form_surat.action = "view/preview.php?act=pdf";
+                form_surat.target = "_blank";
+                form_surat.submit();
             }
 
         </script>

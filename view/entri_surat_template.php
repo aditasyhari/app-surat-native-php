@@ -389,8 +389,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 Data yang saya inputkan diatas sudah benar
             </label>
         </div>
-        <button class="btn btn-primary btn-icon-text mt-3" type="submit" name="sumbit_sk_non" id="btn-submit" disabled>
+        <button class="btn btn-primary btn-icon-text mt-3" type="button" onclick="windowSubmit()" name="sumbit_sk_non" id="btn-submit" disabled>
             <i class="btn-icon-prepend" data-feather="save"></i> Submit
+        </button>
+        <button class="btn btn-warning btn-icon-text mt-3" type="button" onclick="windowPreview()">
+            Preview
         </button>
 
         <script>
@@ -412,7 +415,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 form_surat.submit()
             })
 
-        
+            function windowSubmit() {
+                form_surat.action = "<?php echo $_SESSION['url'];?>";
+                form_surat.target = "";
+                form_surat.submit();
+            }
+
+            function windowPreview() {
+                form_surat.action = "view/preview.php?tpid="+<?php echo $_GET['tpid']; ?>+"&act=pdf";
+                form_surat.target = "_blank";
+                form_surat.submit();
+            }
         </script>
 
     </form>
